@@ -114,18 +114,37 @@ def _clean(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def _para_text(el) -> str:
-    """Texte d'un bloc sans marques d'appel de note (<sup>)."""
+def _para_text(el) -> tuple[str, list[int]]:
+    """Texte d'un bloc ; chaque appel de note <sup> devient « [n] » (réversible)."""
     import copy
 
     el = copy.deepcopy(el)
+    notes: list[int] = []
     for sup in el.xpath(".//sup"):
-        sup.drop_tree()
-    return _clean(el.text_content())
+        label = _clean(sup.text_content())
+        if label.isdigit():
+            notes.append(int(label))
+            for child in list(sup):
+                sup.remove(child)
+            sup.text = f"[{label}]"
+        else:
+            sup.drop_tree()
+    return _clean(el.text_content()), notes
+
+
+class ParaInfo:
+    """Un paragraphe d'une section : bornes dans le texte canonique et notes appelées."""
+
+    def __init__(self, label, index, start, end, notes):
+        self.label = label
+        self.index = index
+        self.start = start
+        self.end = end
+        self.notes = notes
 
 
 class ParsedEntry:
-    def __init__(self, number, title, inventory, canonical, sections, discussion_group):
+    def __init__(self, number, title, inventory, canonical, sections, discussion_group, paragraphs):
         self.number = number
         self.title = title
         self.inventory = inventory
@@ -133,6 +152,26 @@ class ParsedEntry:
         # [(label, start, end)] : bornes du corps de chaque section dans canonical_text
         self.sections = sections
         self.discussion_group = discussion_group  # (titre du groupe, note) ou None
+        self.paragraphs: list[ParaInfo] = paragraphs
+
+
+def _section_paragraphs(content) -> list[tuple[str, list[int]]]:
+    """Paragraphes <p> analytiques d'une section, dans l'ordre.
+
+    Exclus : tableaux, figures, listes, sous-titres, et tout ce qui suit un second <h4>
+    (Appendix, Notes), qui n'est pas du passage analytique.
+    """
+    out, seen_h4 = [], 0
+    for child in content:
+        if child.tag == "h4":
+            seen_h4 += 1
+            if seen_h4 > 1 or child.get("id") in ("appendix", "notes"):
+                break
+        elif child.tag == "p":
+            text, notes = _para_text(child)
+            if text:
+                out.append((text, notes))
+    return out
 
 
 def parse_entry(page: bytes) -> ParsedEntry:
@@ -144,7 +183,7 @@ def parse_entry(page: bytes) -> ParsedEntry:
         cells = [_clean(c.text_content()) for c in row]
         if cells and cells[0] == "Inventory Number":
             inventory = cells[1]
-    canonical, sections, group = "", [], None
+    canonical, sections, group, infos = "", [], None, []
     for sec in root.xpath(
         '//div[@class="object-content"]/div[contains(@class,"object-content-section")]'
     ):
@@ -152,8 +191,7 @@ def parse_entry(page: bytes) -> ParsedEntry:
         if label == "Object Details":
             continue
         content = sec.xpath('./div[contains(@class,"expander-content")]')[0]
-        paras = [_para_text(p) for p in content.xpath("./p")]
-        paras = [p for p in paras if p]
+        paras = _section_paragraphs(content)
         if label in SECTION_ROLES and label.endswith("Discussion"):
             h4 = content.xpath("./h4")
             h6 = content.xpath('./h6[@class="discussion-note"]')
@@ -162,11 +200,16 @@ def parse_entry(page: bytes) -> ParsedEntry:
                 _clean(h6[0].text_content()) if h6 else None,
             )
         canonical += label + "\n"
-        start = len(canonical)
-        canonical += "\n\n".join(paras)
-        sections.append((label, start, len(canonical)))
+        sec_start = len(canonical)
+        for i, (text, notes) in enumerate(paras):
+            if i:
+                canonical += "\n\n"
+            start = len(canonical)
+            canonical += text
+            infos.append(ParaInfo(label, i, start, len(canonical), notes))
+        sections.append((label, sec_start, len(canonical)))
         canonical += "\n\n"
-    return ParsedEntry(number, title, inventory, canonical, sections, group)
+    return ParsedEntry(number, title, inventory, canonical, sections, group, infos)
 
 
 def artwork_for(entry_no: int, data: list[dict]) -> ArtworkRef:
@@ -247,7 +290,9 @@ def build_records(
         if entry.title != art.title:
             raise ValueError(f"cat. {no}: titre {entry.title!r} != {art.title!r}")
         artworks[art.id] = art
-        for label, start, end in entry.sections:
+        seen_links: set[str] = set()
+        for para in entry.paragraphs:
+            label, start, end = para.label, para.start, para.end
             role = SECTION_ROLES.get(label)
             if role is None or end <= start:
                 continue
@@ -257,17 +302,22 @@ def build_records(
             if sid in spans:
                 if spans[sid].text != text:
                     raise AssertionError(f"collision de hachage {sid}")
-                spans[sid].also_in.append(
-                    Occurrence(asset_id=asset.id, char_start=start, char_end=end)
-                )
+                if spans[sid].asset_id != asset.id and not any(
+                    o.asset_id == asset.id for o in spans[sid].also_in
+                ):
+                    spans[sid].also_in.append(
+                        Occurrence(asset_id=asset.id, char_start=start, char_end=end)
+                    )
             else:
                 spans[sid] = Span(
                     id=sid,
                     asset_id=asset.id,
                     section_label=label,
+                    paragraph_index=para.index,
                     char_start=start,
                     char_end=end,
                     text=text,
+                    notes=para.notes,
                     group_title=entry.discussion_group[0]
                     if label.endswith("Discussion") and entry.discussion_group
                     else None,
@@ -278,9 +328,13 @@ def build_records(
                     f" Discussion de groupe « {entry.discussion_group[0]} » ; "
                     f"note de l'éditeur : « {entry.discussion_group[1]} »"
                 )
+            link_id = "lnk_" + _sha(f"{art.id}|{sid}|{role}")[:12]  # déterministe
+            if link_id in seen_links:
+                continue
+            seen_links.add(link_id)
             links.append(
                 Link(
-                    id="lnk_" + _sha(f"{art.id}|{sid}|{role}")[:12],
+                    id=link_id,
                     artwork_id=art.id,
                     span_id=sid,
                     role=role,
@@ -293,8 +347,9 @@ def build_records(
                                 f"« {art.title} » ({art.catalogue_number}, inv. "
                                 f"{art.inventory_number}, DOR {art.getty_dor_id}), appariée aux "
                                 "données de l'éditeur par numéro de catalogue, inventaire et "
-                                f"titre concordants ; la section « {label} » de cette entrée "
-                                f"est rattachée à cet objet.{shared}"
+                                f"titre concordants ; le paragraphe {para.index + 1} de la "
+                                f"section « {label} » de cette entrée est rattaché à cet "
+                                f"objet.{shared}"
                             ),
                         )
                     ],

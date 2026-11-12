@@ -10,8 +10,6 @@ from pydantic import BaseModel
 
 from lesternowak.models import AnnotationEvent, ArtworkRef, Link, SourceAsset, Span
 
-PREVIEW_CHARS = 700
-
 
 def write_jsonl(path: Path, items: list[BaseModel]) -> None:
     path.write_text("".join(i.model_dump_json() + "\n" for i in items), encoding="utf-8")
@@ -31,7 +29,7 @@ def append_event(path: Path, event: AnnotationEvent) -> None:
 
 CSS = """
 body{font:16px/1.5 system-ui,sans-serif;max-width:60rem;margin:0 auto;padding:1rem;color:#222}
-.card{border:1px solid #bbb;border-radius:8px;padding:1rem;margin:1.5rem 0}
+.card{border:1px solid #bbb;border-radius:8px;padding:.5rem 1rem;margin:1rem 0}
 .meta{color:#555;font-size:.9rem}
 blockquote{margin:.5rem 0;padding:.5rem 1rem;background:#fffbe0;border-left:4px solid #d4a800;
 white-space:pre-wrap}
@@ -62,57 +60,78 @@ def render_inspect(
         "Aucune image incluse : droits d'image non vérifiés. Statuts : "
         "<em>machine_proposed</em> = règle de structure, non validé.</p>",
     ]
+    by_art: dict[str, list[Link]] = {}
     for link in links:
-        sp, art = spans[link.span_id], artworks[link.artwork_id]
-        asset = assets[sp.asset_id]
-        st = statuses.get(link.id, link.status)
-        text = sp.text
-        head = escape(text[:PREVIEW_CHARS]) + ("…" if len(text) > PREVIEW_CHARS else "")
-        out.append(f"<section class='card' id='{link.id}'>")
+        by_art.setdefault(link.artwork_id, []).append(link)
+    for art_id, alinks in by_art.items():
+        art = artworks[art_id]
         out.append(
+            f"<section class='art' id='{escape(art_id)}'>"
             f"<h2>{escape(art.title)} <span class='meta'>({escape(art.catalogue_number)}, "
             f"inv. {escape(art.inventory_number)})</span></h2>"
             f"<p><a href='{escape(art.collection_url)}'>Page collection Getty</a> · "
-            f"lien <code>{link.id}</code> · rôle <code>{link.role}</code> · "
-            f"statut <span class='st {st}'>{st}</span></p>"
+            f"{len(alinks)} paragraphe(s) liés</p>"
         )
-        out.append(
-            f"<p class='meta'>Section « {escape(sp.section_label)} » · "
-            f"offsets [{sp.char_start}:{sp.char_end}] ({len(text)} car.) du texte canonique de "
-            f"<a href='{escape(asset.url)}'>{escape(asset.url)}</a> (sha256 "
-            f"{asset.sha256[:12]}…)"
-        )
-        if sp.also_in:
-            out.append(
-                f" · passage partagé, reproduit aussi sur {len(sp.also_in)} autre(s) page(s), "
-                f"{len(links_for(links, link.span_id))} œuvres liées"
-            )
-        out.append("</p>")
-        out.append(f"<blockquote>{head}</blockquote>")
-        if len(text) > PREVIEW_CHARS:
-            out.append(
-                f"<details><summary>Passage complet</summary><blockquote>"
-                f"{escape(text)}</blockquote></details>"
-            )
-        for ev in link.evidence:
-            out.append(
-                f"<p><strong>Preuve ({escape(ev.mechanism)}), intitulé « "
-                f"{escape(ev.quoted_heading)} » :</strong> {escape(ev.explanation)}</p>"
-            )
-        for e in (e for e in events if e.link_id == link.id):
-            out.append(
-                f"<p class='meta'>{e.timestamp:%Y-%m-%d %H:%M} · {escape(e.annotator)} : "
-                f"{e.before} → {e.after} — {escape(e.note)}</p>"
-            )
-        out.append("<table><tr><th>actif</th><th>action</th><th>décision</th><th>base</th></tr>")
-        for r in link.rights:
-            out.append(
-                f"<tr><td>{r.asset}</td><td>{escape(r.action)}</td><td>{r.decision}</td>"
-                f"<td>{escape(r.basis)} (<a href='{escape(r.evidence_url)}'>preuve</a>, "
-                f"{r.checked_at:%Y-%m-%d})</td></tr>"
-            )
-        out.append("</table></section>")
+        labels: list[str] = []
+        for lk in alinks:
+            lab = spans[lk.span_id].section_label
+            if lab not in labels:
+                labels.append(lab)
+        for label in labels:
+            out.append(f"<h3>{escape(label)}</h3>")
+            for link in (x for x in alinks if spans[x.span_id].section_label == label):
+                out.append(_render_link(link, spans, assets, statuses, events, links))
+        out.append("</section>")
     out.append("</body></html>")
+    return "".join(out)
+
+
+def _render_link(link, spans, assets, statuses, events, links) -> str:
+    sp = spans[link.span_id]
+    asset = assets[sp.asset_id]
+    st = statuses.get(link.id, link.status)
+    out = [f"<div class='card' id='{link.id}'>"]
+    out.append(
+        f"<p class='meta'>§{sp.paragraph_index + 1} · lien <code>{link.id}</code> · rôle "
+        f"<code>{link.role}</code> · statut <span class='st {st}'>{st}</span> · offsets "
+        f"[{sp.char_start}:{sp.char_end}] ({len(sp.text)} car.) du texte canonique de "
+        f"<a href='{escape(asset.url)}'>{escape(asset.url)}</a> (sha256 {asset.sha256[:12]}…)"
+    )
+    if sp.notes:
+        out.append(
+            " · appels de note : " + ", ".join(f"[{n}]" for n in sp.notes) + " (texte des notes "
+            "non inclus : « [n] » marque l'appel dans le passage)"
+        )
+    if sp.also_in:
+        out.append(
+            f" · passage partagé, reproduit aussi sur {len(sp.also_in)} autre(s) page(s), "
+            f"{len(links_for(links, link.span_id))} œuvres liées"
+        )
+    out.append("</p>")
+    out.append(f"<blockquote>{escape(sp.text)}</blockquote>")
+    for ev in link.evidence:
+        out.append(
+            f"<p><strong>Preuve ({escape(ev.mechanism)}), intitulé « "
+            f"{escape(ev.quoted_heading)} » :</strong> {escape(ev.explanation)}</p>"
+        )
+    for e in (e for e in events if e.link_id == link.id):
+        out.append(
+            f"<p class='meta'>{e.timestamp:%Y-%m-%d %H:%M} · {escape(e.annotator)} : "
+            f"{e.before} → {e.after} — {escape(e.note)}</p>"
+        )
+    out.append(
+        "<p class='meta'>Valider : <code>uv run lesternowak validate "
+        f'{link.id} --status validated --note "…" --annotator VOTRE_NOM</code></p>'
+    )
+    out.append("<details><summary>Droits par usage</summary>")
+    out.append("<table><tr><th>actif</th><th>action</th><th>décision</th><th>base</th></tr>")
+    for r in link.rights:
+        out.append(
+            f"<tr><td>{r.asset}</td><td>{escape(r.action)}</td><td>{r.decision}</td>"
+            f"<td>{escape(r.basis)} (<a href='{escape(r.evidence_url)}'>preuve</a>, "
+            f"{r.checked_at:%Y-%m-%d})</td></tr>"
+        )
+    out.append("</table></details></div>")
     return "".join(out)
 
 

@@ -10,4 +10,4 @@ Source : Maria Lucia Ferruzza, *Ancient Terracottas from South Italy and Sicily 
 Getty Museum*, J. Paul Getty Museum, 2016. Copyright © 2016 J. Paul Getty Trust. Sauf mention
 contraire, œuvre sous licence Creative Commons Attribution 4.0 International
 (https://creativecommons.org/licenses/by/4.0/ ; voir
-https://www.getty.edu/publications/terracottas/about/). Modifié : troncature.
+https://www.getty.edu/publications/terracottas/about/). Modifié : troncature ; ajout d'un petit tableau et d'une légende de figure factices dans Description, et d'un paragraphe « Results of the pigment analysis » dans l'appendice, pour tester l'exclusion du non-analytique.

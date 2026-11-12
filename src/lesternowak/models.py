@@ -60,10 +60,12 @@ class Span(BaseModel):
     id: str  # empreinte du texte : un même passage partagé n'a qu'un Span
     asset_id: str
     section_label: str
+    paragraph_index: int  # rang du paragraphe dans la section (depuis 0)
     char_start: int
     char_end: int
     text: str
     text_fidelity: Literal["born_digital"] = "born_digital"
+    notes: list[int] = Field(default_factory=list)  # appels de note, visibles « [n] » dans text
     group_title: str | None = None
     # autres pages où le même texte est reproduit (discussion partagée)
     also_in: list[Occurrence] = Field(default_factory=list)

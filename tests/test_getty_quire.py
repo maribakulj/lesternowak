@@ -65,12 +65,81 @@ def test_shared_discussion_dedupe(page1, data):
     run = gq.make_run([1, 2, 3])
     rec = gq.build_records(_pages(page1, data), data, run, NOW)
     disc = [lk for lk in rec["links"] if lk.role == "interpretive_discussion"]
-    assert len(disc) == 3 and len({lk.span_id for lk in disc}) == 1
     assert len({lk.artwork_id for lk in disc}) == 3
     span = next(s for s in rec["spans"] if s.id == disc[0].span_id)
     assert len(span.also_in) == 2
-    assert len(rec["spans"]) == 4  # 3 descriptions + 1 discussion partagée
+    n_desc = sum(p.label == "Description" for p in gq.parse_entry(page1).paragraphs)
+    # 1er § de description propre à chaque page (3), les autres identiques donc partagés
+    assert len(rec["spans"]) == 3 + (n_desc - 1) + 2
+    assert len(disc) == 3 * 2 and len({lk.span_id for lk in disc}) == 2
     assert all(lk.status == LinkStatus.machine_proposed for lk in rec["links"])
+
+
+def _fixture_paragraphs(page1):
+    e = gq.parse_entry(page1)
+    return e, {(p.label, p.index): e.canonical_text[p.start : p.end] for p in e.paragraphs}
+
+
+def test_paragraph_split_and_offsets(page1):
+    e, paras = _fixture_paragraphs(page1)
+    disc = [p for p in e.paragraphs if p.label == "Group Discussion"]
+    assert [p.index for p in disc] == [0, 1]
+    for p in e.paragraphs:
+        assert "\n" not in e.canonical_text[p.start : p.end]
+    assert all(t == t.strip() and t for t in paras.values())
+
+
+def test_tables_figures_lists_appendix_excluded(page1):
+    e, _ = _fixture_paragraphs(page1)
+    for needle in (
+        "Red ocher",
+        "Fig. 1",
+        "Results of the pigment",
+        "Yellow/gold",
+        "See the report by",
+    ):
+        assert needle not in e.canonical_text
+    last = [p for p in e.paragraphs if p.label == "Group Discussion"][-1]
+    assert e.canonical_text[last.start : last.end].endswith("purified in appearance.")
+
+
+def test_note_markers_kept_and_recorded(page1, data):
+    e, paras = _fixture_paragraphs(page1)
+    first = paras[("Group Discussion", 0)]
+    assert "armature" in first and "[1]" in first and "[3]" in first
+    assert [p.notes for p in e.paragraphs if p.label == "Group Discussion"] == [[1, 2, 3], [4]]
+    rec = gq.build_records({1: (page1, _asset(1, page1))}, data, gq.make_run([1]), NOW)
+    sp = next(s for s in rec["spans"] if s.text == first)
+    assert sp.notes == [1, 2, 3] and sp.paragraph_index == 0
+
+
+def test_link_ids_deterministic(page1, data):
+    ids = [
+        [
+            lk.id
+            for lk in gq.build_records(_pages(page1, data), data, gq.make_run([1, 2, 3]), NOW)[
+                "links"
+            ]
+        ]
+        for _ in range(2)
+    ]
+    assert ids[0] == ids[1] and len(set(ids[0])) == len(ids[0])
+
+
+def test_inspect_has_validate_command(page1, data):
+    pages = _pages(page1, data)
+    rec = gq.build_records(pages, data, gq.make_run([1, 2, 3]), NOW)
+    assets = {a.id: a for _, a in pages.values()}
+    html = export.render_inspect(
+        rec["links"],
+        {s.id: s for s in rec["spans"]},
+        {a.id: a for a in rec["artworks"]},
+        assets,
+        {},
+        [],
+        {**gq.SURROGATE, "captured_at": NOW.isoformat()},
+    )
+    assert f"lesternowak validate {rec['links'][0].id} --status" in html
 
 
 def test_rights_images_unknown_text_allow(page1, data):
