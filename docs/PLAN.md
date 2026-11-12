@@ -13,7 +13,11 @@ autorisé (voir `docs/adr/0001-regles-avant-modeles.md`).
 Package installable, CLI `--help`/`--version`, pytest, ruff, CI hors réseau, `CLAUDE.md`, docs.
 Pas de base de données, pas de connecteur, pas de dépendance lourde.
 
-## Étape 1 — Choix du premier catalogue et fiche de droits
+## Étape 1 — Choix du premier catalogue et fiche de droits (FAIT, 2026-11-12)
+
+Choix : *Ancient Terracottas* (Getty/Quire). Fiche : `docs/sources/terracottas-rights.md`.
+Documents tenus à l'écart pour l'étape 3 : *Roman Mosaics* d'abord (même famille, test « même
+structure »), *Mummy Portraits* plus tard (test hors structure de catalogue).
 
 Entrée : `docs/sources/getty-quire.md` (candidats vérifiés le 2026-11-12).
 Sortie : choix du porteur ; fiche de droits par actif et par action (texte, images, données,
