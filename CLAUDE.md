@@ -40,6 +40,14 @@ Règles formelles et structure native d'abord ; TAL classique ensuite ; petit mo
 seulement sur des données validées ; LLM uniquement en comparateur ou en assistant d'annotation,
 avec liste fermée de candidats et citations vérifiées, gardé seulement s'il gagne à l'ablation.
 
+## Mode de travail (voir `docs/PLAN.md` §1)
+
+- Commencer par `docs/STATUS.md` ; le mettre à jour en fin de lot.
+- Délégation économe : implémentation → sous-agent Sonnet ; tâches mécaniques (inventaires,
+  licences, mise en forme, rapports tirés de JSON) → sous-agent Haiku ; revue du diff → agent
+  frais sans la conclusion de l'implémenteur. Briefs au gabarit du plan §5.1, rapports courts.
+- Ne jamais regarder les documents tenus à l'écart avant le gel des règles (tag Git).
+
 ## Commandes
 
 ```bash
