@@ -7,7 +7,8 @@ et `docs/PLAN.md`.
   accord) ; B0 non mesuré faute de gold réel (H1b).
 - **Prochain lot** : H1b (annotation par le porteur de `data/annotation/sheet-dev-v1.csv`),
   puis mesure de B0.
-- **En attente du porteur** : rien pour le moment ; H1a après L1.1.
+- **En attente du porteur** : H1a (relire `docs/annotation-guide.md`) puis H1b (annoter la
+  feuille). Revue indépendante de J1 faite, 5 défauts corrigés (c896274).
 - **Corpus dev** : *Ancient Terracottas*, cats. 1–4 (48 paragraphes, 122 liens
   `machine_proposed`, aucun validé).
 - **Tenus à l'écart (ne pas regarder)** : *Roman Mosaics* (J4), *Mummy Portraits* (J5).
