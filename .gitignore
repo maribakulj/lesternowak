@@ -17,3 +17,5 @@ dist/
 
 # Secrets
 .env
+
+# Versionnés explicitement (sans texte intégral) : reports/ et gold/ ne sont pas ignorés.

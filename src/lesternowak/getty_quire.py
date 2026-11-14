@@ -29,7 +29,7 @@ from lesternowak.models import (
     Link,
     LinkStatus,
     Occurrence,
-    PassageRole,
+    PassageFunction,
     RightsDecision,
     Run,
     SourceAsset,
@@ -44,10 +44,18 @@ USER_AGENT = "lesternowak-research/0.0.1 (open-access catalogue study; rate-limi
 MIN_DELAY_S = 1.0
 
 # Règle de fonction : intitulé de section -> rôle. Seules ces sections font l'objet de liens.
-SECTION_ROLES: dict[str, PassageRole] = {
-    "Description": PassageRole.visual_description,
-    "Discussion": PassageRole.interpretive_discussion,
-    "Group Discussion": PassageRole.interpretive_discussion,
+# Règle B0 : Description -> visual_description ; discussion -> unclassified (abstention).
+SECTION_ROLES: dict[str, PassageFunction] = {
+    "Description": PassageFunction.visual_description,
+    "Discussion": PassageFunction.unclassified,
+    "Group Discussion": PassageFunction.unclassified,
+}
+# Clé d'identifiant de lien figée (ancien vocabulaire) : les identifiants ne dépendent pas de la
+# fonction prédite, donc ne changent pas quand le vocabulaire des fonctions évolue.
+_ID_KEYS = {
+    "Description": "visual_description",
+    "Discussion": "interpretive_discussion",
+    "Group Discussion": "interpretive_discussion",
 }
 
 TEXT_ACTIONS = ("tdm", "publish_text", "redistribute_text", "remote_llm", "training")
@@ -328,7 +336,7 @@ def build_records(
                     f" Discussion de groupe « {entry.discussion_group[0]} » ; "
                     f"note de l'éditeur : « {entry.discussion_group[1]} »"
                 )
-            link_id = "lnk_" + _sha(f"{art.id}|{sid}|{role}")[:12]  # déterministe
+            link_id = "lnk_" + _sha(f"{art.id}|{sid}|{_ID_KEYS[label]}")[:12]  # déterministe
             if link_id in seen_links:
                 continue
             seen_links.add(link_id)

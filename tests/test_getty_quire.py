@@ -64,7 +64,7 @@ def test_parse_offsets_roundtrip(page1):
 def test_shared_discussion_dedupe(page1, data):
     run = gq.make_run([1, 2, 3])
     rec = gq.build_records(_pages(page1, data), data, run, NOW)
-    disc = [lk for lk in rec["links"] if lk.role == "interpretive_discussion"]
+    disc = [lk for lk in rec["links"] if lk.role == "unclassified"]
     assert len({lk.artwork_id for lk in disc}) == 3
     span = next(s for s in rec["spans"] if s.id == disc[0].span_id)
     assert len(span.also_in) == 2
@@ -223,4 +223,4 @@ def test_live_entry_1(tmp_path):
     data, _, pages = gq.fetch_entries([1], tmp_path)
     page, asset = pages[1]
     rec = gq.build_records({1: (page, asset)}, data, gq.make_run([1]), NOW)
-    assert any(lk.role == "interpretive_discussion" for lk in rec["links"])
+    assert any(lk.role == "unclassified" for lk in rec["links"])

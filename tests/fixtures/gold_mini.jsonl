@@ -1,0 +1,6 @@
+{"span_id":"s1","artwork_id":"a1","relation":"about","function":"visual_description","annotator":"t","annotated_at":"x","note":"","sheet_sha256":"x"}
+{"span_id":"s2","artwork_id":"a1","relation":"group","function":"iconography_interpretation","annotator":"t","annotated_at":"x","note":"","sheet_sha256":"x"}
+{"span_id":"s2","artwork_id":"a2","relation":"group","function":"iconography_interpretation","annotator":"t","annotated_at":"x","note":"","sheet_sha256":"x"}
+{"span_id":"s3","artwork_id":"a1","relation":"not_about","function":"other","annotator":"t","annotated_at":"x","note":"","sheet_sha256":"x"}
+{"span_id":"s3","artwork_id":"a2","relation":"about","function":"other","annotator":"t","annotated_at":"x","note":"","sheet_sha256":"x"}
+{"span_id":"s4","artwork_id":"a1","relation":"unsure","function":"other","annotator":"t","annotated_at":"x","note":"","sheet_sha256":"x"}

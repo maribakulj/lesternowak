@@ -3,9 +3,10 @@
 Mis à jour à chaque fin de lot. Une nouvelle session commence par lire `CLAUDE.md`, ce fichier
 et `docs/PLAN.md`.
 
-- **Dernier lot terminé** : étape 2, tranche verticale (paragraphes, exclusion des tableaux,
-  marqueurs de note).
-- **Prochain lot** : L1.1, guide d'annotation (J1).
+- **Dernier lot terminé** : L1.2 + L1.3 (feuille d'annotation, import gold, banc d'évaluation,
+  accord) ; B0 non mesuré faute de gold réel (H1b).
+- **Prochain lot** : H1b (annotation par le porteur de `data/annotation/sheet-dev-v1.csv`),
+  puis mesure de B0.
 - **En attente du porteur** : rien pour le moment ; H1a après L1.1.
 - **Corpus dev** : *Ancient Terracottas*, cats. 1–4 (48 paragraphes, 122 liens
   `machine_proposed`, aucun validé).

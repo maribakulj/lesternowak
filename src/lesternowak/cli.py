@@ -36,7 +36,77 @@ def build_parser() -> argparse.ArgumentParser:
     va.add_argument("--note", required=True)
     va.add_argument("--annotator", required=True)
     va.add_argument("--events", type=Path, default=Path("data/slice/events.jsonl"))
+    sh = sub.add_parser("annotation-sheet", help="feuille d'annotation CSV (UTF-8 avec BOM)")
+    sh.add_argument("--slice", type=Path, default=Path("data/slice"))
+    sh.add_argument("--out", type=Path, required=True)
+    sh.add_argument("--sample", type=int, default=None, help="tirage de N spans (à l'aveugle)")
+    sh.add_argument("--seed", type=int, default=0)
+    im = sub.add_parser("annotation-import", help="importer une feuille remplie en gold JSONL")
+    im.add_argument("--sheet", type=Path, required=True)
+    im.add_argument("--annotator", required=True)
+    im.add_argument("--out", type=Path, required=True)
+    im.add_argument("--slice", type=Path, default=Path("data/slice"))
+    im.add_argument("--force", action="store_true")
+    ev = sub.add_parser("eval", help="mesurer des liens prédits contre un gold")
+    ev.add_argument("--gold", type=Path, required=True)
+    ev.add_argument("--pred", type=Path, default=Path("data/slice/links.jsonl"))
+    ev.add_argument("--spans", type=Path, default=Path("data/slice/spans.jsonl"))
+    ev.add_argument("--name", required=True)
+    ev.add_argument("--out", type=Path, required=True)
+    ag = sub.add_parser("agreement", help="accord brut et kappa entre deux gold")
+    ag.add_argument("--a", type=Path, required=True)
+    ag.add_argument("--b", type=Path, required=True)
     return parser
+
+
+def cmd_annotation_sheet(args) -> int:
+    from lesternowak import annotation as an
+
+    sl = an.load_slice(args.slice)
+    header, rows = an.build_sheet_rows(sl, args.sample, args.seed)
+    an.write_sheet(args.out, header, rows)
+    print(f"{len(rows)} lignes -> {args.out}")
+    return 0
+
+
+def cmd_annotation_import(args) -> int:
+    from lesternowak import annotation as an
+
+    if args.out.exists() and not args.force:
+        print(f"{args.out} existe déjà : --force pour écraser")
+        return 2
+    sl = an.load_slice(args.slice)
+    try:
+        records, rep = an.import_sheet(args.sheet, sl, args.annotator)
+    except an.ImportError_ as e:
+        print(f"import refusé : {e}")
+        return 2
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text("".join(r.model_dump_json() + "\n" for r in records), encoding="utf-8")
+    print(json.dumps(rep) + f" -> {args.out}")
+    return 0
+
+
+def cmd_eval(args) -> int:
+    from lesternowak import evaluation as evl
+    from lesternowak.export import dump_json, read_jsonl
+    from lesternowak.models import Link, Span
+
+    spans = {s.id: s for s in read_jsonl(args.spans, Span)}
+    m = evl.evaluate(evl.read_gold(args.gold), read_jsonl(args.pred, Link), spans, args.name)
+    args.out.mkdir(parents=True, exist_ok=True)
+    dump_json(args.out / "metrics.json", m)
+    (args.out / "report.md").write_text(evl.render_report(m), encoding="utf-8")
+    print(f"rapport -> {args.out}")
+    return 0
+
+
+def cmd_agreement(args) -> int:
+    from lesternowak import evaluation as evl
+
+    r = evl.agreement(evl.read_gold(args.a), evl.read_gold(args.b))
+    print(json.dumps(r, indent=2))
+    return 0
 
 
 def cmd_slice(args) -> int:
@@ -108,5 +178,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         return cmd_slice(args)
     if args.command == "validate":
         return cmd_validate(args)
+    handlers = {
+        "annotation-sheet": cmd_annotation_sheet,
+        "annotation-import": cmd_annotation_import,
+        "eval": cmd_eval,
+        "agreement": cmd_agreement,
+    }
+    if args.command in handlers:
+        return handlers[args.command](args)
     parser.print_help()
     return 0

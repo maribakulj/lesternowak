@@ -17,13 +17,27 @@ class LinkStatus(StrEnum):
     unresolved = "unresolved"
 
 
-class PassageRole(StrEnum):
+class PassageFunction(StrEnum):
     visual_description = "visual_description"
     technical_material = "technical_material"
-    provenance = "provenance"
-    interpretive_discussion = "interpretive_discussion"
-    bibliographic = "bibliographic"
-    unclassified = "unclassified"
+    iconography_interpretation = "iconography_interpretation"
+    comparison = "comparison"
+    attribution_dating = "attribution_dating"
+    provenance_context = "provenance_context"
+    other = "other"
+    unclassified = "unclassified"  # prédictions seulement : abstention, jamais une étiquette gold
+
+
+GOLD_FUNCTIONS = tuple(f for f in PassageFunction if f != PassageFunction.unclassified)
+
+
+class Relation(StrEnum):
+    about = "about"  # le passage analyse cette œuvre
+    mentions = "mentions"  # citée sans analyse
+    group = "group"  # porte sur le groupe sans viser cette œuvre
+    context = "context"  # arrière-plan sans affirmation sur l'objet
+    not_about = "not_about"
+    unsure = "unsure"
 
 
 class Decision(StrEnum):
@@ -110,7 +124,7 @@ class Link(BaseModel):
     id: str
     artwork_id: str
     span_id: str
-    role: PassageRole
+    role: PassageFunction
     evidence: list[Evidence]
     status: LinkStatus
     rights: list[RightsDecision]
