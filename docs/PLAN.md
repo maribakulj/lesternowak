@@ -88,13 +88,12 @@ But : rendre la qualité mesurable. Rien d'autre n'est amélioré tant que J1 n'
 **L1.1 — Guide d'annotation** (*orchestrateur*)
 - Sortie : `docs/annotation-guide.md` : question posée par paragraphe, valeurs permises,
   cas limites, exemples tirés des cats. 1–4.
-- Étiquettes par (paragraphe, œuvre candidate) : `about` (le paragraphe analyse cette œuvre),
-  `mentions` (citée sans analyse), `group` (porte sur le groupe sans viser cette œuvre),
-  `not_about`, `unsure`.
-- Étiquette par paragraphe — fonction (liste unique, 6 valeurs) : `visual_description`,
-  `technical_material`, `iconography_interpretation`, `attribution_dating`,
+- Étiquettes par (paragraphe, œuvre candidate) : `about`, `group`, `context`, `mentions`,
+  `not_about`, `unsure` (définitions : `docs/annotation-guide.md`).
+- Étiquette par paragraphe — fonction (liste unique, 7 valeurs) : `visual_description`,
+  `technical_material`, `iconography_interpretation`, `comparison`, `attribution_dating`,
   `provenance_context`, `other`.
-- Sortie : un ADR remplaçant `PassageRole` par cette liste.
+- Sortie : ADR 0002 remplaçant `PassageRole` par ces deux listes.
 - Critère : relu et accepté par le porteur (**H1a**).
 
 **L1.2 — Feuille d'annotation** (*Sonnet*)
