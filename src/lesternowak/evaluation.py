@@ -92,6 +92,8 @@ def evaluate(gold: list[dict], links: list[Link], spans: dict, name: str) -> dic
             raise ValueError(f"fonctions gold contradictoires pour {g['span_id']}")
     pfn: dict[str, str] = {}
     for lk in links:
+        if lk.status == LinkStatus.unresolved:
+            continue
         pfn.setdefault(lk.span_id, str(lk.role))
     conf: dict[str, Counter] = {}
     fn_err = []
@@ -113,7 +115,7 @@ def evaluate(gold: list[dict], links: list[Link], spans: dict, name: str) -> dic
         n_pred = sum(conf[g][c] for g in conf)
         p = tp / n_pred if n_pred else None
         r = tp / n_gold if n_gold else None
-        f = 2 * p * r / (p + r) if p and r else (0.0 if n_gold and n_pred else None)
+        f = 2 * p * r / (p + r) if p and r else (0.0 if n_gold or n_pred else None)
         per_class[c.value] = {
             "support": n_gold,
             "predicted": n_pred,

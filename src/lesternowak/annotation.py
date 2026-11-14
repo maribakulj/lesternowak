@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import io
 import random
 import re
 from datetime import UTC, datetime
@@ -122,7 +123,7 @@ def import_sheet(sheet: Path, sl: SliceData, annotator: str, now: datetime | Non
     now = now or datetime.now(UTC)
     arts = {f"relation_cat{cat_number(a)}": a for a in sl.artworks}
     spans = {s.id: s for s in sl.spans}
-    reader = csv.DictReader(raw.decode("utf-8-sig").splitlines(keepends=True))
+    reader = csv.DictReader(io.StringIO(raw.decode("utf-8-sig"), newline=""))
     missing = [c for c in [*FIXED_COLS, *TAIL_COLS, *arts] if c not in (reader.fieldnames or [])]
     if missing:
         raise ImportError_(f"colonnes absentes : {missing}")
@@ -139,7 +140,10 @@ def import_sheet(sheet: Path, sl: SliceData, annotator: str, now: datetime | Non
         if sid in seen:
             raise ImportError_(f"ligne {n} : span_id en double {sid!r}")
         seen.add(sid)
-        if row["text"].replace("\r\n", "\n") != spans[sid].text:
+        short = [c for c in [*FIXED_COLS, *TAIL_COLS, *arts] if row.get(c) is None]
+        if short:
+            raise ImportError_(f"ligne {n} : ligne tronquée (cellules absentes : {short})")
+        if row["text"] != spans[sid].text:
             raise ImportError_(f"ligne {n} : texte différent du span {sid} (modifié ?)")
         fn = (row["function"] or "").strip()
         rels = {}

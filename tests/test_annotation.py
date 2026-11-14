@@ -232,3 +232,61 @@ def test_link_ids_independent_of_function():
     assert gq._ID_KEYS["Description"] == "visual_description"
     assert gq._ID_KEYS["Group Discussion"] == gq._ID_KEYS["Discussion"] == "interpretive_discussion"
     assert gq.SECTION_ROLES["Group Discussion"] == PassageFunction.unclassified
+
+
+def _one_span_slice(sl, text):
+    return an.SliceData(
+        spans=[_span("s1", text)],
+        artworks=sl.artworks,
+        links=[_link("l1", "a1", "s1")],
+        assets=sl.assets,
+    )
+
+
+@pytest.mark.parametrize("text", ["a" + chr(0x2028) + "b", "a\x0cb", "a\x85b", "a\r\nb", "a\nb"])
+def test_roundtrip_exotic_line_breaks(sl, tmp_path, text):
+    sl1 = _one_span_slice(sl, text)
+    header, rows = an.build_sheet_rows(sl1)
+    sheet = tmp_path / "s.csv"
+    an.write_sheet(sheet, header, rows)
+    assert text.encode() in sheet.read_bytes()  # \r\n préservé à l'écriture
+    _fill(sheet, {"s1": {"relation_cat1": "about", "function": "other"}})
+    recs, _ = an.import_sheet(sheet, sl1, "moi", NOW)
+    assert len(recs) == 1
+
+
+def test_import_exact_text_no_normalisation(sl, tmp_path):
+    sl1 = _one_span_slice(sl, "a\nb")
+    header, rows = an.build_sheet_rows(sl1)
+    rows[0][6] = "a\r\nb"
+    sheet = tmp_path / "s.csv"
+    an.write_sheet(sheet, header, rows)
+    with pytest.raises(an.ImportError_, match="texte"):
+        an.import_sheet(sheet, sl1, "moi", NOW)
+
+
+def test_import_truncated_row(sl, tmp_path):
+    header, rows = an.build_sheet_rows(sl)
+    sheet = tmp_path / "s.csv"
+    sheet.write_text(",".join(header) + "\n" + rows[0][0] + ",Description\n", encoding="utf-8-sig")
+    with pytest.raises(an.ImportError_, match="tronquée"):
+        an.import_sheet(sheet, sl, "moi", NOW)
+
+
+def test_function_ignores_unresolved_links(sl):
+    gold = [{"span_id": "s1", "artwork_id": "a1", "relation": "about", "function": "other"}]
+    links = [_link("l1", "a1", "s1", status=LinkStatus.unresolved)]
+    m = ev.evaluate(gold, links, {s.id: s for s in sl.spans}, "T")
+    assert m["function"]["abstentions"] == 1
+    assert m["function"]["confusion"] == {"other": {"unclassified": 1}}
+    # un lien résolu après un unresolved fixe la fonction prédite
+    links.append(_link("l2", "a1", "s1", PassageFunction.other))
+    m = ev.evaluate(gold, links, {s.id: s for s in sl.spans}, "T")
+    assert m["function"]["accuracy_all"]["k"] == 1
+
+
+def test_f1_zero_when_support_without_prediction(sl):
+    gold = [{"span_id": "s1", "artwork_id": "a1", "relation": "about", "function": "other"}]
+    m = ev.evaluate(gold, [], {s.id: s for s in sl.spans}, "T")
+    assert m["function"]["per_class"]["other"]["f1"] == 0.0
+    assert m["function"]["per_class"]["comparison"]["f1"] is None
