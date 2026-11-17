@@ -21,8 +21,11 @@ volumes:
     image_source: unknown
     identifiers_expected: unknown
     authors_for_pd_check: "Bryson Burroughs, 1869-1934 (dates selon la notice Internet Archive, à confirmer par IdRef/VIAF) : mort avant 1956"
+    pd_status: yes
+    pd_note: "Auteur personne physique (Burroughs, 1934) : pd yes (authors.yaml). Éditeur collectif Metropolitan Museum non évalué par la règle de décès."
     evidence_url: "https://archive.org/metadata/catalogueofpaint00metr_2"
     checked_at: 2026-11-17
+    sample: {chars: 584225, numbered_lines: 243, numbered_distinct: 135, dimension_lines_h_w: 1322, h_dot: 1244, w_dot: 1358, credit_lines_with_year: 1211, accession_like: 1, accession_like_distinct: 1, accession_3part: 0, inv: 0, no_deg: 0, fig: 0, pl: 0, caps_words: 5158, caps_words_distinct: 2519, caps_name_lines: 1081, pages_note: "djvu.txt sans séparateur de page : part de pages avec texte non mesurable", accession_note: "pas de numéros d'accession au format NN.N(.N) dans ces éditions : notices à ligne de crédit + année (Gift of, Bequest of…), E0 par accession non applicable ; résolution par titre/artiste/crédit", method: "djvu.txt Internet Archive (archive.org/download/<id>/<id>_djvu.txt), calcul local, texte non conservé", measured_at: 2026-11-17}
     notes: "Sixième édition (tirage de 1914, 6e édition avec additions, selon la description IA). Copie tierce : la page MetPublications n'a pas été lue (défi de sécurité). Domaine public par auteur plausible, à confirmer en C1. Numérisation Internet Archive, provenance inconnue."
 
   - id: met-catalogue-paintings-1926-8ed
@@ -39,9 +42,12 @@ volumes:
     image_source: unknown
     identifiers_expected: unknown
     authors_for_pd_check: "Bryson Burroughs, 1869-1934 (notice IA) : mort avant 1956"
+    pd_status: yes
+    pd_note: "Auteur personne physique (Burroughs, 1934) : pd yes (authors.yaml). Éditeur collectif Metropolitan Museum non évalué par la règle de décès."
     evidence_url: "https://archive.org/metadata/catalogueofpaint00metr_5"
     checked_at: 2026-11-17
-    notes: "Huitième édition, xiv + 424 p. (selon la description IA), numérisée par le Getty Research Institute. Copie tierce ; droits Met non lus. Texte OCR présent (djvu.txt). Non échantillonné pour les numéros d'objets."
+    sample: {chars: 673446, numbered_lines: 182, numbered_distinct: 152, dimension_lines_h_w: 1538, h_dot: 1555, w_dot: 1603, credit_lines_with_year: 1356, accession_like: 5, accession_like_distinct: 5, accession_3part: 1, inv: 0, no_deg: 0, fig: 0, pl: 1, caps_words: 6834, caps_words_distinct: 2979, caps_name_lines: 2697, pages_note: "djvu.txt sans séparateur de page : part de pages avec texte non mesurable", accession_note: "pas de numéros d'accession au format NN.N(.N) dans ces éditions : notices à ligne de crédit + année (Gift of, Bequest of…), E0 par accession non applicable ; résolution par titre/artiste/crédit", method: "djvu.txt Internet Archive (archive.org/download/<id>/<id>_djvu.txt), calcul local, texte non conservé", measured_at: 2026-11-17}
+    notes: "Huitième édition, xiv + 424 p. (selon la description IA), numérisée par le Getty Research Institute. Copie tierce ; droits Met non lus. Texte OCR présent (djvu.txt). Échantillonné (voir sample)."
 
   - id: met-catalogue-paintings-1905-1911
     platform: met
@@ -60,6 +66,7 @@ volumes:
     evidence_url: "https://archive.org/metadata/catalogueofpaint00metropo"
     checked_at: 2026-11-17
     excluded_reason: "auteur collectif ; aucun auteur individuel vérifié (une notice de bibliothèque non consultée en direct cite George H. Story, non vérifié). Domaine public non établi : exclu jusqu'à vérification par auteur (§2.1 point 1)."
+    pd_blocking_author: "aucun auteur individuel identifié (collectif Metropolitan Museum ; George H. Story cité, non vérifié)"
     notes: "Édition de 1905 avec additifs jusqu'en juin 1911 (40 + 227 p.). Copie tierce."
 
   - id: met-illustrated-catalogue-paintings-1905
@@ -79,6 +86,7 @@ volumes:
     evidence_url: "https://archive.org/metadata/illustratedcatal00metr"
     checked_at: 2026-11-17
     excluded_reason: "auteur collectif ; domaine public par auteur non établi (exclu, §2.1 point 1). Catalogue illustré, à reconsidérer si des auteurs individuels sont identifiés."
+    pd_blocking_author: "aucun auteur individuel identifié (collectif Metropolitan Museum)"
     notes: "Forth issue, avec additifs jusqu'en janvier 1907 (selon IA). Copie tierce numérisée par le Getty Research Institute."
 
   - id: met-bulletin-1916-1917-vol11-12
@@ -98,6 +106,7 @@ volumes:
     evidence_url: "https://archive.org/metadata/bulletinmetropo11free"
     checked_at: 2026-11-17
     excluded_reason: "domaine public par article non vérifié (auteurs des contributions non relevés) ; candidat à reprendre article par article en C1."
+    pd_blocking_author: "contributeurs signés non relevés (collectif Metropolitan Museum)"
     notes: "Volume relié couvrant les numéros 1916-1917 ; 17 fichiers sur IA. Fiche Smithsonian Libraries (library.si.edu) consultée. Painting content non compté. Notice IA : Freer, Charles Lang (auteur de la notice, pas nécessairement d'un article)."
 
   - id: met-bulletin-1917-06-vol12-6
@@ -117,6 +126,7 @@ volumes:
     evidence_url: "https://archive.org/metadata/sim_metropolitan-museum-of-art-new-york-bulletin_1917-06_12_6"
     checked_at: 2026-11-17
     excluded_reason: "domaine public par article non vérifié ; candidat de peinture (terme « paint » ~16 occurrences, « portrait » ~11 dans le texte OCR, compté sans lecture)."
+    pd_blocking_author: "contributeurs signés non relevés (collectif Metropolitan Museum)"
     notes: "Numéro de la série sim (Internet Archive, source Met Bulletin numérisée). Texte OCR djvu disponible, 68 Ko."
 
   - id: met-bulletin-1920-06-vol15-6
@@ -136,6 +146,7 @@ volumes:
     evidence_url: "https://archive.org/metadata/sim_metropolitan-museum-of-art-new-york-bulletin_1920-06_15_6"
     checked_at: 2026-11-17
     excluded_reason: "domaine public par article non vérifié ; candidat de peinture (« paint » ~28 occurrences, « portrait » ~18, compté sans lecture)."
+    pd_blocking_author: "contributeurs signés non relevés (collectif Metropolitan Museum)"
     notes: "Texte OCR djvu de 100 Ko. Numéro de 1920, donc dans la fenêtre 1905-1930 du plan."
 
   - id: met-bulletin-1927-06-vol22-6
@@ -155,6 +166,7 @@ volumes:
     evidence_url: "https://archive.org/metadata/sim_metropolitan-museum-of-art-new-york-bulletin_1927-06_22_6"
     checked_at: 2026-11-17
     excluded_reason: "domaine public par article non vérifié ; décès des auteurs (1927) à contrôler article par article."
+    pd_blocking_author: "contributeurs signés non relevés ; décès des auteurs non contrôlés"
     notes: "Candidat de peinture (« paint » ~27 occurrences, compté sans lecture). Texte OCR djvu de 83 Ko."
 
   - id: getty-mummy-portraits-roman-egypt-2020
@@ -195,7 +207,9 @@ volumes:
     authors_for_pd_check: "Non applicable : texte sous CC BY-NC 4.0"
     evidence_url: "https://www.getty.edu/publications/conserving-canvas/about/"
     checked_at: 2026-11-17
-    excluded_reason: "CC BY-NC 4.0 (non-commercial) : hors des licences retenues au §2.1 point 1 (CC0, CC BY, CC BY-SA, Etalab). À trancher par le porteur si la clause NC est jugée compatible avec un dataset d'entraînement partagé."
+    license_flags: [NC]
+    included: true
+    decision: "CC BY-NC accepté par le porteur (usage de recherche non commercial), 2026-11-17"
     notes: "Peinture sur toile (conservation structurale). Licence confirmée sur les pages about/ et copyright (la page copyright /conserving-canvas/copyright/ renvoie 404 ; la mention est reprise sur about/). PDF 13,3 Mo : HEAD 200 vérifié."
 
   - id: getty-rococo-2021
@@ -214,5 +228,7 @@ volumes:
     authors_for_pd_check: "Non applicable : texte sous CC BY-NC 4.0"
     evidence_url: "https://www.getty.edu/publications/rococo/about/"
     checked_at: 2026-11-17
-    excluded_reason: "CC BY-NC 4.0 (non-commercial) : hors §2.1 point 1. Pertinence peinture non vérifiée (titre rococo, art et design britannique)."
+    license_flags: [NC]
+    included: true
+    decision: "CC BY-NC accepté par le porteur (usage de recherche non commercial), 2026-11-17"
     notes: "Licence lue sur la page about/ (texte et images, figures listées sous conditions). Non retenu ; mentionné comme cas de la même famille de licence NC."

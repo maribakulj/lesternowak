@@ -1,0 +1,124 @@
+# Statut de domaine public par auteur (lot C1), consultations du 2026-11-17.
+# Règle : pd = yes si décès <= 1955 (70 ans révolus au 1er janvier 2026) ;
+#         pd = no si décès >= 1956 ; pd = unknown si date introuvable ou identité incertaine.
+# Sources : Wikidata (P570, description). IdRef (Sru/Solr) injoignable pendant la session
+# (connexion réinitialisée) : aucune date n'est issue d'IdRef. Wikidata a répondu 429 à de
+# nombreuses requêtes ; les noms marqués « requête échouée » sont à relancer.
+# Personnes morales (collectivités) : la règle par date de décès ne s'applique pas ; pd reste
+# unknown et la règle à appliquer (publication, anonymat) est à trancher par le porteur.
+# identity_confidence : high = nom + profession + époque concordants ; medium = un seul
+# candidat, profession et époque concordants, sans recoupement supplémentaire ; low = aucun
+# candidat concordant, ou dates en conflit.
+
+authors:
+  - name: "Villot, Frédéric (1809-1875)"
+    death_year: 1875
+    identity_confidence: high
+    source_url: "https://www.wikidata.org/wiki/Q3090265"
+    pd: yes
+    note: "Wikidata : graveur et historien de l'art français, 1809-1875 ; naissance et décès concordent avec gallica.yaml."
+
+  - name: "Durrieu, Paul (1855-1925)"
+    death_year: 1925
+    identity_confidence: high
+    source_url: "https://www.wikidata.org/wiki/Q3000448"
+    pd: yes
+    note: "Wikidata : médiéviste, historien et philologue français, 1855-1925 (P570 1925-11-24). Une entrée distincte (Q125930853) le donne conservateur de la peinture au Louvre."
+
+  - name: "Benoît, Camille (1851-1923)"
+    death_year: 1923
+    identity_confidence: medium
+    source_url: "https://www.wikidata.org/wiki/Q1029118"
+    pd: yes
+    note: "Décès 1923 tiré de la description Wikidata (« curator, composer, art historian and musicologist (1851-1923) ») ; P570 non relue (requête 429). Profession et époque concordantes. À relire avant publication."
+
+  - name: "Demonts, Louis"
+    death_year: 1950
+    identity_confidence: medium
+    source_url: "https://www.wikidata.org/wiki/Q95757199"
+    pd: yes
+    note: "Wikidata : historien de l'art et conservateur français, 1882-1950 (P570 année seule). Un seul candidat, profession concordante ; rattachement au Louvre non vérifié."
+
+  - name: "Huteau, Lucien"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "https://www.wikidata.org/w/index.php?search=Lucien+Huteau"
+    pd: unknown
+    note: "Seul candidat Wikidata : footballeur (1878-1975), profession non concordante. Aucun historien de l'art retrouvé."
+
+  - name: "Collet, Emile"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "https://www.wikidata.org/w/index.php?search=Emile+Collet"
+    pd: unknown
+    note: "Requête échouée (429) ; à relancer. Aucune date disponible."
+
+  - name: "Biais, Émile (1850-1932)"
+    death_year: 1932
+    identity_confidence: low
+    source_url: "https://www.wikidata.org/wiki/Q3588349"
+    pd: unknown
+    note: "Candidat Wikidata : archiviste et historien français, décès 1932-06-01, mais naissance 1840-12-27 alors que gallica.yaml indique 1850. Dates en conflit : identité non établie."
+
+  - name: "Berthomieu, Louis (1870-1928)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "https://www.wikidata.org/wiki/Q137876231"
+    pd: unknown
+    note: "Seul candidat Wikidata : officier militaire français, 1890-1936 ; profession et dates en conflit avec gallica.yaml (1870-1928). Identité non établie."
+
+  - name: "Masson, Charles (1858-1931)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "https://www.wikidata.org/w/index.php?search=Charles+Masson"
+    pd: unknown
+    note: "Candidats Wikidata (dessinateur de BD, joueurs de hockey, militaire) non concordants. Aucun candidat retenu."
+
+  - name: "Burroughs, Bryson (1869-1934)"
+    death_year: 1934
+    identity_confidence: high
+    source_url: "https://www.wikidata.org/wiki/Q16943988"
+    pd: yes
+    note: "Wikidata : peintre et historien de l'art américain, 1869-1934 (P570 1934-11-16). Conservateur de peintures au Met."
+
+  - name: "Musée du Louvre (Paris)"
+    death_year: unknown
+    identity_confidence: high
+    source_url: "non applicable (personne morale)"
+    pd: unknown
+    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+
+  - name: "Musée du Louvre (Paris). Département des peintures"
+    death_year: unknown
+    identity_confidence: high
+    source_url: "non applicable (personne morale)"
+    pd: unknown
+    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+
+  - name: "Musée Ingres Bourdelle (Montauban)"
+    death_year: unknown
+    identity_confidence: high
+    source_url: "non applicable (personne morale)"
+    pd: unknown
+    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+
+  - name: "Musée des beaux-arts (Dijon)"
+    death_year: unknown
+    identity_confidence: high
+    source_url: "non applicable (personne morale)"
+    pd: unknown
+    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+
+  - name: "Palais des beaux-arts (Lille)"
+    death_year: unknown
+    identity_confidence: high
+    source_url: "non applicable (personne morale)"
+    pd: unknown
+    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+
+  - name: "Musée de Picardie (Amiens)"
+    death_year: unknown
+    identity_confidence: high
+    source_url: "non applicable (personne morale)"
+    pd: unknown
+    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
