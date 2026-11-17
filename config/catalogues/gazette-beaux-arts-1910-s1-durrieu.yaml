@@ -15,3 +15,7 @@ pages:
   max_pages: 120
 segmentation: null
 rights_id: gazette-beaux-arts-1910-s1
+quality:
+  min_letter_share: 0.6
+figures:
+  min_area: 0.02

@@ -8,6 +8,7 @@ exacts du texte OCR brut (`ocr_raw`) ; aucun texte n'est produit par un modèle.
 from __future__ import annotations
 
 import hashlib
+import itertools
 import json
 import re
 import statistics
@@ -15,13 +16,14 @@ import unicodedata
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import NamedTuple
 
 import yaml
 from lxml import etree
 from rapidfuzz import fuzz
 
 from lesternowak import export
-from lesternowak.alto import AltoPage, Block, Line, parse_alto, union
+from lesternowak.alto import AltoPage, Block, Illustration, Line, parse_alto, union
 from lesternowak.gallica import (
     GallicaClient,
     GallicaHTTPError,
@@ -64,6 +66,7 @@ class Segmentation:
     artist_heading: re.Pattern | None = None
     skip_lines: list[re.Pattern] = field(default_factory=list)
     caption_number: re.Pattern | None = None
+    loose: re.Pattern | None = None  # notice_start tolérant aux confusions OCR du numéro
 
 
 @dataclass
@@ -81,6 +84,10 @@ class CatalogueConfig:
     article: dict | None
     segmentation: Segmentation | None
     raw: dict
+    min_letter_share: float = 0.6  # qualité OCR : part de lettres minimale d'un passage
+    min_wc: float | None = None  # confiance ALTO (WC) moyenne minimale, si disponible
+    quality_exempt: list[re.Pattern] = field(default_factory=list)  # ex. lignes de dimensions
+    figure_min_area: float = 0.02  # aire minimale (part de la page) d'une figure liable
 
 
 def load_config(path: Path) -> CatalogueConfig:
@@ -106,6 +113,12 @@ def load_config(path: Path) -> CatalogueConfig:
         )
         if "number" not in seg.notice_start.groupindex:
             raise ValueError(f"{path} : notice_start doit définir le groupe « number »")
+        tok = r"(?P<number>\d{1,4})"
+        if tok in sg["notice_start"]:
+            seg.loose = re.compile(
+                sg["notice_start"].replace(tok, r"(?P<number>[0-9SsIl|OoB]{1,4})")
+            )
+    q = d.get("quality") or {}
     return CatalogueConfig(
         id=d["id"],
         ark=bare_ark(d["ark"]),
@@ -120,6 +133,10 @@ def load_config(path: Path) -> CatalogueConfig:
         article=pg.get("article"),
         segmentation=seg,
         raw=d,
+        min_letter_share=float(q.get("min_letter_share", 0.6)),
+        min_wc=float(q["min_wc"]) if q.get("min_wc") is not None else None,
+        quality_exempt=[re.compile(x) for x in q.get("exempt", [])],
+        figure_min_area=float((d.get("figures") or {}).get("min_area", 0.02)),
     )
 
 
@@ -216,6 +233,41 @@ class Notice:
     artist_heading: str | None
     start_page: int  # indice dans la liste de pages traitées
     runs: list[tuple[int, int, int, int]] = field(default_factory=list)  # page, bloc, l0, l1
+    end_number: int | None = None  # « 4-5 » : lot double
+    flags: list[str] = field(default_factory=list)
+    missing_after: list[int] = field(default_factory=list)  # numéros introuvables ensuite
+    ocr_digit_fix: bool = False  # numéro lu malgré une confusion OCR (S/5, I/1, O/0, B/8)
+
+
+class Cand(NamedTuple):
+    page: int
+    block: int
+    line: int
+    number: int
+    loose: bool = False  # numéro reconstitué après confusion OCR
+    end: int | None = None
+    alts: tuple[int, ...] = ()  # lectures possibles du jeton (confusions OCR)
+
+
+# confusions OCR courantes lettre -> chiffres possibles ; « S » vaut aussi 3 et 6 (relevé sur le
+# catalogue de Narbonne : « S - Consuls de l'année 1603 » pour la notice 3)
+_OCR_DIGITS = {
+    "S": "536",
+    "s": "536",
+    "I": "1",
+    "l": "1",
+    "|": "1",
+    "O": "0",
+    "o": "0",
+    "B": "8",
+}
+
+
+def _readings(tok: str) -> tuple[int, ...]:
+    opts = [_OCR_DIGITS.get(ch, ch) for ch in tok]
+    if not all(all(c.isdigit() for c in o) for o in opts):
+        return ()
+    return tuple(sorted({int("".join(c)) for c in itertools.product(*opts)}))
 
 
 def _candidates(pages: list[AltoPage], seg: Segmentation):
@@ -226,31 +278,47 @@ def _candidates(pages: list[AltoPage], seg: Segmentation):
                     continue
                 m = seg.notice_start.match(ln.text)
                 if m:
-                    yield pi, bi, li, int(m.group("number"))
+                    end = m.groupdict().get("number_end")
+                    yield Cand(pi, bi, li, int(m.group("number")), False, int(end) if end else None)
+                    continue
+                m = seg.loose.match(ln.text) if seg.loose else None
+                if m:
+                    alts = _readings(m.group("number"))
+                    if alts:
+                        end = m.groupdict().get("number_end")
+                        yield Cand(pi, bi, li, alts[0], True, int(end) if end else None, alts)
 
 
-def accepted_starts(
-    cands: list[tuple[int, int, int, int]], max_gap: int, first_max: int
-) -> list[tuple[int, int, int, int]]:
+def accepted_starts(cands, max_gap: int, first_max: int) -> list[Cand]:
     """Suite croissante de numéros plausibles (bruit OCR écarté, resynchronisation sur deux
-    candidats consécutifs cohérents)."""
-    out: list[tuple[int, int, int, int]] = []
+    candidats consécutifs cohérents). Un numéro reconstitué après confusion OCR n'est accepté
+    que s'il est exactement le numéro attendu (suivant)."""
+    cs = [Cand(*c) for c in cands]
+    out: list[Cand] = []
     last = None
-    for k, c in enumerate(cands):
-        n = c[3]
-        ok = (n <= first_max) if last is None else (last < n <= last + max_gap)
-        if not ok and last is not None and n > last and k + 1 < len(cands):
-            nxt = cands[k + 1][3]
-            ok = n < nxt <= n + max_gap
+    for k, c in enumerate(cs):
+        n = c.number
+        if c.loose:  # accepté seulement si le numéro attendu fait partie des lectures possibles
+            ok = last is not None and (last + 1) in c.alts
+            if ok:
+                c = c._replace(number=last + 1)
+                n = c.number
+        else:
+            ok = (n <= first_max) if last is None else (last < n <= last + max_gap)
+            if not ok and last is not None and n > last and k + 1 < len(cs):
+                nxt = cs[k + 1].number
+                ok = n < nxt <= n + max_gap
         if ok:
             out.append(c)
-            last = n
+            last = c.end if c.end and c.end >= n else n
     return out
 
 
 def segment(pages: list[AltoPage], seg: Segmentation) -> list[Notice]:
     cands = list(_candidates(pages, seg))
-    starts = {(p, b, ln): n for p, b, ln, n in accepted_starts(cands, seg.max_gap, seg.first_max)}
+    starts = {
+        (c.page, c.block, c.line): c for c in accepted_starts(cands, seg.max_gap, seg.first_max)
+    }
     notices: list[Notice] = []
     cur: Notice | None = None
     artist: str | None = None
@@ -267,7 +335,10 @@ def segment(pages: list[AltoPage], seg: Segmentation) -> list[Notice]:
                 if key in starts:
                     if cur is not None and run_start is not None:
                         cur.runs.append((pi, bi, run_start, li - 1))
-                    cur = Notice(starts[key], ln.text, artist, pi)
+                    c = starts[key]
+                    cur = Notice(
+                        c.number, ln.text, artist, pi, end_number=c.end, ocr_digit_fix=c.loose
+                    )
                     notices.append(cur)
                     run_start = li
                     continue
@@ -284,7 +355,33 @@ def segment(pages: list[AltoPage], seg: Segmentation) -> list[Notice]:
                     run_start = li
             if cur is not None and run_start is not None:
                 cur.runs.append((pi, bi, run_start, len(b.lines) - 1))
+    mark_gaps(notices)
     return notices
+
+
+def mark_gaps(notices: list[Notice]) -> None:
+    """Un trou dans la suite des numéros signifie qu'une notice absente (non reconnue) a pu être
+    absorbée par la précédente : celle-ci est `segmentation_uncertain`."""
+    for a, b in itertools.pairwise(notices):
+        top = a.end_number if a.end_number and a.end_number >= a.number else a.number
+        if b.number > top + 1:
+            a.flags.append("segmentation_uncertain")
+            a.missing_after = list(range(top + 1, b.number))
+
+
+def letter_share(text: str) -> float:
+    core = [ch for ch in text if not ch.isspace()]
+    return sum(ch.isalpha() for ch in core) / len(core) if core else 0.0
+
+
+def quality_flag(
+    text: str, wc: float | None, min_letter_share: float, min_wc: float | None
+) -> str | None:
+    if letter_share(text) < min_letter_share:
+        return "low_letter_share"
+    if min_wc is not None and wc is not None and wc < min_wc:
+        return "low_wc"
+    return None
 
 
 _DIM_M = re.compile(
@@ -311,24 +408,34 @@ def _sheet(cfg: CatalogueConfig, root: Path) -> dict:
     raise KeyError(f"fiche de droits introuvable : {cfg.rights_id}")
 
 
-def rights_for(cfg: CatalogueConfig, sheet: dict, checked_at: datetime, title_flag: str | None):
-    """Texte : selon `pd_status` de la fiche (`unknown` ne devient jamais `allow`). Images de
-    pages Gallica : affichage pilote `allow`, réutilisation `conditional`."""
-    status = str(sheet.get("pd_status")).lower()
+class RightsRefused(RuntimeError):
+    """Volume refusé : droits du texte non établis (jamais de téléchargement dans ce cas)."""
+
+
+def text_rights(cfg: CatalogueConfig, sheet: dict) -> tuple[Decision, str]:
+    """Droits du texte d'après la fiche : `allow` seulement si domaine public ou licence acceptée
+    est établi (`pd_status` vrai ; `partial` : article de la config en domaine public)."""
     basis = sheet.get("pd_basis", "")
-    decision = Decision.unknown
-    if status in ("true", "yes", "partial"):
-        decision = Decision.allow
-        if status == "partial":
-            art = cfg.article or {}
-            ok = any(
-                a.get("pd") in (True, "true", "yes") and art.get("author") in a.get("author", "")
-                for a in sheet.get("articles", [])
-            )
-            decision = Decision.allow if ok else Decision.unknown
-            basis = f"article {art.get('author')} seulement : {basis}"
-    if title_flag:
-        decision, basis = Decision.unknown, f"{title_flag} ; {basis}"
+    if sheet.get("excluded_reason"):
+        return Decision.deny, f"volume exclu : {sheet['excluded_reason']}"
+    status = str(sheet.get("pd_status")).lower()
+    if status in ("true", "yes"):
+        return Decision.allow, basis
+    if status == "partial":
+        art = cfg.article or {}
+        ok = any(
+            a.get("pd") in (True, "true", "yes") and art.get("author") in a.get("author", "")
+            for a in sheet.get("articles", [])
+        )
+        if ok:
+            return Decision.allow, f"article {art.get('author')} seulement : {basis}"
+    return Decision.unknown, basis
+
+
+def rights_for(cfg: CatalogueConfig, sheet: dict, checked_at: datetime):
+    """Texte : selon la fiche (`unknown` ne devient jamais `allow`). Images de pages Gallica :
+    affichage pilote `allow`, réutilisation `conditional`."""
+    decision, basis = text_rights(cfg, sheet)
     ev = sheet.get("url", GALLICA_CONDITIONS)
     out = [
         RightsDecision(
@@ -417,11 +524,20 @@ def toc_article_pages(toc: bytes, art: dict, labels: list[tuple[str, int]]) -> l
     return [lab2v[p] for p in range(start, end + 1)]
 
 
+_ROLE = re.compile(r"(?i)\b(experts?|commissaires?[- ]priseurs?)\b")
+_PERSON = re.compile(r"\b(?:M\.|MM\.|Mes|Me|M e|M|Mme)\s+[A-ZÉÈ][\wÉÈ.'’-]+")  # noqa: RUF001
+
+
 def title_page_flag(pages_text: list[str]) -> str | None:
-    """Contrôle de la page de titre (catalogues de vente) : expert nommé = droits `unknown`."""
+    """Contrôle de la page de titre (catalogues de vente) : un expert ou commissaire-priseur
+    *nommé* (titre de civilité + nom) rend les droits indéterminés ; le seul intitulé de rôle
+    (« EXPERTS » sans personne) ne déclenche rien."""
     head = "\n".join(pages_text[:4])
-    m = re.search(r"(?i)\b(expert|commissaires?[- ]priseurs?)\b[^\n]{0,80}", head)
-    return f"page de titre : « {m.group(0).strip()[:90]} » (auteur à identifier)" if m else None
+    for m in _ROLE.finditer(head):
+        p = _PERSON.search(head[m.end() : m.end() + 250])
+        if p:
+            return f"page de titre : {m.group(0)} nommé « {p.group(0)[:60]} » (auteur à identifier)"
+    return None
 
 
 def build_volume(
@@ -435,6 +551,13 @@ def build_volume(
     t0 = datetime.now(UTC)
     ark = cfg.ark
     notes: list[str] = []
+    # droits d'abord : aucun téléchargement si le texte n'est pas utilisable
+    sheet = _sheet(cfg, root)
+    decision, why = text_rights(cfg, sheet)
+    if decision != Decision.allow:
+        raise RightsRefused(
+            f"{cfg.id} : droits du texte {decision.value} ({why}) ; rien téléchargé"
+        )
     # a. structure
     oai = client.oai(ark)
     pag = client.pagination(ark)
@@ -447,8 +570,9 @@ def build_volume(
     offsets = estimate_offsets(text_pages, labels)
     label_of = {v: (lab or None) for lab, v in labels}
     n_views = len(labels)
-    sheet = _sheet(cfg, root)
     tflag = title_page_flag(text_pages) if cfg.type == "sale_catalogue" else None
+    if tflag:  # avant tout ALTO
+        raise RightsRefused(f"{cfg.id} : {tflag} ; ALTO non téléchargé")
 
     # repérage des pages utiles
     plan: list[tuple[int, int | None]] = []  # (vue estimée, indice texte brut)
@@ -485,7 +609,6 @@ def build_volume(
         client,
         out,
         sheet,
-        tflag,
         pages,
         oai.body,
         t0,
@@ -670,7 +793,7 @@ def _oai_meta(xml: bytes) -> dict:
     return {k: g(k) for k in ("title", "creator", "publisher", "date", "rights")}
 
 
-def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_index, counts) -> dict:
+def _assemble(cfg, client, out, sheet, pages, oai_xml, t0, notes, ref_index, counts) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     run = Run(
         id="run_" + t0.strftime("%Y%m%dT%H%M%S"),
@@ -684,7 +807,7 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
         },
         started_at=t0,
     )
-    rights = rights_for(cfg, sheet, t0, tflag)
+    rights = rights_for(cfg, sheet, t0)
     spans: dict[str, Span] = {}
     artworks: list[Artwork] = []
     links: list[Link] = []
@@ -692,6 +815,7 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
     notice_texts: dict[int, str] = {}
     art_by_number: dict[int, Artwork] = {}
     pdata = [p.page for p in pages]
+    notices_all: list[Notice] = []
 
     def mk_span(pi: int, lines: list[Line], block_idx: int, para_idx: int, section: str) -> Span:
         pd = pages[pi]
@@ -699,6 +823,9 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
         text = pd.page.text[start:end]
         assert text, "span vide"
         sid = "spn_" + _sha(f"{pd.asset.id}|{start}|{end}|{text}")[:12]
+        raw = "\n".join(x.raw_text or x.text for x in lines)
+        wcs = [x.wc for x in lines if x.wc is not None]
+        wc = round(sum(wcs) / len(wcs), 3) if wcs else None
         sp = Span(
             id=sid,
             asset_id=pd.asset.id,
@@ -709,12 +836,21 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
             text=text,
             text_fidelity="ocr_raw",
             page_refs=[_page_ref(pd, lines)],
+            raw_text=raw if raw != text else None,
+            normalizations=sorted({n for x in lines for n in x.normalizations}),
+            quality_flag=(
+                None
+                if any(rx.search(text) for rx in cfg.quality_exempt)
+                else quality_flag(text, wc, cfg.min_letter_share, cfg.min_wc)
+            ),
+            ocr_confidence=wc,
         )
         spans[sid] = sp
         return sp
 
     if cfg.segmentation is not None:
         notices = segment(pdata, cfg.segmentation)
+        notices_all = notices
         for nt in notices:
             local_id = f"{cfg.id}#{nt.number}"
             art = Artwork(
@@ -724,6 +860,7 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
                 artist_heading=nt.artist_heading,
                 catalogue_number=str(nt.number),
                 title=nt.label,
+                flags=[*nt.flags, *(["ocr_number_repaired"] if nt.ocr_digit_fix else [])],
             )
             if art.id in {a.id for a in artworks}:
                 continue
@@ -732,6 +869,9 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
                 lines = pages[pi].page.blocks[bi].lines[l0 : l1 + 1]
                 sp = mk_span(pi, lines, bi, para, f"notice {nt.number}")
                 texts.append(sp.text)
+                if sp.quality_flag:  # conservé, jamais lié
+                    continue
+                uncertain = "segmentation_uncertain" in nt.flags
                 links.append(
                     Link(
                         id="lnk_" + _sha(f"{art.id}|{sp.id}|notice_structure")[:12],
@@ -747,10 +887,17 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
                                     f"notice n° {nt.number} (« {nt.label} », vue {pages[pi].view}) "
                                     "et le début de la suivante ; rattachement par la structure "
                                     "de notice, non validé."
+                                    + (
+                                        " NON RÉSOLU : numéros introuvables ensuite "
+                                        f"({_fmt_missing(nt.missing_after)}), le passage peut "
+                                        "contenir des notices absorbées (segmentation_uncertain)."
+                                        if uncertain
+                                        else ""
+                                    )
                                 ),
                             )
                         ],
-                        status=LinkStatus.machine_proposed,
+                        status=LinkStatus.unresolved if uncertain else LinkStatus.machine_proposed,
                         rights=rights,
                         run_id=run.id,
                     )
@@ -765,12 +912,14 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
             for bi, b in enumerate(pd.page.blocks):
                 mk_span(pi, b.lines, bi, bi, "article")
 
-    # d. figures
+    # d. figures : doublons écartés ; une légende pour une seule figure ; aire minimale
     n_cap = 0
     for pi, pd in enumerate(pages):
         if pd.route != "alto":
             continue
-        for il in pd.page.illustrations:
+        ills = dedupe_illustrations(pd.page.illustrations)
+        assigned = assign_captions(pd.page, ills, cfg.segmentation, cfg.figure_min_area)
+        for k, il in enumerate(ills):
             fid = "fig_" + _sha(f"{cfg.ark}|{pd.view}|{il.bbox}")[:12]
             fig = Figure(
                 id=fid,
@@ -779,23 +928,22 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
                 image_url=iiif_region_url(cfg.ark, pd.view, il.bbox, 800),
                 image_rights=[r for r in rights if r.asset == "images"],
             )
-            cap = _find_caption(pd.page, il.bbox, cfg.segmentation)
-            if cap:
+            cap = assigned.get(k)
+            art = art_by_number.get(cap[0]) if cap else None
+            if cap and art:
                 num, block = cap
-                art = art_by_number.get(num)
-                if art:
-                    sp = mk_span(pi, block.lines, 0, 0, "légende de figure")
-                    fig.caption_span_id = sp.id
-                    fig.linked_artwork_local_id = art.artwork_local_id
-                    fig.link_evidence = [
-                        Evidence(
-                            mechanism="caption_number",
-                            quoted_heading=block.lines[0].text,
-                            explanation="légende voisine de la figure citant explicitement le "
-                            f"numéro {num}, numéro d'une notice du volume ; non validé.",
-                        )
-                    ]
-                    n_cap += 1
+                sp = mk_span(pi, block.lines, 0, 0, "légende de figure")
+                fig.caption_span_id = sp.id
+                fig.linked_artwork_local_id = art.artwork_local_id
+                fig.link_evidence = [
+                    Evidence(
+                        mechanism="caption_number",
+                        quoted_heading=block.lines[0].text,
+                        explanation="légende voisine de la figure citant explicitement le "
+                        f"numéro {num}, numéro d'une notice du volume ; non validé.",
+                    )
+                ]
+                n_cap += 1
             figures.append(fig)
 
     # vérification des offsets (échec bruyant)
@@ -841,6 +989,9 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
             "captured_at": t0.isoformat(),
         },
     )
+    nums = [int(a.catalogue_number) for a in artworks]
+    missing = sum(len(nt.missing_after) for nt in notices_all)
+    span_nums = (max(nums) - min(nums) + 1) if nums else 0
     n_res = sum(1 for a in artworks if a.resolution and a.resolution.status == "resolved")
     report = {
         "catalogue": cfg.id,
@@ -852,6 +1003,12 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
         "links": len(links),
         "figures": len(figures),
         "figures_linked": n_cap,
+        "uncertain_notices": sum("segmentation_uncertain" in a.flags for a in artworks),
+        "missing_numbers": missing,
+        "gap_rate": round(missing / span_nums, 3) if span_nums else 0.0,
+        "ocr_number_repaired": sum("ocr_number_repaired" in a.flags for a in artworks),
+        "low_quality_spans": sum(1 for sp in spans.values() if sp.quality_flag),
+        "spans_with_normalizations": sum(1 for sp in spans.values() if sp.normalizations),
         "resolved": n_res,
         "unresolved": len(artworks) - n_res,
         "notes": notes,
@@ -863,20 +1020,64 @@ def _assemble(cfg, client, out, sheet, tflag, pages, oai_xml, t0, notes, ref_ind
     return report
 
 
-def _find_caption(page: AltoPage, bbox, seg: Segmentation | None, max_gap: float = 0.12):
+def _area(b) -> float:
+    return max(0.0, b[2] - b[0]) * max(0.0, b[3] - b[1])
+
+
+def _iou(a, b) -> float:
+    iw = min(a[2], b[2]) - max(a[0], b[0])
+    ih = min(a[3], b[3]) - max(a[1], b[1])
+    inter = max(0.0, iw) * max(0.0, ih)
+    union_area = _area(a) + _area(b) - inter
+    return inter / union_area if union_area > 0 else 0.0
+
+
+def dedupe_illustrations(ills: list[Illustration], threshold: float = 0.9) -> list[Illustration]:
+    """Écarte les boîtes quasi identiques (IoU >= seuil) d'une même page."""
+    out: list[Illustration] = []
+    for il in ills:
+        if all(_iou(il.bbox, o.bbox) < threshold for o in out):
+            out.append(il)
+    return out
+
+
+def assign_captions(
+    page: AltoPage,
+    ills: list[Illustration],
+    seg: Segmentation | None,
+    min_area: float,
+    max_gap: float = 0.12,
+) -> dict[int, tuple[int, Block]]:
+    """Légendes (numéro explicite) -> figures, un pour un, du plus proche au plus éloigné ;
+    une figure d'aire inférieure à `min_area` n'est jamais liée."""
     if seg is None or seg.caption_number is None:
-        return None
-    best = None
+        return {}
+    caps = []
     for b in page.blocks:
-        head = "\n".join(x.text for x in b.lines[:2])
-        m = seg.caption_number.search(head)
-        if not m or len(b.lines) > 4:
+        m = seg.caption_number.search("\n".join(x.text for x in b.lines[:2]))
+        if m and len(b.lines) <= 4:
+            caps.append((b, int(m.group("number"))))
+    pairs = []
+    for ci, (b, _) in enumerate(caps):
+        for fi, il in enumerate(ills):
+            if _area(il.bbox) < min_area:
+                continue
+            gap = max(b.bbox[1] - il.bbox[3], il.bbox[1] - b.bbox[3], 0.0)
+            overlap = min(b.bbox[2], il.bbox[2]) - max(b.bbox[0], il.bbox[0])
+            if gap <= max_gap and overlap > 0:
+                pairs.append((gap, ci, fi))
+    out: dict[int, tuple[int, Block]] = {}
+    used_caps: set[int] = set()
+    for _gap, ci, fi in sorted(pairs):
+        if ci in used_caps or fi in out:
             continue
-        gap = max(b.bbox[1] - bbox[3], bbox[1] - b.bbox[3], 0.0)
-        overlap = min(b.bbox[2], bbox[2]) - max(b.bbox[0], bbox[0])
-        if gap <= max_gap and overlap > 0 and (best is None or gap < best[0]):
-            best = (gap, int(m.group("number")), b)
-    return (best[1], best[2]) if best else None
+        used_caps.add(ci)
+        out[fi] = (caps[ci][1], caps[ci][0])
+    return out
+
+
+def _fmt_missing(nums: list[int]) -> str:
+    return ", ".join(map(str, nums[:6])) + (" …" if len(nums) > 6 else "")
 
 
 def _resolve_all(cfg, artworks: list[Artwork], notice_texts: dict[int, str], ref_index) -> None:

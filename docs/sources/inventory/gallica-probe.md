@@ -87,10 +87,10 @@ de document n'est conservé dans le dépôt, seulement des comptages (`sample:`)
 ## Usage des quotas, lot C3–C5 (2026-11-17)
 
 Appelant unique d'`openapi.bnf.fr` ; client `src/lesternowak/gallica.py` (espacement minimal par
-service = 60 / quota × 1,05, plafond global glissant de 70 / min, `Retry-After` respecté, arrêt après
+service = 60 / quota × 1,05, plafond global glissant de 70 / min ; **après la revue : marge de 20 %, quota ALTO commun aux services v3 et RDE, état persistant `_limiter.json`, 403/429 persistés**, `Retry-After` respecté, arrêt après
 2 réponses 403/429, cache permanent `data/raw/gallica/<ark>/` avec sha256 et date). User-Agent fixe
 `lesternowak/0.0.1 (recherche; client Gallica)`. Volumes traités : les 5 volumes de développement
-Gallica (aucun volume tenu à l'écart n'a été touché). Durée : 21 h 15 à 23 h 05 (110 min).
+Gallica (aucun volume tenu à l'écart n'a été touché). Durée : 21 h 15 à 23 h 05 (110 min). Les requêtes du volume Ribes-Christofle (123 ALTO, structure) figurent dans ces totaux ; le volume a ensuite été exclu (droits) et ses données locales supprimées.
 
 | Service (passerelle) | Requêtes aboutissant (cache) | Réponses non 200 |
 |---|---|---|

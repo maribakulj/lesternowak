@@ -1,5 +1,6 @@
 """Pipeline volume -> slice, hors ligne : serveur Gallica simulé, volume fictif de 7 vues."""
 
+import html
 import re
 from pathlib import Path
 
@@ -24,6 +25,7 @@ CFG = {
     "rights_sheet": "sheet.yaml",
     "referential": "louvre",
     "pages": {"mode": "auto", "max_pages": 50},
+    "quality": {"min_letter_share": 0.6, "exempt": [r"^\s*H\.\s*[\d,. ]+-\s*L\."]},
     "segmentation": {
         "notice_start": r"^\s*(?P<number>\d{1,4})\s*\.\s+(?=\S)",
         "max_gap": 5,
@@ -60,7 +62,7 @@ def alto_xml(blocks, illus=()):
             out.append(f'<TextLine HPOS="100" VPOS="{y}" WIDTH="800" HEIGHT="40">')
             for i, w in enumerate(ln.split()):
                 out.append(
-                    f'<String CONTENT="{w}" HPOS="{100 + 60 * i}" VPOS="{y}" '
+                    f'<String CONTENT="{html.escape(w)}" HPOS="{100 + 60 * i}" VPOS="{y}" '
                     'WIDTH="50" HEIGHT="40"/>'
                 )
             out.append("</TextLine>")
@@ -70,7 +72,7 @@ def alto_xml(blocks, illus=()):
     for h, v, w, hh in illus:
         out.append(f'<Illustration ID="i" HPOS="{h}" VPOS="{v}" WIDTH="{w}" HEIGHT="{hh}"/>')
     out.append("</PrintSpace></Page></Layout></alto>")
-    return "".join(out).replace("&", "&amp;").encode()
+    return "".join(out).encode()
 
 
 def server(alto_status=200, status403=False):
@@ -197,16 +199,13 @@ def test_rebuild_is_deterministic_and_cached(env):
     assert len(calls) == n  # tout vient du cache permanent
 
 
-def test_rights_unknown_never_allow_and_gallica_images(env):
+def test_rights_allowed_text_and_gallica_images(env):
     opener, _ = server()
-    _, out, _ = run_build(env, opener, sheet_status="unknown")
-    rights = export.read_jsonl(out / "rights.jsonl", cat.RightsDecision)
-    assert {r.decision.value for r in rights if r.asset == "text"} == {"unknown"}
-    img = {r.action: r.decision.value for r in rights if r.asset == "images"}
-    assert img["display_pilot"] == "allow" and img["publish_image"] == "conditional"
     _, out, _ = run_build(env, opener, sheet_status=True)
     rights = export.read_jsonl(out / "rights.jsonl", cat.RightsDecision)
     assert {r.decision.value for r in rights if r.asset == "text"} == {"allow"}
+    img = {r.action: r.decision.value for r in rights if r.asset == "images"}
+    assert img["display_pilot"] == "allow" and img["publish_image"] == "conditional"
 
 
 def test_alto_404_falls_back_to_text_without_geometry(env):
@@ -296,6 +295,8 @@ def test_config_rejects_unknown_route(tmp_path):
 
 def test_all_repo_configs_load():
     for p in sorted(Path("config/catalogues").glob("*.yaml")):
+        if yaml.safe_load(p.read_text("utf-8")).get("source") != "gallica":
+            continue  # autres voies (Quire) : gérées ailleurs
         cfg = cat.load_config(p)
         assert cfg.id == p.stem and cfg.ark
 

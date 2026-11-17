@@ -16,5 +16,12 @@ segmentation:
   first_max: 5
   artist_heading: '^[A-ZÉÈÀÂÊÎÔÛÇ][A-ZÉÈÀÂÊÎÔÛÇ''’ .-]{3,}\s*(?:\([^)]*\))?\s*\.?\s*$'
   skip_lines:
+    - '^\s*\d{1,3}\s+[A-ZÉÈÀÂÊÎÔÛÇ][A-ZÉÈÀÂÊÎÔÛÇ''’ .()-]{3,}\s*$'  # en-tête « folio NOM »
     - '^[A-ZÉÈÀÂÊÎÔÛÇ][A-ZÉÈÀÂÊÎÔÛÇ''’ .()-]{3,}\s\d{1,3}\s*$'
     - '^\s*\d{1,3}\s*$'
+quality:
+  min_letter_share: 0.6
+  exempt:  # lignes de dimensions (peu de lettres par nature)
+    - '^\s*H\w*\.?\s*[\d,. ]{1,12}\s*[-–—;.]\s*L\w*\.?'
+figures:
+  min_area: 0.02

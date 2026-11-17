@@ -23,8 +23,8 @@ from pathlib import Path
 BASE = "https://openapi.bnf.fr"
 USER_AGENT = "lesternowak/0.0.1 (recherche; client Gallica)"
 GLOBAL_PER_MIN = 75
-GLOBAL_MARGIN = 70  # marge sous le plafond de 75
-IIIF_BYTES_PER_MIN = 9_000_000  # quota 10 Mo/min (à confirmer), marge
+GLOBAL_MARGIN = 60  # 75 - 20 %
+IIIF_BYTES_PER_MIN = 8_000_000  # quota 10 Mo/min (à confirmer) - 20 %
 IIIF_BYTES_ESTIMATE = 400_000  # réservation avant réponse
 MAX_STOPS = 2
 
@@ -37,11 +37,12 @@ RATES: dict[str, float] = {
     "textebrut_doc": 6,
     "textebrut_page": 20,
     "alto": 5,
-    "alto_rde": 6,
+    "alto_rde": 5,
     "medres": 50,
     "iiif_image": 10,
 }
-SPACING_MARGIN = 1.05
+SPACING_MARGIN = 1.2  # marge de 20 % sur chaque quota
+GROUPS = {"alto_rde": "alto"}  # quota ALTO commun aux deux services
 
 
 class GallicaStop(RuntimeError):
@@ -56,16 +57,56 @@ class GallicaHTTPError(RuntimeError):
 
 
 class Limiter:
-    """Limiteur à horloge injectable (tests)."""
+    """Limiteur à horloge injectable (tests) et état persistant entre processus.
 
-    def __init__(self, clock: Callable[[], float] = time.monotonic, sleep=time.sleep):
+    Marge de 20 % sur chaque quota ; le quota ALTO est commun aux services v3 et
+    RequestDigitalElement (`GROUPS`). `state_path` : JSON repris au démarrage (derniers
+    horaires, fenêtre glissante, octets, blocage `Retry-After`, 403/429 rencontrés)."""
+
+    def __init__(
+        self,
+        clock: Callable[[], float] = time.time,
+        sleep=time.sleep,
+        state_path: Path | None = None,
+    ):
         self.clock = clock
         self.sleep = sleep
+        self.state_path = state_path
         self.last: dict[str, float] = {}
         self.window: deque[float] = deque()
         self.bytes_window: deque[tuple[float, int]] = deque()
         self.blocked_until = 0.0
         self.waited = 0.0
+        self.forbidden: list[dict] = []
+        if state_path is not None and state_path.exists():
+            self._load(json.loads(state_path.read_text("utf-8")))
+
+    def _load(self, d: dict) -> None:
+        now = self.clock()
+        self.last = {k: min(v, now) for k, v in d.get("last", {}).items()}
+        self.window = deque(t for t in d.get("window", []) if now - t < 60.0)
+        self.bytes_window = deque((t, n) for t, n in d.get("bytes", []) if now - t < 60.0)
+        self.blocked_until = d.get("blocked_until", 0.0)
+        self.forbidden = d.get("forbidden", [])
+
+    def save(self) -> None:
+        if self.state_path is None:
+            return
+        self.state_path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = self.state_path.with_name(self.state_path.name + ".tmp")
+        tmp.write_text(
+            json.dumps(
+                {
+                    "last": self.last,
+                    "window": list(self.window),
+                    "bytes": [list(x) for x in self.bytes_window],
+                    "blocked_until": self.blocked_until,
+                    "forbidden": self.forbidden,
+                }
+            ),
+            "utf-8",
+        )
+        tmp.replace(self.state_path)
 
     def _wait(self, dt: float) -> None:
         if dt > 0:
@@ -75,12 +116,20 @@ class Limiter:
     def block(self, seconds: float) -> None:
         """Retry-After : plus aucune requête avant `seconds`."""
         self.blocked_until = max(self.blocked_until, self.clock() + seconds)
+        self.save()
+
+    def record_forbidden(self, status: int, url: str, at: str) -> int:
+        """Persiste un 403/429 (immédiatement) ; retourne le nombre total rencontré."""
+        self.forbidden.append({"status": status, "url": url, "at": at})
+        self.save()
+        return len(self.forbidden)
 
     def acquire(self, service: str) -> None:
+        group = GROUPS.get(service, service)
         self._wait(self.blocked_until - self.clock())
-        rate = RATES[service]
-        if service in self.last:
-            self._wait(self.last[service] + SPACING_MARGIN * 60.0 / rate - self.clock())
+        rate = RATES[group]
+        if group in self.last:
+            self._wait(self.last[group] + SPACING_MARGIN * 60.0 / rate - self.clock())
         while True:
             now = self.clock()
             while self.window and now - self.window[0] >= 60.0:
@@ -98,12 +147,14 @@ class Limiter:
                     break
                 self._wait(60.0 - (now - self.bytes_window[0][0]) + 0.01)
         now = self.clock()
-        self.last[service] = now
+        self.last[group] = now
         self.window.append(now)
+        self.save()
 
     def record_bytes(self, service: str, n: int) -> None:
         if service == "iiif_image":
             self.bytes_window.append((self.clock(), n))
+            self.save()
 
 
 Opener = Callable[[str, dict[str, str]], tuple[int, dict[str, str], bytes]]
@@ -170,11 +221,11 @@ class GallicaClient:
         max_stops: int = MAX_STOPS,
     ):
         self.cache_root = cache_root
-        self.limiter = limiter or Limiter()
+        self.limiter = limiter or Limiter(state_path=cache_root / "_limiter.json")
         self.opener = opener
         self.now = now
         self.max_stops = max_stops
-        self.stops = 0
+        self.stops = len(self.limiter.forbidden)  # 403/429 déjà rencontrés (persistés)
         self.rde_first = False
         self.v3_404_streak = 0
         self.stats = Stats()
@@ -273,7 +324,7 @@ class GallicaClient:
                 return self._write_cache(p, url, 200, body)
             self.stats.error(service, status)
             if status in (403, 429):
-                self.stops += 1
+                self.stops = self.limiter.record_forbidden(status, url, self.now().isoformat())
                 ra = {k.lower(): v for k, v in headers.items()}.get("retry-after", "")
                 if self.stops >= self.max_stops:
                     self.cache_root.mkdir(parents=True, exist_ok=True)

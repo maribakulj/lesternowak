@@ -11,7 +11,7 @@ pages:
   mode: auto
   max_pages: 120
 segmentation:
-  notice_start: '^\s*(?P<number>\d{1,4})(?:\s*[-–]\s*\d{1,4})?\s*[.—–-]\s+(?=\S)'
+  notice_start: '^\s*(?P<number>\d{1,4})(?:\s*[-–]\s*(?P<number_end>\d{1,4}))?\s*[.—–-]\s+(?=\S)'
   max_gap: 5
   first_max: 5
   artist_heading: '^[A-ZÉÈÀÂÊÎÔÛÇ][A-ZÉÈÀÂÊÎÔÛÇ''’. -]{3,}$'

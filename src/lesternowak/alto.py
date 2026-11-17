@@ -7,6 +7,7 @@ CONTENT des `String` (rien n'est corrigé : `ocr_raw`).
 
 from __future__ import annotations
 
+import contextlib
 from dataclasses import dataclass, field
 
 from lxml import etree
@@ -24,10 +25,13 @@ class Word:
 class Line:
     text: str
     bbox: BBox
-    src_bbox: BBox
+    src_bbox: BBox  # (x0, y0, x1, y1) en unités sources de la page
     start: int = 0
     end: int = 0
     words: list[Word] = field(default_factory=list)
+    raw_text: str = ""  # texte avant réparation de l'encodage (vide : identique à `text`)
+    normalizations: list[str] = field(default_factory=list)
+    wc: float | None = None  # confiance ALTO moyenne des mots (WC), si disponible
 
 
 @dataclass
@@ -91,10 +95,15 @@ def normalize_bbox(
     )
 
 
-def denormalize_bbox(bbox: BBox, page_w: float, page_h: float) -> tuple[float, float, float, float]:
-    """bbox normalisée -> (HPOS, VPOS, WIDTH, HEIGHT) dans les unités de la page."""
+def denormalize_bbox(bbox: BBox, page_w: float, page_h: float) -> BBox:
+    """bbox normalisée -> (x0, y0, x1, y1) dans les unités sources de la page."""
     x0, y0, x1, y1 = bbox
-    return (x0 * page_w, y0 * page_h, (x1 - x0) * page_w, (y1 - y0) * page_h)
+    return (x0 * page_w, y0 * page_h, x1 * page_w, y1 * page_h)
+
+
+def to_xyxy(g: tuple[float, float, float, float]) -> BBox:
+    """(HPOS, VPOS, WIDTH, HEIGHT) ALTO -> (x0, y0, x1, y1) source."""
+    return (g[0], g[1], g[0] + g[2], g[1] + g[3])
 
 
 def union(boxes: list[BBox]) -> BBox:
@@ -142,21 +151,39 @@ def parse_alto(data: bytes) -> AltoPage:
             for tl in el:
                 if _ln(tl) != "TextLine":
                     continue
-                parts, words = [], []
+                parts, raws, words, wcs, repaired = [], [], [], [], False
                 for st in tl:
                     k = _ln(st)
                     g = _geo(st)
                     if k == "String" and st.get("CONTENT"):
-                        content = fix_mojibake(st.get("CONTENT"))
+                        raw = st.get("CONTENT")
+                        content = fix_mojibake(raw)  # réparation mot à mot
+                        repaired |= content != raw
                         parts.append(content)
+                        raws.append(raw)
                         if g:
                             words.append(Word(content, normalize_bbox(*g, pw, ph)))
+                        with contextlib.suppress(TypeError, ValueError):
+                            wcs.append(float(st.get("WC")))
                     elif k == "HYP" and st.get("CONTENT") and parts:
-                        parts[-1] += fix_mojibake(st.get("CONTENT"))
+                        raw = st.get("CONTENT")
+                        parts[-1] += fix_mojibake(raw)
+                        raws[-1] += raw
+                        repaired |= fix_mojibake(raw) != raw
                 text = " ".join(parts).strip()
                 lg = _geo(tl)
                 if text and lg:
-                    lines.append(Line(text, normalize_bbox(*lg, pw, ph), lg, words=words))
+                    lines.append(
+                        Line(
+                            text,
+                            normalize_bbox(*lg, pw, ph),
+                            to_xyxy(lg),
+                            words=words,
+                            raw_text=" ".join(raws).strip() if repaired else "",
+                            normalizations=["mojibake_utf8_latin1"] if repaired else [],
+                            wc=round(sum(wcs) / len(wcs), 3) if wcs else None,
+                        )
+                    )
             if lines:
                 bg = _geo(el)
                 bb = normalize_bbox(*bg, pw, ph) if bg else union([ln.bbox for ln in lines])
@@ -166,13 +193,15 @@ def parse_alto(data: bytes) -> AltoPage:
             # filets et traits : un GraphicalElement doit mesurer au moins 4 % de la page par côté
             thin = name == "GraphicalElement" and g and min(g[2] / pw, g[3] / ph) < 0.04
             if g and not thin:
-                illus.append(Illustration(el.get("ID", ""), normalize_bbox(*g, pw, ph), g, name))
+                illus.append(
+                    Illustration(el.get("ID", ""), normalize_bbox(*g, pw, ph), to_xyxy(g), name)
+                )
         elif name == "ComposedBlock":
             if (el.get("TYPE") or "").lower() == "illustration":
                 g = _geo(el)
                 if g:
                     illus.append(
-                        Illustration(el.get("ID", ""), normalize_bbox(*g, pw, ph), g, name)
+                        Illustration(el.get("ID", ""), normalize_bbox(*g, pw, ph), to_xyxy(g), name)
                     )
                     return
             for ch in el:

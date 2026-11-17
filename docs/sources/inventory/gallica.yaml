@@ -966,6 +966,7 @@
     notes: "analytic : 315 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (172 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : planches ou illustrations imprimées dans le volume (« XII-53 p.-[7] f. de pl. : ill., couv. ill. ; 32 cm »), domaine public ; text : domaine public ; quality : OCR brut, 86% des pages avec texte ; effort : voie texteBrut Gallica à adapter (lots numérotés, texte court)"
 
 - id: "vente-ribes-christofle-1928"
+  excluded_reason: "décision de l'orchestrateur (2026-11-17) : experts et commissaires-priseurs nommés sur la page de titre (Féral, Schoeller, Lasquin ; Me Lair-Dubreuil, Me Baudoin) sans dates de décès ; domaine public non établi, texte non utilisable"
   ark: "bpt6k70513731"
   title: "Catalogue des tableaux anciens, pastels, dessins..."
   creator: "unknown"

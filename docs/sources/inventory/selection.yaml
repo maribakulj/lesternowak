@@ -185,7 +185,8 @@ types:
     pd_basis: anonyme ou collectif publié en 1928 (experts non nommés dans la notice ; contrôle de la
       page de titre en C3, bascule en unknown si un expert est nommé sans date)
     score_total: 6
-    selected: true
+    selected: false
+    excluded_reason: "décision de l'orchestrateur (2026-11-17) : experts et commissaires-priseurs nommés sur la page de titre (Féral, Schoeller, Lasquin ; Me Lair-Dubreuil, Me Baudoin) sans dates de décès ; domaine public non établi, texte non utilisable"
     reason: anonyme ou collectif publié en 1928, planches ; page de titre à contrôler en C3 ; qualité
       du texte faible (57 % de pages avec texte)
 - type: quire_ccby_en

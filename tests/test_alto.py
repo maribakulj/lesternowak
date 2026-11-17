@@ -25,15 +25,22 @@ def test_illustration_kept_rule_dropped():
     assert pg.illustrations[0].bbox == pytest.approx((0.2, 800 / 3000, 0.7, 2000 / 3000), abs=1e-6)
 
 
-def test_bbox_roundtrip():
+def test_bbox_roundtrip_source_xyxy():
+    """source_bbox = (x0, y0, x1, y1) et non (HPOS, VPOS, WIDTH, HEIGHT) ; aller-retour exact."""
     pg = alto.parse_alto(FIX.read_bytes())
+    ln = pg.blocks[1].lines[0]  # HPOS=200 VPOS=300 WIDTH=1600 HEIGHT=60
+    assert ln.src_bbox == (200, 300, 1800, 360)
     for b in pg.blocks:
-        for ln in b.lines:
-            h, v, w, hh = alto.denormalize_bbox(ln.bbox, pg.width, pg.height)
-            assert (round(h), round(v), round(w), round(hh)) == tuple(round(x) for x in ln.src_bbox)
+        for line in b.lines:
+            x0, y0, x1, y1 = alto.denormalize_bbox(line.bbox, pg.width, pg.height)
+            assert x1 > x0 and y1 > y0
+            assert (x0, y0, x1, y1) == pytest.approx(line.src_bbox, abs=2e-3 * pg.width)
+    assert pg.illustrations[0].src_bbox == (400, 800, 1400, 2000)
+    u = alto.union([pg.blocks[1].lines[0].src_bbox, pg.blocks[1].lines[1].src_bbox])
+    assert u == (200, 300, 1800, 440)
     bb = alto.normalize_bbox(250, 300, 500, 600, 1000, 2000)
     assert bb == (0.25, 0.15, 0.75, 0.45)
-    assert alto.denormalize_bbox(bb, 1000, 2000) == pytest.approx((250, 300, 500, 600))
+    assert alto.denormalize_bbox(bb, 1000, 2000) == pytest.approx((250, 300, 750, 900))
 
 
 def test_bbox_clamped_and_words():

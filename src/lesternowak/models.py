@@ -100,6 +100,11 @@ class Span(BaseModel):
     char_end: int
     text: str
     text_fidelity: Literal["born_digital", "ocr_raw", "ocr_corrected"] = "born_digital"
+    # texte avant réparation d'encodage (None : identique) ; la fidélité reste `ocr_raw`
+    raw_text: str | None = None
+    normalizations: list[str] = Field(default_factory=list)
+    quality_flag: str | None = None  # ex. low_letter_share : passage conservé mais non lié
+    ocr_confidence: float | None = None  # moyenne des WC ALTO, si disponible
     page_refs: list[PageRef] = Field(default_factory=list)
     notes: list[int] = Field(default_factory=list)  # appels de note, visibles « [n] » dans text
     group_title: str | None = None
@@ -142,6 +147,7 @@ class ArtworkRef(BaseModel):
     artist_heading: str | None = None  # dernier intitulé d'artiste imprimé (extrait exact)
     external_ids: list[dict] = Field(default_factory=list)
     resolution: Resolution | None = None
+    flags: list[str] = Field(default_factory=list)  # ex. segmentation_uncertain
 
 
 class Evidence(BaseModel):
