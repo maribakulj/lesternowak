@@ -1,6 +1,6 @@
 # Plan « Corpus élargi » — récolte maximale, preuve forte, vérification humaine seule
 
-Version 2026-11-17. Complète `docs/PLAN.md` : ce plan s'insère **avant le jalon J2** et remplace
+Version 2026-11-17, révisée après les décisions du porteur (§8). Complète `docs/PLAN.md` : ce plan s'insère **avant le jalon J2** et remplace
 les corpus tenus à l'écart prévus en J4/J5 par des volumes gelés issus de ce plan. Statut : plan,
 rien n'est implémenté. Les disponibilités et licences citées ci-dessous sont des **hypothèses à
 vérifier au lot C0**, sauf mention « vérifié ».
@@ -27,41 +27,64 @@ Trois idées structurent le plan :
    surlignée ; une fraction tirée au hasard est présentée **à l'aveugle** (sans proposition) pour
    mesurer honnêtement la précision et le biais d'ancrage.
 
-## 2. Corpus candidats, par vague
+## 2. Filtre d'entrée et corpus candidats
+
+### 2.1 Filtre d'entrée (décision du porteur, 2026-11-17)
+
+Finalité : **datasets d'entraînement de modèles**, usage de recherche, aucun usage commercial,
+porteur rattaché à un laboratoire de recherche de la BnF. Un volume n'est **traité** que s'il passe
+les trois conditions suivantes ; sinon il n'est ni téléchargé ni extrait (il peut figurer dans
+l'inventaire avec le motif d'exclusion).
+
+1. **Texte réutilisable pour l'entraînement et le partage** : domaine public (auteurs morts depuis
+   plus de 70 ans, vérifié par auteur ou par article) ou licence ouverte (CC0, CC BY, CC BY-SA,
+   Licence Ouverte Etalab, conditions Gallica pour la réutilisation non commerciale). Une œuvre
+   sous droits, même lisible gratuitement et même couverte par l'exception de fouille de l'art. 3,
+   est exclue, car le dataset ne pourrait pas être partagé.
+2. **Image d'œuvre exploitable** pour au moins une partie des notices : œuvre du domaine public et
+   reproduction libre (CC0, domaine public, licence ouverte ; en droit de l'UE, l'art. 14 de la
+   directive 2019/790 exclut tout droit nouveau sur la reproduction fidèle d'une œuvre d'art du
+   domaine public, sous réserve des conditions d'utilisation des sites, à consigner).
+3. **Langue** : anglais ou français.
+
+Obligations à propager dans les exports : attribution (CC BY), partage à l'identique (CC BY-SA :
+le dataset dérivé hérite de la licence), mention de source Gallica. Voir C1.
+
+Conséquences sur la première version : les catalogues récents du Met et du Getty (texte sous droits)
+sont **exclus du traitement** ; le Met et le Getty restent utiles comme **référentiels d'œuvres et
+sources d'images** (Met Open Access CC0, Getty Open Content) et pour leurs publications anciennes du
+domaine public ou sous licence ouverte. Les corpus en allemand sont exclus.
+
+### 2.2 Corpus candidats, par vague
 
 Critères de pertinence (notés au lot C0, grille §4) : densité analytique, identifiabilité des
-œuvres (identifiants dans le texte), droits image, droits texte et TDM, qualité du texte (natif /
-OCR), langue, effort technique.
+œuvres, droits image, qualité du texte, effort technique.
 
-### Vague 1 — peinture, identification forte, images ouvertes (priorité)
+#### Vague 1 — peinture, français, domaine public (Gallica / BnF)
 
-| Corpus | Plateforme | Pourquoi | Identifiants | Images | Texte |
-|---|---|---|---|---|---|
-| Catalogues de peintures du Met en PDF gratuits (ex. catalogues systématiques de peinture hollandaise, flamande, italienne, française ; catalogue sommaire des peintures européennes) | MetPublications | notices longues et savantes ; liste « œuvres du Met dans cette publication » = candidats fermés | numéros d'accession (`29.100.6`) dans chaque notice → E0 | API Collection, `isPublicDomain` (vérifié sur un objet) | © Met : lecture et TDM de recherche à qualifier ; export standoff |
-| Bulletins et journaux du Met (*Metropolitan Museum Journal*, *Bulletin*) | MetPublications | articles analytiques avec figures | numéros d'accession fréquents | idem | idem |
-| Catalogues de peintures du Getty et *J. Paul Getty Museum Journal* (bibliothèque virtuelle Getty) | Getty Publications | notices et articles sur les peintures du musée | numéros `78.PA.1` (PA = peinture) → E0 | Getty Open Content | © Getty, téléchargement libre : droits de réutilisation à qualifier |
-| *Mummy Portraits of Roman Egypt* | Getty (Quire) | portraits peints ; texte CC BY (vérifié) | mentions et numéros de musées | majorité des images exclues de la CC BY (vérifié) ; images des musées à résoudre | CC BY 4.0 (vérifié) |
+| Corpus | Pourquoi | Identification | Images |
+|---|---|---|---|
+| Notices et catalogues des peintures du Louvre du XIXᵉ siècle (ex. Villot ; éditions successives) | notices numérotées, descriptions, attributions historiques ; plusieurs éditions = histoire des attributions | anciens numéros → concordance avec les inventaires actuels (base des collections du Louvre, POP/Joconde), à sourcer | collections nationales et Wikimedia Commons (domaine public), conditions à consigner |
+| *Gazette des Beaux-Arts*, articles sur la peinture dont les auteurs sont morts depuis plus de 70 ans | articles très analytiques, planches | mentions + collections citées ; résolution plus difficile (E2) | planches du domaine public (coordonnées ALTO) + images des musées |
+| Catalogues de musées de province du XIXᵉ–début XXᵉ siècle | notices de peintures, souvent numérotées | numéros de catalogue → concordance Joconde | idem |
+| Autres revues d'art du domaine public (ex. *Revue de l'art ancien et moderne*) | articles analytiques illustrés | mentions | planches |
 
-### Vague 2 — patrimonial, domaine public, français et allemand
+Atout : rattachement du porteur à la BnF. **Question** : un accès en masse (ALTO, IIIF, API Gallica,
+services du BnF DataLab) est-il possible ? Cela réduirait fortement C3.
 
-| Corpus | Plateforme | Pourquoi | Identifiants | Images | Texte |
-|---|---|---|---|---|---|
-| Notices des peintures du Louvre du XIXᵉ siècle (ex. *Notice des tableaux* de Villot) | Gallica | notices numérotées, descriptions et attributions historiques | anciens numéros → concordance à établir avec les inventaires actuels | planches éventuelles ; images actuelles via les collections du Louvre (conditions à vérifier) | domaine public ; conditions Gallica (réutilisation non commerciale libre) |
-| *Gazette des Beaux-Arts*, sélection d'articles sur la peinture (auteurs morts depuis plus de 70 ans) | Gallica | articles très analytiques, planches | mentions, collections citées | planches gravées/photographiques du domaine public, coordonnées ALTO | domaine public selon l'auteur ; OCR à qualifier |
-| Catalogues savants de galeries allemandes (ex. Berlin, Munich, Dresde, fin XIXᵉ–début XXᵉ) | Heidelberg | notices de peintures, attributions argumentées | numéros de catalogue historiques | planches, IIIF | domaine public ; licence des numérisations à vérifier ; OCR « sale » |
-| *Zeitschrift für bildende Kunst*, *Kunstchronik* (sélection peinture) | Heidelberg | articles analytiques illustrés | mentions | planches, IIIF | idem |
+#### Vague 2 — peinture, anglais, identification forte
 
-### Vague 3 — contrastif et extension
+| Corpus | Pourquoi | Identification | Images |
+|---|---|---|---|
+| Publications anciennes du Met dans le domaine public (premiers catalogues de peintures, *Bulletin* des premières décennies ; auteur par auteur) | notices et articles sur des œuvres toujours au Met | numéros d'accession ou titres → résolution par l'API Collection v1.1 | **Met Open Access CC0** (`isPublicDomain`, vérifié sur un objet) |
+| Publications Getty sous licence ouverte portant sur la peinture (ex. *Mummy Portraits of Roman Egypt*, texte CC BY vérifié) et autres titres Quire à identifier en C0 | texte CC BY, structure native | numéros de musées, mentions | Getty Open Content ; images de tiers souvent exclues de la licence (vérifié pour *Mummy Portraits*) |
+
+#### Vague 3 — contrastif (français / anglais)
 
 | Corpus | Plateforme | Usage |
 |---|---|---|
-| Catalogues de vente illustrés (peintures) | Cariatide/INHA, Heidelberg | notices courtes : cas négatifs, histoire des attributions, beaucoup de `unresolved` |
-| Autres catalogues Quire (*Terracottas* actuel, *Roman Mosaics*, *Ancient Lamps*) | Getty | corpus non pictural, déjà outillé ; dev et contrôle |
-| Getty Research Portal | Getty | découverte d'exemplaires et dédoublonnage, pas de stockage |
-
-Hors des cinq plateformes, à envisager seulement si C0 montre un manque (non retenu ici) :
-catalogues systématiques de la National Gallery of Art (Washington), données ouvertes du
-Rijksmuseum.
+| Catalogues de vente illustrés de peintures du domaine public | Cariatide/INHA (Licence Ouverte à vérifier par notice), Heidelberg (titres français et anglais seulement ; licence des numérisations à vérifier, CC BY-SA probable) | notices courtes : cas négatifs, histoire des attributions et des provenances, beaucoup de `unresolved` |
+| Catalogues Quire non picturaux déjà outillés (*Terracottas*, *Roman Mosaics*, *Ancient Lamps*, CC BY) | Getty | corpus de développement et de contrôle |
 
 ## 3. Lots
 
@@ -84,21 +107,24 @@ Légende : **H** = point de contrôle du porteur ; agent conseillé entre parent
 - Pour chaque plateforme : décisions `allow / deny / unknown / conditional` par actif (texte,
   image de page, image d'œuvre, métadonnées) et par action (téléchargement, stockage, TDM,
   LLM distant, affichage dans le pilote, publication, redistribution, entraînement), avec preuve.
+- Statut de domaine public établi **par auteur** (dates de décès sourcées : BnF data, IdRef, VIAF) et
+  consigné ; à défaut, `unknown` → volume ou article exclu (filtre §2.1).
 - Règle d'export par défaut : **standoff** (identifiants, pages, offsets, URI, image par URL quand
   la licence le permet) ; texte intégral exporté seulement si `allow`.
 - Critère : aucun volume n'entre en C3 sans fiche de droits.
 
 ### C2 — Référentiels d'œuvres et images (Sonnet)
 - Cache local des fiches de collection pour les départements concernés : Met (peintures
-  européennes, via l'API v1.1), Getty (données de collection), puis concordances patrimoniales
-  (Louvre, galeries allemandes) et Wikidata en appoint, avec provenance de chaque attribut.
+  européennes, via l'API v1.1), Getty (données de collection), collections nationales françaises
+  (base des collections du Louvre, POP/Joconde) avec concordances des anciens numéros, et Wikidata en
+  appoint, avec provenance de chaque attribut.
 - Pour chaque œuvre : identifiants externes, numéro d'accession, titre, artiste, date,
   département, URL et licence de l'image, statut domaine public.
 - Sert de **liste fermée de candidats** et de source d'images. Aucune fusion d'œuvres automatique.
 
 ### C3 — Acquisition des volumes sélectionnés (Sonnet)
-- Un lecteur par voie, pas par plateforme : HTML Quire (existant), PDF (Met, Getty), IIIF + ALTO
-  (Gallica, Heidelberg, Cariatide).
+- Un lecteur par voie, pas par plateforme : HTML Quire (existant), PDF (publications anciennes du Met,
+  Getty sous licence ouverte), IIIF + ALTO (Gallica, Heidelberg, Cariatide).
 - Cache `data/raw/` avec empreinte, date de capture, budgets (pages, octets, requêtes par job),
   politesse réseau ; 403 consigné et arrêt.
 
@@ -128,7 +154,7 @@ Légende : **H** = point de contrôle du porteur ; agent conseillé entre parent
 - File priorisée : diversité des volumes et des types de preuve d'abord ; **15 % des éléments
   présentés à l'aveugle** (sans proposition) pour la mesure.
 - Chaque décision = `AnnotationEvent` append-only ; export vers `gold/`.
-- Critère : session d'essai de 20 éléments sur *Terracottas* et un premier volume du Met, sans
+- Critère : session d'essai de 20 éléments sur *Terracottas* et un premier volume Gallica, sans
   perte après redémarrage.
 
 ### C7 — Contrôle qualité et tableau de bord (Haiku sur les JSON de métriques)
@@ -164,7 +190,7 @@ C0 ──► H-C0 ──► C1 ──┬─► C2 (par vague) ──┐
 C6 (pilote) ──────────────────────────────┘   (démarre dès maintenant, en parallèle)
 ```
 
-Vague 1 traverse C2 → C5 en entier avant le démarrage de la vague 2.
+La vague 1 traverse C2 → C5 en entier avant le démarrage de la vague 2. C0 et C1 portent sur les trois vagues à la fois.
 
 ## 6. Articulation avec `docs/PLAN.md`
 
@@ -180,18 +206,25 @@ Vague 1 traverse C2 → C5 en entier avant le démarrage de la vague 2.
 
 | Risque | Réponse |
 |---|---|
-| Textes du Met et du Getty sous droits : pas de redistribution | export standoff ; texte intégral seulement si `allow` ; usage d'entraînement soumis à qualification |
+| Domaine public incertain (auteur inconnu, date de décès introuvable, article collectif) | exclusion par défaut ; `unknown` n'est jamais traité comme domaine public |
+| Licence CC BY-SA d'une source | le dataset dérivé est publié sous CC BY-SA ; séparer les sources par licence dans les exports |
 | Volume supérieur à la capacité de vérification d'une seule personne | file priorisée, échantillon aveugle, précision mesurée par corpus plutôt que vérification exhaustive |
 | Ancrage sur les propositions | 15 % à l'aveugle, accord mesuré entre vérification et aveugle |
 | Identifiants mal lus (OCR, coupures de ligne) | proposition seulement si l'identifiant se résout dans le référentiel ; sinon `unresolved` |
-| Concordances patrimoniales (anciens numéros) incertaines | vague 2 sans lien automatique tant que la concordance n'est pas sourcée |
+| Concordances patrimoniales (anciens numéros) incertaines | vague 1 sans lien automatique tant que la concordance n'est pas sourcée ; la construction de la concordance est elle-même une tâche vérifiée |
+| Moins d'identifiants explicites dans les textes anciens | E0 plus rare : prévoir plus de `unresolved` et une part plus grande de vérification ; mesurer en C0 avant de s'engager |
 | Dispersion technique (cinq plateformes à la fois) | lecteurs par voie, vagues successives, une vague terminée avant la suivante |
 
-## 8. Questions au porteur avant C0
+## 8. Décisions du porteur (2026-11-17) et questions restantes
 
-1. Êtes-vous rattaché à un organisme de recherche (université, laboratoire, institution
-   patrimoniale) ? Cela décide de l'exception de TDM applicable (art. 3 ou art. 4 de la directive).
-2. Un usage commercial est-il envisagé, même plus tard ? (Les conditions de Gallica distinguent
-   réutilisation non commerciale et commerciale.)
-3. Langues acceptées pour la vérification : anglais, français, allemand, italien ?
-4. Temps de vérification disponible par semaine ?
+Décisions :
+- rattachement à un laboratoire de recherche de la BnF ; aucun usage commercial ;
+- vérification en anglais et en français ;
+- ne pas traiter ce qui serait inutilisable pour des raisons de droit d'auteur ;
+- finalité : datasets d'entraînement de modèles.
+
+Questions restantes :
+1. Accès en masse aux données Gallica (ALTO, IIIF, API, BnF DataLab) possible via le laboratoire ?
+2. Temps de vérification disponible par semaine ?
+3. Les datasets seront-ils publiés hors du laboratoire ? (Détermine la gestion des licences
+   CC BY-SA et des conditions Gallica dans les exports.)

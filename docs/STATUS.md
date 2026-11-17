@@ -14,5 +14,6 @@ et `docs/PLAN.md`.
 - **Tenus à l'écart (ne pas regarder)** : *Roman Mosaics* (J4), *Mummy Portraits* (J5).
 - **Commandes** : `uv run lesternowak slice getty-terracottas --entries 1 2 3 4` ;
   `uv run pytest -m "not live"`.
-- **Plan corpus élargi** : `docs/PLAN_CORPUS.md` (lots C0–C7, avant J2) ; en attente des
-  réponses du porteur (§8) avant C0.
+- **Plan corpus élargi** : `docs/PLAN_CORPUS.md` (lots C0–C7, avant J2) ; décisions du
+  porteur consignées (§8 : labo BnF, non commercial, EN/FR, datasets d'entraînement, exclusion de
+  tout texte sous droits) ; prochain lot : C0.
