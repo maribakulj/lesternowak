@@ -104,35 +104,13 @@ services du BnF DataLab) est-il possible ? Cela réduirait fortement C3.
 | Catalogues de vente illustrés de peintures du domaine public | Cariatide/INHA (Licence Ouverte à vérifier par notice), Heidelberg (titres français et anglais seulement ; licence des numérisations à vérifier, CC BY-SA probable) | notices courtes : cas négatifs, histoire des attributions et des provenances, beaucoup de `unresolved` |
 | Catalogues Quire non picturaux déjà outillés (*Terracottas*, *Roman Mosaics*, *Ancient Lamps*, CC BY) | Getty | corpus de développement et de contrôle |
 
-### 2.3 Accès Gallica (information du porteur, 2026-11-17)
+### 2.3 Accès Gallica
 
-Les accès historiques aux API Gallica sont en cours de redéfinition ; une nouvelle documentation est
-en préparation. En attendant, les points d'accès IIIF passent par la passerelle
-`https://openapi.bnf.fr` :
-
-- manifestes IIIF Presentation v2 :
-  `https://openapi.bnf.fr/presentation/iiifv2/gallica/1.0.0/ark:/12148/{identifiant}/manifest.json`
-- images IIIF Image v2 :
-  `https://openapi.bnf.fr/image/iiifv2/gallica/1.0.0/ark:/12148/{identifiant}/f{vue}/...`
-- des points d'accès IIIF v3 existent également.
-
-Quotas actuels, par IP :
-- Presentation v2 : **5 requêtes par minute** (manifestes) ;
-- Image v2 et v3 : **10 Mo transférés par minute** ;
-- **75 requêtes par minute**, toutes API Gallica confondues.
-
-Conséquences techniques (lot C3) :
-- limiteur par point d'accès (requêtes/minute) **et** par volume transféré (octets/minute), avec
-  plafond global partagé ; respect de `Retry-After` ; arrêt sur 403 ou 429 répétés ;
-- images demandées à la **taille utile** (paramètre de taille IIIF, ex. 1000 px de large pour la
-  revue, recadrage de région pour les figures) plutôt qu'en pleine résolution ;
-- texte : vérifier en C0 si l'OCR (ALTO ou texte brut) est disponible via la passerelle ; sinon,
-  ingestion hors ligne de fichiers obtenus par le laboratoire (voie prévue par le cadrage §38) ;
-- cache permanent : une vue n'est jamais téléchargée deux fois ;
-- ordre de grandeur : un volume de 400 vues à environ 200 Ko par vue représente environ 80 Mo,
-  soit environ 8 minutes au quota actuel. Acceptable pour la validation ; un traitement en masse
-  attendra la stabilisation des accès ;
-- aucune tentative de contourner les quotas ou d'utiliser les accès historiques indisponibles.
+Points d'accès de la passerelle `openapi.bnf.fr`, quotas par IP et stratégie d'acquisition :
+**`docs/sources/gallica-acces.md`**. En résumé : plafond global de 75 requêtes par minute ; ALTO
+disponible via la passerelle (5–6 requêtes par minute), donc téléchargé seulement pour les pages
+utiles repérées par le texte brut ou la recherche plein texte ; images précalculées pour le pilote ;
+environ 15 minutes par volume. Aucune tentative de contourner les quotas.
 
 ## 3. Lots
 
@@ -291,6 +269,6 @@ Décisions :
   générique, les datasets de production iront dans des dépôts dédiés (§0).
 
 Questions restantes :
-1. L'OCR (ALTO) des documents Gallica est-il accessible par la passerelle, ou faudra-t-il des
-   fichiers fournis par le laboratoire ? (Vérifié par sonde en C0.)
-2. Le dépôt GitHub des datasets de validation sera-t-il public ?
+Aucune question bloquante. ALTO accessible par la passerelle (vérifié par sonde en C0) ; dépôt des
+datasets de validation : GitHub, privé possible ; priorité : un système qui fonctionne sur des
+données réelles.
