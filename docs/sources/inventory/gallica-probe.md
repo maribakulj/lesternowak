@@ -47,3 +47,39 @@ Sonde complémentaire (une requête de plus, volume `bpt6k97965685`, 1855, « Av
   nouvelle documentation api.bnf.fr avant toute utilisation.
 - Aucune requête `Pagination`, `Issues` ou `Toc` ; aucune requête OAIRecord (les notices SRU
   contiennent déjà les champs `dc:*`).
+
+## Usage des quotas, lot C0 complément (2026-11-17)
+
+Appelant unique d'`openapi.bnf.fr` pendant ce complément ; limiteur local (espacement minimal par
+service : SRU 7 s, texteBrut document entier 11,5 s, autres 2,5 s ; script hors dépôt). Aucun texte
+de document n'est conservé dans le dépôt, seulement des comptages (`sample:`) et des métadonnées.
+
+| Service (passerelle) | Requêtes | Réponses non 200 |
+|---|---|---|
+| SRU (`/recherche/sru`) | 4 | aucune |
+| Issues (`/date/periodique/.../Issues`) | 6 | aucune |
+| Toc (`/document/tdm/.../Toc`) | 6 | aucune |
+| OAIRecord (`/document/oaidc/.../OAIRecord`) | 6 | aucune |
+| texteBrut, document entier | 33 (29 volumes ; 4 relances) | 2 × `Connection reset by peer` (curl 35), 2 × HTTP 500 |
+| Pagination, ALTO, manifestes, images | 0 | sans objet |
+| **Total openapi.bnf.fr** | **55** | 4 échecs transitoires, tous réussis à la relance unique |
+
+- **Aucun 429, aucun 403.** Pic mesuré : 12 requêtes dans une fenêtre de 60 s (toutes API
+  confondues, plafond 75) ; texteBrut : 4 par fenêtre de 60 s au maximum (quota 6), écart minimal
+  13,5 s ; SRU : 4 par fenêtre de 60 s (quota 10), écart minimal 9,2 s.
+- **Échecs transitoires de texteBrut** (volumes `bpt6k97965685`, `bpt6k6234712c` : connexion
+  réinitialisée ; `bpt6k1253202g`, `bpt6k1249980p` : HTTP 500 sans corps utile). Réessayés une fois
+  après le délai d'espacement habituel, tous ont réussi. Pas de `Retry-After` dans les réponses
+  d'erreur. Les 500 et resets semblent liés au service plutôt qu'aux quotas (plus de marge sous
+  les plafonds) ; à signaler à l'équipe BnF : le client doit prévoir une relance unique espacée.
+- **Format texteBrut document entier** : texte brut avec `<br/>` ; le séparateur `</BR>` marque les
+  sauts de page (nombre de pages = vues pour le volume 1849 : 220 séparateurs, 221 vues). Pour
+  certains volumes le nombre de pages du texteBrut diffère des « Nombre total de vues » de la
+  notice (ex. catalogue de vente 1928 : 110 pages pour 158 vues) : à vérifier en C3.
+- Taille : 20 Ko à 1,1 Mo de texte par volume ; la durée dominante est le délai d'espacement
+  (≈ 14 s par volume en pratique) : 29 volumes en environ 7 minutes.
+- Issues renvoie des **volumes semestriels** pour la *Gazette des Beaux-Arts* (2 arks par année) et
+  parfois des doublons d'arks (ex. 1875, 1910 pour la *Revue de l'art ancien et moderne*) ; la
+  Toc est en XML TEI, encodage déclaré ISO-8859-1 mais contenu UTF-8 pour la *Revue* : décoder
+  d'abord en UTF-8.
+- IA : 2 téléchargements `djvu.txt` (Internet Archive, hors BnF) pour les catalogues Met retenus.
