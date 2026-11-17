@@ -5,6 +5,24 @@ les corpus tenus à l'écart prévus en J4/J5 par des volumes gelés issus de ce
 rien n'est implémenté. Les disponibilités et licences citées ci-dessous sont des **hypothèses à
 vérifier au lot C0**, sauf mention « vérifié ».
 
+## 0. Recadrage (2026-11-17)
+
+Ce dépôt construit **le logiciel d'extraction**, générique, applicable à n'importe quel catalogue.
+Les datasets produits ici servent d'abord à **valider ce logiciel** ; la production de datasets à
+grande échelle se fera ensuite dans des dépôts dédiés aux catalogues, qui utiliseront ce logiciel.
+Les datasets de validation seront publiés uniquement sur GitHub.
+
+Conséquences :
+- le critère de choix des corpus n'est pas le volume mais la **diversité utile** : époques, mises
+  en page, formats (HTML natif, PDF, IIIF + ALTO), langues (FR/EN), types de publication, types de
+  preuve. Chaque corpus doit apporter un cas que les autres n'ont pas ;
+- « maximum de données » se lit comme **maximum de cas vérifiés par heure de vérification** :
+  budget du porteur **5 h par semaine** ;
+- l'ajout d'un nouveau catalogue doit se réduire à une configuration (et au besoin un petit
+  adaptateur) : c'est un critère de réussite mesuré (lot C8) ;
+- publication sur GitHub = publication : obligations de licence à respecter dans chaque export
+  (attribution, partage à l'identique CC BY-SA, mention de source Gallica, usage non commercial).
+
 ## 1. Objectif et principe
 
 Obtenir le plus grand nombre possible de couples **œuvre identifiée ↔ passage d'auteur ↔ image
@@ -86,6 +104,36 @@ services du BnF DataLab) est-il possible ? Cela réduirait fortement C3.
 | Catalogues de vente illustrés de peintures du domaine public | Cariatide/INHA (Licence Ouverte à vérifier par notice), Heidelberg (titres français et anglais seulement ; licence des numérisations à vérifier, CC BY-SA probable) | notices courtes : cas négatifs, histoire des attributions et des provenances, beaucoup de `unresolved` |
 | Catalogues Quire non picturaux déjà outillés (*Terracottas*, *Roman Mosaics*, *Ancient Lamps*, CC BY) | Getty | corpus de développement et de contrôle |
 
+### 2.3 Accès Gallica (information du porteur, 2026-11-17)
+
+Les accès historiques aux API Gallica sont en cours de redéfinition ; une nouvelle documentation est
+en préparation. En attendant, les points d'accès IIIF passent par la passerelle
+`https://openapi.bnf.fr` :
+
+- manifestes IIIF Presentation v2 :
+  `https://openapi.bnf.fr/presentation/iiifv2/gallica/1.0.0/ark:/12148/{identifiant}/manifest.json`
+- images IIIF Image v2 :
+  `https://openapi.bnf.fr/image/iiifv2/gallica/1.0.0/ark:/12148/{identifiant}/f{vue}/...`
+- des points d'accès IIIF v3 existent également.
+
+Quotas actuels, par IP :
+- Presentation v2 : **5 requêtes par minute** (manifestes) ;
+- Image v2 et v3 : **10 Mo transférés par minute** ;
+- **75 requêtes par minute**, toutes API Gallica confondues.
+
+Conséquences techniques (lot C3) :
+- limiteur par point d'accès (requêtes/minute) **et** par volume transféré (octets/minute), avec
+  plafond global partagé ; respect de `Retry-After` ; arrêt sur 403 ou 429 répétés ;
+- images demandées à la **taille utile** (paramètre de taille IIIF, ex. 1000 px de large pour la
+  revue, recadrage de région pour les figures) plutôt qu'en pleine résolution ;
+- texte : vérifier en C0 si l'OCR (ALTO ou texte brut) est disponible via la passerelle ; sinon,
+  ingestion hors ligne de fichiers obtenus par le laboratoire (voie prévue par le cadrage §38) ;
+- cache permanent : une vue n'est jamais téléchargée deux fois ;
+- ordre de grandeur : un volume de 400 vues à environ 200 Ko par vue représente environ 80 Mo,
+  soit environ 8 minutes au quota actuel. Acceptable pour la validation ; un traitement en masse
+  attendra la stabilisation des accès ;
+- aucune tentative de contourner les quotas ou d'utiliser les accès historiques indisponibles.
+
 ## 3. Lots
 
 Légende : **H** = point de contrôle du porteur ; agent conseillé entre parenthèses.
@@ -95,6 +143,9 @@ Légende : **H** = point de contrôle du porteur ; agent conseillé entre parent
   vérifier en ligne : URL, type, période, langue, formats (PDF texte, IIIF, ALTO, METS, HTML),
   présence d'identifiants d'œuvres dans un échantillon de pages, nombre estimé de notices, licence
   du texte, des images, conditions de TDM et réserve éventuelle, date de consultation.
+- Gallica : une sonde de la passerelle `openapi.bnf.fr` (un manifeste, une vue à taille réduite,
+  disponibilité de l'OCR), dans le respect des quotas §2.3 ; résultat consigné.
+- Choix guidé par la **diversité** (§0) : pour chaque type de cas, deux ou trois volumes suffisent.
 - Sorties : `docs/sources/inventory.yaml` (un enregistrement par volume) et une fiche par
   plateforme `docs/sources/<plateforme>.md`.
 - Notation automatique par la grille §4, sans lecture des textes au-delà de l'échantillon
@@ -163,8 +214,17 @@ Légende : **H** = point de contrôle du porteur ; agent conseillé entre parent
   temps de vérification par élément.
 - Sortie : `reports/corpus/<date>.md`.
 
+### C8 — Généricité : ajout d'un catalogue par configuration (Sonnet ; revue par agent frais)
+- Interface commune des lecteurs (HTML natif, PDF, IIIF + ALTO) et fichier de configuration par
+  catalogue (source, voie, sections ou notices, formats d'identifiants, référentiel d'œuvres, droits).
+- Critère : un volume tenu à l'écart d'un type déjà couvert s'ajoute **sans modifier le code** ;
+  le temps d'intégration et les modifications nécessaires sont rapportés.
+
 ### Sessions de vérification (H)
-- Par blocs d'environ 1 h ; cible indicative 200 à 400 éléments E0 à l'heure (à mesurer en C6).
+- Budget : **5 h par semaine**, en blocs d'environ 1 h.
+- Cible indicative 200 à 400 éléments E0 à l'heure (à mesurer en C6), soit de l'ordre de 1 000 à
+  2 000 éléments par semaine au maximum ; la file est réglée pour couvrir d'abord la diversité
+  (tous les corpus, tous les types de preuve) plutôt que le volume.
 - Après la première session : mesure de la précision E0 par corpus ; si elle est inférieure à
   0,95 sur un corpus, arrêt de la récolte sur ce corpus et analyse d'erreurs.
 
@@ -188,6 +248,7 @@ pas surestimer le pipeline.
 C0 ──► H-C0 ──► C1 ──┬─► C2 (par vague) ──┐
                      └─► C3 ─► C4 ─► C5 ──┼─► sessions H ─► C7 ─► J2 (règles fines)
 C6 (pilote) ──────────────────────────────┘   (démarre dès maintenant, en parallèle)
+C8 (généricité) : dès que deux voies techniques fonctionnent
 ```
 
 La vague 1 traverse C2 → C5 en entier avant le démarrage de la vague 2. C0 et C1 portent sur les trois vagues à la fois.
@@ -223,8 +284,13 @@ Décisions :
 - ne pas traiter ce qui serait inutilisable pour des raisons de droit d'auteur ;
 - finalité : datasets d'entraînement de modèles.
 
+- 5 h de vérification par semaine ;
+- accès Gallica par la passerelle `openapi.bnf.fr` avec quotas (§2.3), en attendant la nouvelle
+  documentation ;
+- publication des datasets de validation uniquement sur GitHub ; ce dépôt vise un logiciel
+  générique, les datasets de production iront dans des dépôts dédiés (§0).
+
 Questions restantes :
-1. Accès en masse aux données Gallica (ALTO, IIIF, API, BnF DataLab) possible via le laboratoire ?
-2. Temps de vérification disponible par semaine ?
-3. Les datasets seront-ils publiés hors du laboratoire ? (Détermine la gestion des licences
-   CC BY-SA et des conditions Gallica dans les exports.)
+1. L'OCR (ALTO) des documents Gallica est-il accessible par la passerelle, ou faudra-t-il des
+   fichiers fournis par le laboratoire ? (Vérifié par sonde en C0.)
+2. Le dépôt GitHub des datasets de validation sera-t-il public ?

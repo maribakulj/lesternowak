@@ -16,4 +16,5 @@ et `docs/PLAN.md`.
   `uv run pytest -m "not live"`.
 - **Plan corpus élargi** : `docs/PLAN_CORPUS.md` (lots C0–C7, avant J2) ; décisions du
   porteur consignées (§8 : labo BnF, non commercial, EN/FR, datasets d'entraînement, exclusion de
-  tout texte sous droits) ; prochain lot : C0.
+  tout texte sous droits) ; 5 h/semaine de vérification, accès Gallica
+  via `openapi.bnf.fr` (quotas §2.3), dépôt = logiciel générique (§0) ; prochain lot : C0.
