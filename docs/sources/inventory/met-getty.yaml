@@ -1,0 +1,218 @@
+# Inventaire C0, vague 2 (peinture, anglais) : Met et Getty.
+# Consultations du 2026-11-17. Aucun PDF n'est versionné ; les URL pointent vers les sources.
+# Ce n'est pas un avis juridique : les décisions de droits se consignent à l'étape C1.
+# Règle : inconnu = unknown ; un volume sous droits reste listé avec excluded_reason.
+# Limite : MetPublications (metmuseum.org/met-publications) renvoie un défi de sécurité Vercel
+# (HTTP 429, x-vercel-mitigated: challenge) ; il n'a pas été contourné. Les publications Met
+# ci-dessous sont donc des copies tierces (Internet Archive) et la mention de droits Met reste unknown.
+
+volumes:
+  - id: met-catalogue-paintings-1922-6ed
+    platform: met
+    title: "Catalogue of paintings"
+    creator: "Metropolitan Museum of Art (New York) ; Burroughs, Bryson (1869-1934), éd."
+    date: "1922"
+    type: catalogue_collection
+    language: eng
+    url: "https://archive.org/details/catalogueofpaint00metr_2"
+    pdf_url: "https://archive.org/download/catalogueofpaint00metr_2/catalogueofpaint00metr_2.pdf"
+    formats: pdf_text
+    text_license_or_status: unknown
+    image_source: unknown
+    identifiers_expected: unknown
+    authors_for_pd_check: "Bryson Burroughs, 1869-1934 (dates selon la notice Internet Archive, à confirmer par IdRef/VIAF) : mort avant 1956"
+    evidence_url: "https://archive.org/metadata/catalogueofpaint00metr_2"
+    checked_at: 2026-11-17
+    notes: "Sixième édition (tirage de 1914, 6e édition avec additions, selon la description IA). Copie tierce : la page MetPublications n'a pas été lue (défi de sécurité). Domaine public par auteur plausible, à confirmer en C1. Numérisation Internet Archive, provenance inconnue."
+
+  - id: met-catalogue-paintings-1926-8ed
+    platform: met
+    title: "Catalogue of paintings"
+    creator: "Metropolitan Museum of Art (New York) ; Burroughs, Bryson (1869-1934), éd."
+    date: "1926"
+    type: catalogue_collection
+    language: eng
+    url: "https://archive.org/details/catalogueofpaint00metr_5"
+    pdf_url: "https://archive.org/download/catalogueofpaint00metr_5/catalogueofpaint00metr_5.pdf"
+    formats: pdf_text
+    text_license_or_status: unknown
+    image_source: unknown
+    identifiers_expected: unknown
+    authors_for_pd_check: "Bryson Burroughs, 1869-1934 (notice IA) : mort avant 1956"
+    evidence_url: "https://archive.org/metadata/catalogueofpaint00metr_5"
+    checked_at: 2026-11-17
+    notes: "Huitième édition, xiv + 424 p. (selon la description IA), numérisée par le Getty Research Institute. Copie tierce ; droits Met non lus. Texte OCR présent (djvu.txt). Non échantillonné pour les numéros d'objets."
+
+  - id: met-catalogue-paintings-1905-1911
+    platform: met
+    title: "Catalogue of the paintings : [issue of October 1905 with addenda to June 1911, inclusive]"
+    creator: "Metropolitan Museum of Art (New York, N.Y.) ; auteur individuel non identifié dans les métadonnées"
+    date: "1905-1911"
+    type: catalogue_collection
+    language: eng
+    url: "https://archive.org/details/catalogueofpaint00metropo"
+    pdf_url: "https://archive.org/download/catalogueofpaint00metropo/catalogueofpaint00metropo.pdf"
+    formats: pdf_text
+    text_license_or_status: unknown
+    image_source: unknown
+    identifiers_expected: unknown
+    authors_for_pd_check: unknown
+    evidence_url: "https://archive.org/metadata/catalogueofpaint00metropo"
+    checked_at: 2026-11-17
+    excluded_reason: "auteur collectif ; aucun auteur individuel vérifié (une notice de bibliothèque non consultée en direct cite George H. Story, non vérifié). Domaine public non établi : exclu jusqu'à vérification par auteur (§2.1 point 1)."
+    notes: "Édition de 1905 avec additifs jusqu'en juin 1911 (40 + 227 p.). Copie tierce."
+
+  - id: met-illustrated-catalogue-paintings-1905
+    platform: met
+    title: "Illustrated catalogue : paintings in the Metropolitan Museum of Art, New York"
+    creator: "Metropolitan Museum of Art (New York, N.Y.) (collectif)"
+    date: "1905"
+    type: catalogue_collection
+    language: eng
+    url: "https://archive.org/details/illustratedcatal00metr"
+    pdf_url: "https://archive.org/download/illustratedcatal00metr/illustratedcatal00metr.pdf"
+    formats: pdf_text
+    text_license_or_status: unknown
+    image_source: unknown
+    identifiers_expected: unknown
+    authors_for_pd_check: unknown
+    evidence_url: "https://archive.org/metadata/illustratedcatal00metr"
+    checked_at: 2026-11-17
+    excluded_reason: "auteur collectif ; domaine public par auteur non établi (exclu, §2.1 point 1). Catalogue illustré, à reconsidérer si des auteurs individuels sont identifiés."
+    notes: "Forth issue, avec additifs jusqu'en janvier 1907 (selon IA). Copie tierce numérisée par le Getty Research Institute."
+
+  - id: met-bulletin-1916-1917-vol11-12
+    platform: met
+    title: "The bulletin of the Metropolitan Museum of Art, v. 11-12 (1916-1917)"
+    creator: "Metropolitan Museum of Art ; contributions signées (auteurs non relevés) ; notice IA : Freer, Charles Lang"
+    date: "1916-1917"
+    type: periodical_volume
+    language: eng
+    url: "https://library.si.edu/digital-library/book/bulletinmetropo11free"
+    pdf_url: "unknown"
+    formats: pdf_text
+    text_license_or_status: unknown
+    image_source: unknown
+    identifiers_expected: unknown
+    authors_for_pd_check: unknown
+    evidence_url: "https://archive.org/metadata/bulletinmetropo11free"
+    checked_at: 2026-11-17
+    excluded_reason: "domaine public par article non vérifié (auteurs des contributions non relevés) ; candidat à reprendre article par article en C1."
+    notes: "Volume relié couvrant les numéros 1916-1917 ; 17 fichiers sur IA. Fiche Smithsonian Libraries (library.si.edu) consultée. Painting content non compté. Notice IA : Freer, Charles Lang (auteur de la notice, pas nécessairement d'un article)."
+
+  - id: met-bulletin-1917-06-vol12-6
+    platform: met
+    title: "Bulletin of the Metropolitan Museum of Art 1917-06: Vol 12 Iss 6"
+    creator: "Metropolitan Museum of Art ; contributions signées (auteurs non relevés)"
+    date: "1917-06"
+    type: periodical_issue
+    language: eng
+    url: "https://archive.org/details/sim_metropolitan-museum-of-art-new-york-bulletin_1917-06_12_6"
+    pdf_url: "https://archive.org/download/sim_metropolitan-museum-of-art-new-york-bulletin_1917-06_12_6/sim_metropolitan-museum-of-art-new-york-bulletin_1917-06_12_6.pdf"
+    formats: pdf_text
+    text_license_or_status: unknown
+    image_source: unknown
+    identifiers_expected: unknown
+    authors_for_pd_check: unknown
+    evidence_url: "https://archive.org/metadata/sim_metropolitan-museum-of-art-new-york-bulletin_1917-06_12_6"
+    checked_at: 2026-11-17
+    excluded_reason: "domaine public par article non vérifié ; candidat de peinture (terme « paint » ~16 occurrences, « portrait » ~11 dans le texte OCR, compté sans lecture)."
+    notes: "Numéro de la série sim (Internet Archive, source Met Bulletin numérisée). Texte OCR djvu disponible, 68 Ko."
+
+  - id: met-bulletin-1920-06-vol15-6
+    platform: met
+    title: "Bulletin of the Metropolitan Museum of Art 1920-06: Vol 15 Iss 6"
+    creator: "Metropolitan Museum of Art ; contributions signées (auteurs non relevés)"
+    date: "1920-06"
+    type: periodical_issue
+    language: eng
+    url: "https://archive.org/details/sim_metropolitan-museum-of-art-new-york-bulletin_1920-06_15_6"
+    pdf_url: "https://archive.org/download/sim_metropolitan-museum-of-art-new-york-bulletin_1920-06_15_6/sim_metropolitan-museum-of-art-new-york-bulletin_1920-06_15_6.pdf"
+    formats: pdf_text
+    text_license_or_status: unknown
+    image_source: unknown
+    identifiers_expected: unknown
+    authors_for_pd_check: unknown
+    evidence_url: "https://archive.org/metadata/sim_metropolitan-museum-of-art-new-york-bulletin_1920-06_15_6"
+    checked_at: 2026-11-17
+    excluded_reason: "domaine public par article non vérifié ; candidat de peinture (« paint » ~28 occurrences, « portrait » ~18, compté sans lecture)."
+    notes: "Texte OCR djvu de 100 Ko. Numéro de 1920, donc dans la fenêtre 1905-1930 du plan."
+
+  - id: met-bulletin-1927-06-vol22-6
+    platform: met
+    title: "Bulletin of the Metropolitan Museum of Art 1927-06: Vol 22 Iss 6"
+    creator: "Metropolitan Museum of Art ; contributions signées (auteurs non relevés)"
+    date: "1927-06"
+    type: periodical_issue
+    language: eng
+    url: "https://archive.org/details/sim_metropolitan-museum-of-art-new-york-bulletin_1927-06_22_6"
+    pdf_url: "https://archive.org/download/sim_metropolitan-museum-of-art-new-york-bulletin_1927-06_22_6/sim_metropolitan-museum-of-art-new-york-bulletin_1927-06_22_6.pdf"
+    formats: pdf_text
+    text_license_or_status: unknown
+    image_source: unknown
+    identifiers_expected: unknown
+    authors_for_pd_check: unknown
+    evidence_url: "https://archive.org/metadata/sim_metropolitan-museum-of-art-new-york-bulletin_1927-06_22_6"
+    checked_at: 2026-11-17
+    excluded_reason: "domaine public par article non vérifié ; décès des auteurs (1927) à contrôler article par article."
+    notes: "Candidat de peinture (« paint » ~27 occurrences, compté sans lecture). Texte OCR djvu de 83 Ko."
+
+  - id: getty-mummy-portraits-roman-egypt-2020
+    platform: getty
+    title: "Mummy Portraits of Roman Egypt: Emerging Research from the APPEAR Project"
+    creator: "Marie Svoboda, Caroline R. Cartwright (dir.) ; contributeurs modernes"
+    date: "2020"
+    type: catalogue_essays
+    language: eng
+    url: "https://www.getty.edu/publications/mummyportraits/"
+    pdf_url: "https://www.getty.edu/publications/mummyportraits/downloads/SvobodaCartwright_MummyPortraits.pdf"
+    formats:
+      - pdf_text
+      - html_quire
+    text_license_or_status: "« The text of this work and figs. 4.2–3, 4.10, 4.13, 8.3–4, 11.2–5, and 17.4a are licensed under a Creative Commons Attribution 4.0 International License. All other images are reproduced with the permission of the rights holders acknowledged in captions and are expressly excluded from the CC BY license covering the rest of this publication. »"
+    image_source: third_party
+    identifiers_expected: unknown
+    authors_for_pd_check: "Non applicable : texte sous CC BY 4.0 (auteurs vivants ; droit d'utilisation par la licence)"
+    evidence_url: "https://www.getty.edu/publications/mummyportraits/copyright/"
+    checked_at: 2026-11-17
+    notes: "Texte CC BY 4.0 vérifié (page copyright, 2026-11-17). Images exclues sauf figures listées : export texte et références seulement, pas d'images tierces. PDF 7,1 Mo : HEAD 200 vérifié, téléchargement non effectué. Discours sur des portraits de momies (peinture encaustique sur bois et sur lin), sans notice par objet : cas de rattachement hors catalogue. Les figures CC BY listées restent à contrôler une à une (licence Getty « except where otherwise noted »)."
+
+  - id: getty-conserving-canvas-2023
+    platform: getty
+    title: "Conserving Canvas"
+    creator: "Cynthia Schwarz, Ian McClure, Jim Coddington (dir.) ; contributeurs modernes"
+    date: "2023"
+    type: catalogue_essays
+    language: eng
+    url: "https://www.getty.edu/publications/conserving-canvas/"
+    pdf_url: "https://www.getty.edu/publications/conserving-canvas/_assets/downloads/SchwartzMcClureCoddington_ConservingCanvas.pdf"
+    formats:
+      - pdf_text
+      - html_quire
+    text_license_or_status: "« The text of this work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License. »"
+    image_source: third_party
+    identifiers_expected: unknown
+    authors_for_pd_check: "Non applicable : texte sous CC BY-NC 4.0"
+    evidence_url: "https://www.getty.edu/publications/conserving-canvas/about/"
+    checked_at: 2026-11-17
+    excluded_reason: "CC BY-NC 4.0 (non-commercial) : hors des licences retenues au §2.1 point 1 (CC0, CC BY, CC BY-SA, Etalab). À trancher par le porteur si la clause NC est jugée compatible avec un dataset d'entraînement partagé."
+    notes: "Peinture sur toile (conservation structurale). Licence confirmée sur les pages about/ et copyright (la page copyright /conserving-canvas/copyright/ renvoie 404 ; la mention est reprise sur about/). PDF 13,3 Mo : HEAD 200 vérifié."
+
+  - id: getty-rococo-2021
+    platform: getty
+    title: "Rococo: Art and Design in Hogarth's England"
+    creator: "Getty Museum (publication Quire) ; auteurs à relever"
+    date: "2021"
+    type: catalogue_essays
+    language: eng
+    url: "https://www.getty.edu/publications/rococo/"
+    pdf_url: "unknown"
+    formats: html_quire
+    text_license_or_status: "« Except where otherwise noted, this work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License. »"
+    image_source: third_party
+    identifiers_expected: unknown
+    authors_for_pd_check: "Non applicable : texte sous CC BY-NC 4.0"
+    evidence_url: "https://www.getty.edu/publications/rococo/about/"
+    checked_at: 2026-11-17
+    excluded_reason: "CC BY-NC 4.0 (non-commercial) : hors §2.1 point 1. Pertinence peinture non vérifiée (titre rococo, art et design britannique)."
+    notes: "Licence lue sur la page about/ (texte et images, figures listées sous conditions). Non retenu ; mentionné comme cas de la même famille de licence NC."
