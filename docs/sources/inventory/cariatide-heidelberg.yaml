@@ -1,0 +1,41 @@
+# Inventaire C0, vague 3 (catalogues de vente illustrés de peintures, FR/EN, domaine public)
+# Plateformes : Cariatide/INHA, Heidelberg (digi.ub.uni-heidelberg.de)
+# Date de consultation : 2026-11-17
+#
+# Statut : AUCUN volume enregistré. Les deux plateformes renvoient une page de défi anti-robot
+# à toute requête automatisée ; le défi n'a pas été résolu (un défi n'est pas contourné).
+# Aucune notice n'a donc pu être relevée : aucune licence, aucun manifeste IIIF, aucun OCR
+# ni PDF n'a été vérifié, et rien n'est inventé à leur place.
+
+status: blocked
+checked_at: 2026-11-17
+volumes: []
+
+blockers:
+  - platform: cariatide
+    host: "https://bibliotheque-numerique.inha.fr/"
+    probes:
+      - url: "https://bibliotheque-numerique.inha.fr/"
+        http_status: 200
+        result: "page de défi (curseur à glisser, élément slider-container, titre challenge-title)"
+      - url: "https://bibliotheque-numerique.inha.fr/idurl/1/2000"
+        http_status: 200
+        result: "même page de défi ; aucune notice servie"
+    action: "arrêt ; défi non résolu. Décision à prendre par le porteur (accès autorisé par l'INHA ?)"
+  - platform: heidelberg
+    host: "https://digi.ub.uni-heidelberg.de/"
+    probes:
+      - url: "https://digi.ub.uni-heidelberg.de/"
+        http_status: 301
+        result: "redirige vers www.ub.uni-heidelberg.de/helios/digi/digilit.html (page de présentation, hors digi) ; pas de liste de catalogues de vente"
+      - url: "https://digi.ub.uni-heidelberg.de/diglit/"
+        http_status: 200
+        result: "page de défi Anubis (« Making sure you're not a bot! ») ; aucune collection listée"
+    action: "arrêt ; défi non résolu. Aucune autre route d'accès n'a été essayée"
+
+requests_made: 6
+user_agent: "generic (LesterNowak-inventory/0.1 (research))"
+rate_limit: "au moins 1 s entre requêtes"
+notes:
+  - "Les pages de présentation publiques (accueil INHA, digilit Heidelberg) ne listent pas de catalogues de vente avec identifiants et licences : la sélection de volumes reste à faire une fois l'accès ouvert."
+  - "Pour Heidelberg, la collection des catalogues de vente n'a pas pu être localisée depuis les pages accessibles."
