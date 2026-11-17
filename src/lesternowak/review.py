@@ -35,12 +35,6 @@ from lesternowak.models import (
     Span,
 )
 
-DECISIONS = {
-    "validated": LinkStatus.validated,
-    "rejected": LinkStatus.rejected,
-    "unresolved": LinkStatus.unresolved,
-}
-
 
 def item_id_for(corpus: str, link_id: str | None, span_id: str, artwork_id: str) -> str:
     key = f"{corpus}|{link_id or ''}|{span_id}|{artwork_id}"
@@ -213,23 +207,33 @@ class ReviewError(ValueError):
     pass
 
 
+STATUS_OF_RELATION = {
+    Relation.about: LinkStatus.validated,
+    Relation.group: LinkStatus.validated,
+    Relation.context: LinkStatus.rejected,
+    Relation.mentions: LinkStatus.rejected,
+    Relation.not_about: LinkStatus.rejected,
+    Relation.unsure: LinkStatus.unresolved,
+}
+STATUS_NAME = {v.value: v for v in STATUS_OF_RELATION.values()}
+NEEDS_FUNCTION = {Relation.about, Relation.group}
+
+
 def make_event(item: ReviewItem, body: dict, annotator: str, now: datetime) -> AnnotationEvent:
-    decision = body.get("decision")
-    if item.blind:
-        decision = "unresolved" if body.get("relation") == "unsure" else "validated"
-    if decision not in DECISIONS:
-        raise ReviewError("décision invalide")
+    """Le statut est dérivé de la relation ; une `decision` fournie doit lui être cohérente."""
     try:
-        relation = Relation(body["relation"]) if body.get("relation") else None
+        relation = Relation(body.get("relation"))
         function = PassageFunction(body["function"]) if body.get("function") else None
     except ValueError as e:
         raise ReviewError(f"valeur invalide : {e}") from e
     if function == PassageFunction.unclassified:
         raise ReviewError("fonction invalide")
-    if item.blind and not relation:
-        raise ReviewError("item aveugle : relation obligatoire")
-    if decision == "validated" and (relation is None or function is None):
-        raise ReviewError("valider exige relation et fonction")
+    status = STATUS_OF_RELATION[relation]
+    given = body.get("decision")
+    if given is not None and STATUS_NAME.get(given) != status:
+        raise ReviewError(f"décision {given!r} incohérente avec la relation {relation.value}")
+    if relation in NEEDS_FUNCTION and function is None:
+        raise ReviewError("relation about/group : fonction obligatoire")
     elapsed = body.get("elapsed_ms")
     if elapsed is not None and (not isinstance(elapsed, int) or elapsed < 0):
         raise ReviewError("elapsed_ms invalide")
@@ -239,7 +243,7 @@ def make_event(item: ReviewItem, body: dict, annotator: str, now: datetime) -> A
     return AnnotationEvent(
         link_id=item.link_id,
         before=LinkStatus.machine_proposed,
-        after=DECISIONS[decision],
+        after=status,
         annotator=annotator,
         note=note,
         timestamp=now,
@@ -315,6 +319,13 @@ CSP = (
 MAX_BODY = 64 * 1024
 
 
+def _public_event(ev: AnnotationEvent, item: ReviewItem) -> dict:
+    d = ev.model_dump(mode="json")
+    if item.blind:
+        d["link_id"] = None
+    return d
+
+
 def make_server(
     queue: Path, events: Path, annotator: str, host: str = "127.0.0.1", port: int = 8765
 ) -> ThreadingHTTPServer:
@@ -334,11 +345,13 @@ def make_server(
             a = d["artwork"]
             if not a["image_display_allowed"]:
                 a["image_url"] = None  # affichage interdit : jamais transmis à la page
+            if it.blind:
+                d["link_id"] = None  # correspondance item_id -> link_id côté serveur seulement
             shown.append(d)
         return {
             "annotator": annotator,
             "items": shown,
-            "events": {k: v.model_dump(mode="json") for k, v in last.items() if k in by_id},
+            "events": {k: _public_event(v, by_id[k]) for k, v in last.items() if k in by_id},
             "stats": stats(items, evs),
         }
 

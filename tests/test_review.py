@@ -307,3 +307,66 @@ def test_cli_review_queue(tmp_path, capsys):
     )
     assert "6 à l'aveugle" in capsys.readouterr().out
     assert len(rv.read_queue(out)) == 40
+
+
+def _post_status(base, item, **kw):
+    return json.loads(_req(base + "/api/decision", {"item_id": item["item_id"], **kw}).read())
+
+
+def test_status_derived_from_relation_and_function_rules(queue, tmp_path):
+    q, _ = queue
+    events = tmp_path / "ev.jsonl"
+    srv, base = run_server(q, events)
+    try:
+        st = json.loads(_req(base + "/api/state").read())
+        its = st["items"]
+        expected = {
+            "about": "validated",
+            "group": "validated",
+            "context": "rejected",
+            "mentions": "rejected",
+            "not_about": "rejected",
+            "unsure": "unresolved",
+        }
+        for it, rel in zip(its, expected, strict=False):
+            kw = {"function": "other"} if rel in ("about", "group") else {}
+            _post_status(base, it, relation=rel, **kw)  # fonction facultative sinon
+        got = [e.after.value for e in read_jsonl(events, rv.AnnotationEvent)]
+        assert got == list(expected.values())
+        # POST incohérent refusé ; fonction obligatoire pour about/group
+        for kw in ({"relation": "about", "function": "other", "decision": "rejected"},
+                   {"relation": "not_about", "decision": "validated"},
+                   {"relation": "group"}, {}):  # fmt: skip
+            with pytest.raises(urllib.error.HTTPError) as e:
+                _post_status(base, its[7], **kw)
+            assert e.value.code == 400
+        assert len(events.read_text().splitlines()) == 6
+    finally:
+        srv.shutdown()
+        srv.server_close()
+
+
+def test_blind_link_id_not_exposed(queue, tmp_path):
+    q, _ = queue
+    events = tmp_path / "ev.jsonl"
+    srv, base = run_server(q, events)
+    try:
+        st = json.loads(_req(base + "/api/state").read())
+        blind = next(i for i in st["items"] if i["blind"])
+        _post_status(base, blind, relation="not_about")
+        st = json.loads(_req(base + "/api/state").read())
+        blind_ids = [i["link_id"] for i in st["items"] if i["blind"]]
+        assert set(blind_ids) == {None}
+        assert st["events"][blind["item_id"]]["link_id"] is None
+        assert any(i["link_id"] for i in st["items"] if not i["blind"])
+    finally:
+        srv.shutdown()
+        srv.server_close()
+    assert read_jsonl(events, rv.AnnotationEvent)[0].link_id  # conservé côté serveur
+
+
+def test_remote_host_requires_flag(queue, capsys):
+    q, _ = queue
+    rc = main(["review-serve", "--queue", str(q), "--annotator", "t", "--host", "0.0.0.0"])
+    err = capsys.readouterr().err
+    assert rc == 2 and "ATTENTION" in err and "--allow-remote" in err

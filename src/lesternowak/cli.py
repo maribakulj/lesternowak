@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections.abc import Sequence
 from datetime import UTC, datetime
 from pathlib import Path
@@ -64,6 +65,7 @@ def build_parser() -> argparse.ArgumentParser:
     rs.add_argument("--events", type=Path, default=Path("data/review/events.jsonl"))
     rs.add_argument("--port", type=int, default=8765)
     rs.add_argument("--host", default="127.0.0.1")
+    rs.add_argument("--allow-remote", action="store_true", help="autoriser un hôte non local")
     rs.add_argument("--annotator", required=True)
     rx = sub.add_parser("review-export", help="gold (sans texte) depuis les décisions")
     rx.add_argument("--queue", type=Path, required=True)
@@ -138,6 +140,14 @@ def cmd_review_queue(args) -> int:
 def cmd_review_serve(args) -> int:
     from lesternowak import review
 
+    if args.host not in ("127.0.0.1", "localhost", "::1"):
+        print(
+            f"ATTENTION : {args.host} expose le serveur au réseau, sans authentification.",
+            file=sys.stderr,
+        )
+        if not args.allow_remote:
+            print("refusé : ajouter --allow-remote pour l'accepter", file=sys.stderr)
+            return 2
     srv = review.make_server(args.queue, args.events, args.annotator, args.host, args.port)
     print(f"http://{args.host}:{srv.server_address[1]}/ (Ctrl+C pour arrêter)", flush=True)
     try:

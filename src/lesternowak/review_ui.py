@@ -35,7 +35,6 @@ const REL=["about","group","context","mentions","not_about","unsure"];
 const FN=["visual_description","technical_material","iconography_interpretation","comparison",
 "attribution_dating","provenance_context","other"];
 const FKEY="qwertyu";
-const DEC=[["validated","valider","v"],["rejected","rejeter","x"],["unresolved","non résolu","n"]];
 let S=null,idx=0,cur={},t0=0;
 const $=(t,props,...kids)=>{const e=document.createElement(t);
  if(props)for(const k in props){if(k==="onclick")e.onclick=props[k];else if(k==="href"){
@@ -50,7 +49,7 @@ function show(){
  const it=S.items[idx];if(!it)return;const ev=S.events[it.item_id];
  cur={relation:ev?.relation||it.proposal?.relation||null,
   function:ev?.function||it.proposal?.function||null,
-  decision:ev?(ev.after):null,note:ev?.note||""};
+  note:ev?.note||""};
  t0=Date.now();render(it);progress()}
 function progress(){const st=S.stats;
  document.getElementById("pos").textContent=`${idx+1} / ${st.total}`;
@@ -87,6 +86,8 @@ function render(it){
   C.append($("div",{className:"meta"},it.proposal.explanation))}
  else C.append($("p",{className:"meta"},"Élément à l'aveugle : aucune proposition."));
  drawRight(it)}
+const STATUS={about:"validé",group:"validé",context:"rejeté",mentions:"rejeté",
+ not_about:"rejeté",unsure:"non résolu"};
 function drawRight(it){
  const R=document.getElementById("right");R.replaceChildren();
  R.append($("h4",{},"Relation"));
@@ -95,9 +96,8 @@ function drawRight(it){
  R.append($("h4",{},"Fonction"));
  FN.forEach((f,i)=>R.append($("button",{className:cur.function===f?"sel":"",
   onclick:()=>{cur.function=f;drawRight(it)}},`${FKEY[i]} ${f}`)));
- if(!it.blind){R.append($("h4",{},"Décision"));
-  for(const [d,l,k] of DEC)R.append($("button",{className:cur.decision===d?"sel":"",
-   onclick:()=>{cur.decision=d;drawRight(it)}},`${k} ${l}`))}
+ R.append($("div",{className:"meta"},
+  "Statut : "+(STATUS[cur.relation]||"—")+" (selon la relation)"));
  R.append($("h4",{},"Note"));
  const n=$("textarea",{rows:3,id:"note",value:cur.note});n.oninput=()=>cur.note=n.value;R.append(n);
  R.append($("div",{},$("button",{onclick:save},"Entrée : enregistrer et suivant"),
@@ -108,7 +108,7 @@ function move(d){const j=idx+d;if(j>=0&&j<S.items.length){idx=j;show()}}
 async function save(){
  const it=S.items[idx];
  const body={item_id:it.item_id,relation:cur.relation,function:cur.function,
-  decision:cur.decision,note:cur.note,elapsed_ms:Date.now()-t0};
+  note:cur.note,elapsed_ms:Date.now()-t0};
  const r=await fetch("/api/decision",{method:"POST",
   headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
  const j=await r.json();
@@ -124,9 +124,9 @@ document.addEventListener("keydown",e=>{
  else if(k>="1"&&k<="6")cur.relation=REL[+k-1];
  else if(k.length===1&&FKEY.includes(k.toLowerCase()))
   cur.function=FN[FKEY.indexOf(k.toLowerCase())];
- else if(!it.blind&&k==="v")cur.decision="validated";
- else if(!it.blind&&k==="x")cur.decision="rejected";
- else if(!it.blind&&k==="n")cur.decision="unresolved";
+ else if(k==="v")cur.relation="about";
+ else if(k==="x")cur.relation="not_about";
+ else if(k==="n")cur.relation="unsure";
  else if(k==="Tab"){e.preventDefault();document.getElementById("note").focus();ch=false}
  else ch=false;
  if(ch&&k!=="Enter"&&k!=="ArrowLeft")drawRight(it)});

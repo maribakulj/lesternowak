@@ -112,10 +112,14 @@ sur 127.0.0.1 ; l'image de l'œuvre n'est affichée que si ses droits le permett
 |---|---|
 | `1` à `6` | relation : about, group, context, mentions, not_about, unsure |
 | `q w e r t y u` | fonction : visual_description, technical_material, iconography_interpretation, comparison, attribution_dating, provenance_context, other |
-| `v` / `x` / `n` | décision (éléments non aveugles) : valider / rejeter / non résolu |
+| `v` / `x` / `n` | raccourcis de relation : about / not_about / unsure |
 | `Tab` (`Échap`) | aller à la note (revenir aux raccourcis) |
 | `Entrée` | enregistrer et passer au suivant |
 | `←` | élément précédent (une nouvelle décision s'ajoute, la dernière fait foi) |
 
-Valider exige relation et fonction (préremplies depuis la proposition quand elle existe). Pour un
-élément à l'aveugle, `unsure` donne `unresolved`, toute autre relation est enregistrée telle quelle.
+Il n'y a pas de bouton de décision : le statut est **dérivé de la relation** (aveugle ou non).
+`about`, `group` donnent `validated` ; `context`, `mentions`, `not_about` donnent `rejected` ;
+`unsure` donne `unresolved`. Un POST incohérent est refusé. La fonction est obligatoire pour
+`about` et `group`, facultative sinon (préremplie depuis la proposition quand elle existe). Pour un
+élément à l'aveugle, le `link_id` n'est exposé ni à la page ni à l'API ; il reste côté serveur.
+Écouter sur un hôte autre que 127.0.0.1/localhost exige `--allow-remote` (avertissement sur stderr).
