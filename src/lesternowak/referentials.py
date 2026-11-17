@@ -380,11 +380,11 @@ class CandidateSignals(BaseModel):
     artist: float | None = None  # score si >= seuil (appui, jamais signal indépendant)
 
     def independent(self) -> list[str]:
+        # crédit et année d'accession ne sont pas indépendants (la ligne de crédit porte l'année
+        # d'entrée) : ils comptent ensemble pour un seul signal.
         out = []
-        if self.credit_line is not None:
-            out.append("credit_line")
-        if self.accession_year:
-            out.append("accession_year")
+        if self.credit_line is not None or self.accession_year:
+            out.append("credit_or_year")
         if self.dimensions:
             out.append("dimensions")
         if self.other_number:

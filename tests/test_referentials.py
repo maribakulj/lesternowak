@@ -66,7 +66,7 @@ def test_e2_composite_unique(refs):
     )
     res = resolve(local, refs)
     assert (res.status, res.evidence, res.ref_id) == ("resolved", "E2", "met:436535")
-    assert set(res.signals[0].independent()) >= {"credit_line", "dimensions"}
+    assert set(res.signals[0].independent()) >= {"credit_or_year", "dimensions"}
 
 
 def test_e2_refused_with_two_candidates(refs):
@@ -117,3 +117,14 @@ def test_joconde_mapping():
         ("Villot", "365"),
         ("Tauzia", "809"),
     }
+
+
+def test_credit_and_year_count_as_one_signal(refs):
+    local = LocalAttrs(
+        credit_line="Purchase, Annenberg Foundation Gift, 1993",
+        accession_year=1993,
+        artist="Vincent van Gogh",
+    )
+    res = resolve(local, refs)
+    assert res.status == "unresolved" and not res.ref_id
+    assert res.signals[0].independent() == ["credit_or_year"]

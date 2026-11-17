@@ -31,6 +31,9 @@ Séparer deux problèmes, mesurés séparément (cadrage §25) :
      référentiel), avec l'artiste ou le titre en appui, et **un seul candidat** restant. Sinon
      `unresolved`.
    - Aucune résolution sur le seul titre ou le seul artiste.
+   - Correction (lot C3–C5) : la ligne de crédit et l'année d'accession ne sont pas indépendantes (le
+     crédit porte l'année d'entrée) ; elles comptent pour **un seul** signal, les autres étant
+     les dimensions et l'ancien numéro sourcé.
 
 Images :
 - œuvre résolue : image du référentiel si sa licence le permet (Met Open Access, etc.) ;

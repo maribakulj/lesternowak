@@ -1,0 +1,22 @@
+# Catalogue de vente Ribes-Christofle (1928) : lots numérotés, planches.
+id: vente-ribes-christofle-1928
+source: gallica
+ark: bpt6k70513731
+route: gallica_alto
+type: sale_catalogue
+language: fre
+rights_sheet: docs/sources/inventory/gallica.yaml
+referential: null
+pages:
+  mode: auto
+  max_pages: 120
+segmentation:
+  notice_start: '^\s*(?P<number>\d{1,4})(?:\s*[-–]\s*\d{1,4})?\s*[.—–-]\s+(?=\S)'
+  max_gap: 5
+  first_max: 5
+  artist_heading: '^[A-ZÉÈÀÂÊÎÔÛÇ][A-ZÉÈÀÂÊÎÔÛÇ''’. -]{3,}$'
+  skip_lines:
+    - '^\s*\d{1,3}\s+COLLECTION'
+    - '^\s*COLLECTION\s+F'
+    - '^\s*\d{1,3}\s*$'
+  caption_number: '(?i)\bn[o°]\s*(?P<number>\d{1,4})\b'

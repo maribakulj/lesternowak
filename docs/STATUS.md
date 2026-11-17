@@ -3,7 +3,13 @@
 Mis à jour à chaque fin de lot. Une nouvelle session commence par lire `CLAUDE.md`, ce fichier
 et `docs/PLAN.md`.
 
-- **Dernier lot terminé** : L1.2 + L1.3 (feuille d'annotation, import gold, banc d'évaluation,
+- **Lot C3–C5 (2026-11-17)** : pipeline générique volume -> slice (`lesternowak build --catalogue
+  config/catalogues/<id>.yaml --out data/slices/<id>/`, client `gallica.py`, `alto.py`,
+  `catalogue.py`), exécuté sur les 5 volumes de développement Gallica (120 pages ALTO max chacun, liens
+  E1 `machine_proposed`, aucune résolution externe : `unresolved` partout). File de revue combinée
+  `data/review/queue-c5.jsonl` (Terracottas + Gallica). Texte du catalogue Ribes-Christofle : droits
+  `unknown` (experts nommés sur la page de titre). Quotas : `docs/sources/inventory/gallica-probe.md`.
+- **Dernier lot terminé avant C3–C5** : L1.2 + L1.3 (feuille d'annotation, import gold, banc d'évaluation,
   accord) ; B0 non mesuré faute de gold réel (H1b).
 - **Prochain lot** : H1b (annotation par le porteur de `data/annotation/sheet-dev-v1.csv`),
   puis mesure de B0.

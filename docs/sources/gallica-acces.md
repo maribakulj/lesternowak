@@ -18,7 +18,7 @@ cours). Seuls les services utiles au projet sont listés ici.
 | Texte brut du document entier | `/texte/brut/gallica/1.0.0/ark:/{repo}/{id}.texteBrut` | 6 req/min | **une requête par volume** : repérage des pages utiles |
 | Texte brut d'une page | `/texte/brut/gallica/1.0.0/ark:/{repo}/{id}/f{n}.texteBrut` | 20 req/min | contrôle ponctuel |
 | Recherche plein texte (occurrences / positions) | `/occurence/texte/…/ContentSearch` ; `/position/texte/…/ContentSearch` (avec `page`) | aucun spécifique | trouver identifiants et noms sans télécharger l'OCR |
-| OCR ALTO d'une page | `/texte/ocr/gallica/1.0.0/RequestDigitalElement` (6 req/min) ou IIIF v3 `…/presentation/v3/ark:/{repo}/{id}/f{n}/alto.xml` (5 req/min) | 5–6 req/min | **pages utiles seulement** (coordonnées, illustrations) |
+| OCR ALTO d'une page | `/texte/ocr/gallica/1.0.0/RequestDigitalElement?O={id}&E=ALTO&Deb={n}` (6 req/min ; syntaxe vérifiée au lot C3, répond là où le v3 renvoie 404) ou IIIF v3 `…/presentation/v3/ark:/{repo}/{id}/f{n}/alto.xml` (5 req/min) | 5–6 req/min | **pages utiles seulement** (coordonnées, illustrations) |
 | Structure logique (OLR, METS) | IIIF v3 `…/presentation/v3/ark:/{repo}/{id}/olr.xml` | 5 req/min | sections, articles, illustrations |
 | Manifeste IIIF | v2 `/presentation/iiifv2/gallica/1.0.0/ark:/{repo}/{id}/manifest.json` ; v3 `…/presentation/v3/ark:/{repo}/{id}/manifest.json` | 5 req/min | liste des vues, dimensions |
 | Image précalculée | `/image/gallica/1.0.0/{ark}/f{n}.{thumbnail,lowres,medres,highres}` | 50 req/min | **affichage dans le pilote** (lowres/medres) |

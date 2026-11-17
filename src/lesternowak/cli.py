@@ -61,9 +61,20 @@ def build_parser() -> argparse.ArgumentParser:
     ev.add_argument("--spans", type=Path, default=Path("data/slice/spans.jsonl"))
     ev.add_argument("--name", required=True)
     ev.add_argument("--out", type=Path, required=True)
+    bd = sub.add_parser("build", help="volume -> slice (config de catalogue, voie Gallica ALTO)")
+    bd.add_argument("--catalogue", type=Path, required=True)
+    bd.add_argument("--out", type=Path, required=True)
+    bd.add_argument("--cache", type=Path, default=Path("data/raw/gallica"))
     rq = sub.add_parser("review-queue", help="file de vérification (pilote C6)")
     rq.add_argument("--slice", type=Path, default=Path("data/slice"))
     rq.add_argument("--adapter", default="getty-terracottas")
+    rq.add_argument(
+        "--extra",
+        action="append",
+        default=[],
+        metavar="ADAPTER=DIR",
+        help="slice supplémentaire (file combinée), répétable",
+    )
     rq.add_argument("--out", type=Path, default=Path("data/review/queue.jsonl"))
     rq.add_argument("--blind-rate", type=float, default=0.15)
     rq.add_argument("--seed", type=int, default=7)
@@ -137,7 +148,11 @@ def cmd_agreement(args) -> int:
 def cmd_review_queue(args) -> int:
     from lesternowak import review
 
-    items = review.make_queue(args.adapter, args.slice, args.blind_rate, args.seed)
+    specs = [(args.adapter, args.slice)]
+    for x in args.extra:
+        name, _, d = x.partition("=")
+        specs.append((name, Path(d)))
+    items = review.make_combined_queue(specs, args.blind_rate, args.seed)
     review.write_queue(args.out, items)
     nb = sum(i.blind for i in items)
     print(f"{len(items)} éléments dont {nb} à l'aveugle -> {args.out}")
@@ -212,6 +227,23 @@ def cmd_slice(args) -> int:
     return 0
 
 
+def cmd_build(args) -> int:
+    from lesternowak import catalogue as cat
+    from lesternowak.gallica import GallicaClient, GallicaStop
+    from lesternowak.referentials import iter_cache
+
+    cfg = cat.load_config(args.catalogue)
+    refs = list(iter_cache(cfg.referential)) if cfg.referential else None
+    client = GallicaClient(cache_root=args.cache)
+    try:
+        report = cat.build_volume(cfg, client, args.out, ref_index=refs or None)
+    except GallicaStop as e:
+        print(f"ARRÊT Gallica : {e}", file=sys.stderr)
+        return 3
+    print(json.dumps(report, ensure_ascii=False))
+    return 0
+
+
 def cmd_validate(args) -> int:
     from lesternowak import export
     from lesternowak.getty_quire import current_statuses
@@ -252,6 +284,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.command == "slice":
         return cmd_slice(args)
+    if args.command == "build":
+        return cmd_build(args)
     if args.command == "validate":
         return cmd_validate(args)
     handlers = {

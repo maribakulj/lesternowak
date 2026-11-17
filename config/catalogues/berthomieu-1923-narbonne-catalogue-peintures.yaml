@@ -1,0 +1,22 @@
+# Berthomieu, Musée de Narbonne, catalogue des peintures et sculptures (1923), planches.
+id: berthomieu-1923-narbonne-catalogue-peintures
+source: gallica
+ark: bpt6k6525688x
+route: gallica_alto
+type: museum_catalogue
+language: fre
+rights_sheet: docs/sources/inventory/gallica.yaml
+referential: null
+pages:
+  mode: auto
+  max_pages: 120
+segmentation:
+  notice_start: '^\s*(?P<number>\d{1,4})\s*[—–-]\s+(?=\S)'
+  max_gap: 5
+  first_max: 5
+  artist_heading: '^[A-ZÉÈÀÂÊÎÔÛÇ][A-ZÉÈÀÂÊÎÔÛÇ''’ -]{2,}\s*\([^)]*\)'
+  skip_lines:
+    - '^\s*MUS[ÉE]E DE NARBONNE'
+    - '^\s*\d{1,3}\s+MUS[ÉE]E DE NARBONNE'
+    - '^\s*\d{1,3}\s*$'
+  caption_number: '(?i)\b(?:pl(?:anche|\.)?\s+[IVXL]+\s*)?(?:n[o°]|n°)\s*(?P<number>\d{1,4})\b'

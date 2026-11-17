@@ -1,7 +1,8 @@
 """Pilote de vérification (C6) : file d'éléments, serveur local, export gold.
 
 Indépendant de la source : un adaptateur transforme un jeu de données en `ReviewItem`.
-Seul l'adaptateur Terracottas existe ; en ajouter un = une fonction dans `ADAPTERS`.
+Adaptateurs : Terracottas et slices Gallica (`gallica-notices`) ; en ajouter un = une fonction
+dans `ADAPTERS`.
 """
 
 from __future__ import annotations
@@ -32,6 +33,7 @@ from lesternowak.models import (
     ReviewPassage,
     ReviewProposal,
     ReviewSource,
+    Run,
     Span,
 )
 
@@ -115,7 +117,83 @@ def terracottas_items(slice_dir: Path) -> list[ReviewItem]:
     return items
 
 
-ADAPTERS: dict[str, Callable[[Path], list[ReviewItem]]] = {"getty-terracottas": terracottas_items}
+# --- adaptateur slices Gallica (volume -> slice, `catalogue.py`) ------------------------------
+
+_NUMBER_START = re.compile(r"^\s*\d{1,4}(?:\s*[-\u2013]\s*\d{1,4})?")
+
+
+def gallica_items(slice_dir: Path) -> list[ReviewItem]:
+    """Un élément par lien E1 notice -> œuvre locale : passage, numéro de notice surligné, image
+    de la page (précalculée `medres`) et figure liée par numéro de légende si elle existe."""
+    from lesternowak.gallica import GallicaClient
+    from lesternowak.models import Figure, RightsDecision
+
+    spans = {s.id: s for s in read_jsonl(slice_dir / "spans.jsonl", Span)}
+    arts = {a.id: a for a in read_jsonl(slice_dir / "artworks.jsonl", ArtworkRef)}
+    links = read_jsonl(slice_dir / "links.jsonl", Link)
+    figs = read_jsonl(slice_dir / "figures.jsonl", Figure)
+    params = read_jsonl(slice_dir / "runs.jsonl", Run)[0].params
+    corpus, ark = params["catalogue"], params["ark"]
+    fig_of = {f.linked_artwork_local_id: f for f in figs if f.linked_artwork_local_id}
+    items = []
+    for lk in links:
+        sp, art = spans[lk.span_id], arts[lk.artwork_id]
+        ref = sp.page_refs[0]
+        fig = fig_of.get(art.artwork_local_id)
+        shown = False
+        if fig:
+            shown = any(
+                r.action == "display_pilot" and r.decision.value == "allow"
+                for r in fig.image_rights
+                if isinstance(r, RightsDecision)
+            )
+        hl = []
+        m = _NUMBER_START.match(sp.text)
+        if m and art.local_label and sp.text.startswith(art.local_label):
+            hl.append(ReviewHighlight(start=m.start(), end=m.end(), label="notice_number"))
+        ev = lk.evidence[0]
+        items.append(
+            ReviewItem(
+                item_id=item_id_for(corpus, lk.id, sp.id, art.id),
+                corpus=corpus,
+                link_id=lk.id,
+                artwork=ReviewArtwork(
+                    id=art.id,
+                    title=art.local_label or "",
+                    catalogue_number=art.catalogue_number or None,
+                    other_ids={"artwork_local_id": art.artwork_local_id or ""},
+                    image_url=fig.image_url if fig else None,
+                    image_display_allowed=shown,
+                ),
+                passage=ReviewPassage(
+                    span_id=sp.id,
+                    text=sp.text,
+                    section=corpus,
+                    char_start=sp.char_start,
+                    char_end=sp.char_end,
+                ),
+                highlights=hl,
+                source=ReviewSource(
+                    url=f"https://gallica.bnf.fr/ark:/12148/{ark}/f{ref.view}",
+                    page_label=ref.page_label,
+                    page_image_url=GallicaClient.url("medres", ark, n=ref.view),
+                ),
+                proposal=ReviewProposal(
+                    relation=Relation.about,
+                    function=None,
+                    evidence_mechanism=ev.mechanism,
+                    explanation=ev.explanation,
+                ),
+                rights_summary=_rights_summary(lk),
+            )
+        )
+    return items
+
+
+ADAPTERS: dict[str, Callable[[Path], list[ReviewItem]]] = {
+    "getty-terracottas": terracottas_items,
+    "gallica-notices": gallica_items,
+}
 
 
 # --- file priorisée ----------------------------------------------------------------------------
@@ -179,6 +257,22 @@ def make_queue(adapter: str, slice_dir: Path, blind_rate: float, seed: int) -> l
     items = ADAPTERS[adapter](slice_dir)
     if adapter == "getty-terracottas":
         check_texts(items, {s.id: s for s in load_slice(slice_dir).spans})
+    return build_queue(items, blind_rate, seed)
+
+
+def make_combined_queue(
+    specs: list[tuple[str, Path]], blind_rate: float, seed: int
+) -> list[ReviewItem]:
+    """File unique sur plusieurs slices ((adaptateur, dossier)) ; diversité entre corpus."""
+    items: list[ReviewItem] = []
+    for adapter, d in specs:
+        part = ADAPTERS[adapter](d)
+        if adapter == "getty-terracottas":
+            check_texts(part, {s.id: s for s in load_slice(d).spans})
+        items += part
+    ids = [i.item_id for i in items]
+    if len(set(ids)) != len(ids):
+        raise ValueError("item_id en double dans la file combinée")
     return build_queue(items, blind_rate, seed)
 
 

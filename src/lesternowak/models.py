@@ -68,6 +68,18 @@ class SourceAsset(BaseModel):
     local_path: str
 
 
+class PageRef(BaseModel):
+    """Localisation d'un passage ou d'une figure sur une vue (page numérisée)."""
+
+    view: int
+    page_label: str | None = None
+    # normalisée 0-1, origine en haut à gauche : (x0, y0, x1, y1)
+    bbox: tuple[float, float, float, float] | None = None
+    source_bbox: tuple[float, float, float, float] | None = None
+    source_coordinate_system: str | None = None  # ex. « alto:pixel:2592x3508 »
+    alignment: Literal["verified", "estimated"] = "verified"  # vue vérifiée ou estimée
+
+
 class Span(BaseModel):
     """Passage : `canonical_text[char_start:char_end] == text` pour la page `asset_id`."""
 
@@ -78,7 +90,8 @@ class Span(BaseModel):
     char_start: int
     char_end: int
     text: str
-    text_fidelity: Literal["born_digital"] = "born_digital"
+    text_fidelity: Literal["born_digital", "ocr_raw", "ocr_corrected"] = "born_digital"
+    page_refs: list[PageRef] = Field(default_factory=list)
     notes: list[int] = Field(default_factory=list)  # appels de note, visibles « [n] » dans text
     group_title: str | None = None
     # autres pages où le même texte est reproduit (discussion partagée)
@@ -94,15 +107,31 @@ class Occurrence(BaseModel):
 Span.model_rebuild()
 
 
+class Resolution(BaseModel):
+    """Résolution œuvre locale -> référentiel externe (ADR 0003) ; `unresolved` est valide."""
+
+    status: Literal["resolved", "unresolved"] = "unresolved"
+    mechanism: Literal["E0", "E2_composite"] | None = None
+    signals: list[dict] = Field(default_factory=list)
+    candidates: list[str] = Field(default_factory=list)
+    reason: str = ""
+
+
 class ArtworkRef(BaseModel):
-    """Identifiants externes fournis par l'éditeur ; le titre est celui de l'éditeur."""
+    """Œuvre. Terracottas : identifiants Getty de l'éditeur. Autres sources : œuvre *locale* au
+    volume (`artwork_local_id` = volume + numéro de notice), résolution externe séparée."""
 
     id: str
-    getty_dor_id: int
-    inventory_number: str
-    catalogue_number: str
-    collection_url: str
-    title: str
+    getty_dor_id: int | None = None
+    inventory_number: str = ""
+    catalogue_number: str = ""
+    collection_url: str = ""
+    title: str = ""
+    artwork_local_id: str | None = None
+    local_label: str | None = None  # numéro/titre tel qu'imprimé (extrait exact du texte)
+    artist_heading: str | None = None  # dernier intitulé d'artiste imprimé (extrait exact)
+    external_ids: list[dict] = Field(default_factory=list)
+    resolution: Resolution | None = None
 
 
 class Evidence(BaseModel):
@@ -118,6 +147,19 @@ class RightsDecision(BaseModel):
     basis: str
     evidence_url: str
     checked_at: datetime
+
+
+class Figure(BaseModel):
+    """Illustration repérée par la structure (ALTO) ; liée à une notice par numéro explicite."""
+
+    id: str
+    view: int
+    bbox: tuple[float, float, float, float]  # normalisée 0-1, haut-gauche
+    caption_span_id: str | None = None
+    linked_artwork_local_id: str | None = None
+    link_evidence: list[Evidence] = Field(default_factory=list)
+    image_url: str  # région IIIF à taille réduite (<= 800 px), non téléchargée
+    image_rights: list[RightsDecision] = Field(default_factory=list)
 
 
 class Link(BaseModel):

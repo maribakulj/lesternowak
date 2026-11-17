@@ -83,3 +83,42 @@ de document n'est conservé dans le dépôt, seulement des comptages (`sample:`)
   Toc est en XML TEI, encodage déclaré ISO-8859-1 mais contenu UTF-8 pour la *Revue* : décoder
   d'abord en UTF-8.
 - IA : 2 téléchargements `djvu.txt` (Internet Archive, hors BnF) pour les catalogues Met retenus.
+
+## Usage des quotas, lot C3–C5 (2026-11-17)
+
+Appelant unique d'`openapi.bnf.fr` ; client `src/lesternowak/gallica.py` (espacement minimal par
+service = 60 / quota × 1,05, plafond global glissant de 70 / min, `Retry-After` respecté, arrêt après
+2 réponses 403/429, cache permanent `data/raw/gallica/<ark>/` avec sha256 et date). User-Agent fixe
+`lesternowak/0.0.1 (recherche; client Gallica)`. Volumes traités : les 5 volumes de développement
+Gallica (aucun volume tenu à l'écart n'a été touché). Durée : 21 h 15 à 23 h 05 (110 min).
+
+| Service (passerelle) | Requêtes aboutissant (cache) | Réponses non 200 |
+|---|---|---|
+| OAIRecord | 5 (+1 test manuel avant le cache) | aucune |
+| Pagination | 5 | aucune |
+| Toc | 3 (2 × 200, 1 × 400 sur un volume sans TDM) | 1 × 400 (volume sans table des matières) |
+| Manifeste IIIF v2 | 5 | aucune |
+| texteBrut, document entier | 5 | 1 × connexion réinitialisée, relancée |
+| ALTO IIIF v3 `…/f{n}/alto.xml` | 432 (373 × 200, 59 × 404 sur le volume de 1849) | 2 × HTTP 500, 6 × connexion réinitialisée (dont 2 échecs consécutifs sur la même vue) |
+| ALTO `RequestDigitalElement?O={id}&E=ALTO&Deb={n}` | 120 (200) | aucune |
+| Image précalculée, IIIF Image | 0 (URL seulement, jamais téléchargées) | sans objet |
+| **Total** | **environ 585 requêtes (dont 9 échecs transitoires)** | **aucun 403, aucun 429** |
+
+- **Syntaxe établie pour `RequestDigitalElement`** : `GET /texte/ocr/gallica/1.0.0/RequestDigitalElement?O={id}&E=ALTO&Deb={n}`
+  répond 200 avec un ALTO. Pour le volume de 1849 (`bpt6k73772x`), le v3 renvoie 404 sur toutes
+  les vues essayées (59) et RequestDigitalElement 200 sur les 120 vues demandées : les deux voies
+  ne sont donc pas équivalentes ; le client essaie le v3, puis RDE, et passe à RDE en premier après
+  trois 404 v3 (moitié moins de requêtes).
+- **Pic mesuré** (horodatages de fin de réponse, secondes entières) : 15 requêtes dans une
+  fenêtre de 60 s toutes API confondues (plafond 75) ; 6 ALTO v3 et 6 RDE dans une fenêtre de 60 s
+  (quotas 5 et 6) : le v3 touche donc la limite de 5 par la gigue de latence, sans refus. Débit
+  réel : environ 5 ALTO par minute, soit 12,6 s par page.
+- **Échecs transitoires** : connexions réinitialisées (code 0) et 500 sans corps utile, jamais de
+  `Retry-After`. Une relance unique après 10 s suffit dans 7 cas sur 9 ; une exécution s'est arrêtée
+  sur deux tentatives consécutives (même vue) et a été relancée ; le pipeline saute désormais la page en consignant
+  l'erreur au lieu de s'interrompre.
+- **Débit utile** : 120 pages ALTO par volume ≈ 10 à 15 min (une page = 12,6 s) ; texteBrut document
+  entier : 14 s par volume ; le quota de 5 ALTO par minute est le facteur limitant (environ
+  une heure pour 5 volumes de 120 pages).
+- Le texte brut ne coïncide pas avec les numéros de vue (planches et pages blanches omises : 326
+  pages de texte pour 396 vues, 110 pour 158) ; le pipeline aligne donc les vues sur l'ALTO reçu.

@@ -1,0 +1,17 @@
+# Gazette des beaux-arts, 1er semestre 1910 : l'article de Paul Durrieu (domaine public), seul traité.
+id: gazette-beaux-arts-1910-s1-durrieu
+source: gallica
+ark: bpt6k2031766
+route: gallica_alto
+type: periodical_article
+language: fre
+rights_sheet: docs/sources/inventory/gallica.yaml
+referential: null
+pages:
+  mode: toc_article
+  article:
+    author: Paul Durrieu
+    title_match: 'QUELQUES PORTRAITS HISTORIQUES'
+  max_pages: 120
+segmentation: null
+rights_id: gazette-beaux-arts-1910-s1
