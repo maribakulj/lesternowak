@@ -1,0 +1,27 @@
+# Getty Quire, French Rococo Ebenisterie (2021) : essais (intro, laques, XRF) et 21 entrées.
+id: getty-rococo-2021
+source: quire
+root_url: https://www.getty.edu/publications/rococo/
+title: "French Rococo Ébénisterie in the J. Paul Getty Museum"
+type: essays
+pages:
+  include: ['^intro/$', '^lacquer/$', '^xrf/$', '^catalogue/\d+/$']
+  entry_pages: '^catalogue/\d+/$'
+sections:  # sections analytiques des entrées -> fonction (B0) ; les autres ne sont pas liées
+  Description: visual_description
+  Commentary: unclassified
+  Technical Description: technical_material
+rights:
+  url: https://www.getty.edu/publications/rococo/about/
+  text:
+    license: CC BY-NC 4.0
+    flags: [NC]
+  figures:
+    # « Figs. 1, 2, 3, 1-6, 2-6, ... are reproduced with the permission of the rights holders and
+    # are expressly excluded from the CC BY-NC license covering the rest » (about/, 2026-11-17)
+    mode: listed_excluded
+    license: CC BY-NC 4.0
+    listed: ["1", "2", "3", "1.6", "2.6", "2.11", "3.6", "3.16", "4.3", "4.8", "5.3", "5.11",
+             "6.3", "6.4", "7.4", "7.5", "7.6", "8.8", "9.8", "10.5", "10.6", "10.8", "11.2",
+             "11.3", "12.3", "14.3", "14.10", "14.11", "15.5", "15.6", "16.3", "16.4", "16.9",
+             "17.1", "17.2", "18.6", "18.9", "19.4", "19.5", "21.3", "21.4"]

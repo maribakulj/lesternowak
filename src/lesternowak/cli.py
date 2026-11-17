@@ -65,6 +65,10 @@ def build_parser() -> argparse.ArgumentParser:
     bd.add_argument("--catalogue", type=Path, required=True)
     bd.add_argument("--out", type=Path, required=True)
     bd.add_argument("--cache", type=Path, default=Path("data/raw/gallica"))
+    qb = sub.add_parser("quire", help="publication Getty Quire -> slice (config de catalogue)")
+    qb.add_argument("--catalogue", type=Path, required=True)
+    qb.add_argument("--out", type=Path, required=True)
+    qb.add_argument("--cache", type=Path, default=Path("data/raw/quire"))
     rq = sub.add_parser("review-queue", help="file de vérification (pilote C6)")
     rq.add_argument("--slice", type=Path, default=Path("data/slice"))
     rq.add_argument("--adapter", default="getty-terracottas")
@@ -288,6 +292,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return cmd_build(args)
     if args.command == "validate":
         return cmd_validate(args)
+    if args.command == "quire":
+        from lesternowak import quire
+
+        print(json.dumps(quire.run_build(args.catalogue, args.out, args.cache), ensure_ascii=False))
+        return 0
     handlers = {
         "annotation-sheet": cmd_annotation_sheet,
         "annotation-import": cmd_annotation_import,

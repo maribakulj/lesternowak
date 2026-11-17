@@ -80,6 +80,15 @@ class PageRef(BaseModel):
     alignment: Literal["verified", "estimated"] = "verified"  # vue vérifiée ou estimée
 
 
+class FigureCall(BaseModel):
+    """Appel de figure (« fig. 1.5 ») dans un paragraphe : bornes relatives au texte du span."""
+
+    label: str  # texte exact de l'appel, tel qu'imprimé
+    char_start: int
+    char_end: int
+    figure_id: str
+
+
 class Span(BaseModel):
     """Passage : `canonical_text[char_start:char_end] == text` pour la page `asset_id`."""
 
@@ -94,6 +103,7 @@ class Span(BaseModel):
     page_refs: list[PageRef] = Field(default_factory=list)
     notes: list[int] = Field(default_factory=list)  # appels de note, visibles « [n] » dans text
     group_title: str | None = None
+    figure_calls: list[FigureCall] = Field(default_factory=list)
     # autres pages où le même texte est reproduit (discussion partagée)
     also_in: list[Occurrence] = Field(default_factory=list)
 
@@ -162,6 +172,21 @@ class Figure(BaseModel):
     image_rights: list[RightsDecision] = Field(default_factory=list)
 
 
+class QuireFigure(BaseModel):
+    """Figure d'une publication Quire : légende exacte, image, objet local et droits par figure."""
+
+    id: str  # "<volume>:<id de l'image>"
+    asset_id: str
+    key: str  # numéro normalisé (« 1.5 », « 17.4a »)
+    label: str  # « Figure 1.5 » tel qu'imprimé
+    image_url: str
+    caption: str  # extrait exact de la page, jamais produit par un modèle
+    explicit_license: str | None = None  # mention de licence lue dans la légende
+    artwork_id: str | None = None  # objet local ; None : figure sans objet identifiable
+    object_evidence: str = ""
+    image_rights: list[RightsDecision] = Field(default_factory=list)
+
+
 class Link(BaseModel):
     id: str
     artwork_id: str
@@ -171,6 +196,7 @@ class Link(BaseModel):
     status: LinkStatus
     rights: list[RightsDecision]
     run_id: str
+    figure_ids: list[str] = Field(default_factory=list)  # figures appelées par le passage (Quire)
 
 
 class Run(BaseModel):

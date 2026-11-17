@@ -190,9 +190,16 @@ def gallica_items(slice_dir: Path) -> list[ReviewItem]:
     return items
 
 
+def quire_figures_items(slice_dir: Path) -> list[ReviewItem]:
+    from lesternowak.quire_review import quire_items
+
+    return quire_items(slice_dir)
+
+
 ADAPTERS: dict[str, Callable[[Path], list[ReviewItem]]] = {
     "getty-terracottas": terracottas_items,
     "gallica-notices": gallica_items,
+    "quire-figures": quire_figures_items,
 }
 
 

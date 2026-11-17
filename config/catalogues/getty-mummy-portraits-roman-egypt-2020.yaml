@@ -1,0 +1,21 @@
+# Getty Quire, Mummy Portraits of Roman Egypt (2020) : essais, pas de notices par objet.
+# Lu par src/lesternowak/quire.py ; aucune modification de code pour ajouter une publication.
+id: getty-mummy-portraits-roman-egypt-2020
+source: quire
+root_url: https://www.getty.edu/publications/mummyportraits/
+title: "Mummy Portraits of Roman Egypt: Emerging Research from the APPEAR Project"
+type: essays
+pages:
+  # table des matières HTML de la page racine ; seuls les chapitres sont des essais
+  include: ['^intro/$', '^part-(one|two)/\d+/$']
+rights:
+  url: https://www.getty.edu/publications/mummyportraits/copyright/
+  text:
+    license: CC BY 4.0
+  figures:
+    # « The text of this work and figs. 4.2–3, 4.10, 4.13, 8.3–4, 11.2–5, and 17.4a are licensed
+    # under CC BY 4.0. All other images ... are expressly excluded » (page copyright, 2026-11-17)
+    mode: listed_licensed
+    license: CC BY 4.0
+    listed: ["4.2", "4.3", "4.10", "4.13", "8.3", "8.4", "11.2", "11.3", "11.4", "11.5", "17.4a"]
+referential: met
