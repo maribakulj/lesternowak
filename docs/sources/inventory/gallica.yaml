@@ -20,6 +20,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 364558, pages_texteBrut: 221, pages_with_text: 220, share_pages_with_text: 0.995, numbered_lines: 449, numbered_distinct: 429, inv: 0, no_deg: 1, h_dot: 147, l_dot: 210, fig: 297, pl: 48, caps_words: 393, caps_words_distinct: 363, caps_name_lines: 87, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "décès de Villot en 1875"
+  score:
+    analytic: 1
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 7
+    notes: "analytic : 850 caractères par notice : notices descriptives ; identifiability : notices numérotées (429 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 100% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "villot-1855-notice-louvre-12e-ed"
   ark: "bpt6k97965685"
@@ -38,6 +49,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 661710, pages_texteBrut: 384, pages_with_text: 379, share_pages_with_text: 0.987, numbered_lines: 661, numbered_distinct: 576, inv: 0, no_deg: 74, h_dot: 520, l_dot: 574, fig: 536, pl: 377, caps_words: 1687, caps_words_distinct: 781, caps_name_lines: 333, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "décès de Villot en 1875"
+  score:
+    analytic: 1
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 7
+    notes: "analytic : 1149 caractères par notice : notices descriptives ; identifiability : notices numérotées (576 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 99% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "villot-1855-notice-louvre-2e-partie"
   ark: "bpt6k9761664g"
@@ -56,6 +78,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 538693, pages_texteBrut: 353, pages_with_text: 349, share_pages_with_text: 0.989, numbered_lines: 659, numbered_distinct: 636, inv: 0, no_deg: 24, h_dot: 557, l_dot: 603, fig: 552, pl: 265, caps_words: 1524, caps_words_distinct: 771, caps_name_lines: 253, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "décès de Villot en 1875"
+  score:
+    analytic: 1
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 7
+    notes: "analytic : 847 caractères par notice : notices descriptives ; identifiability : notices numérotées (636 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 99% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "villot-1855-notice-louvre-3e-partie-2e-ed"
   ark: "bpt6k930665c"
@@ -74,6 +107,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 819601, pages_texteBrut: 465, pages_with_text: 458, share_pages_with_text: 0.985, numbered_lines: 661, numbered_distinct: 605, inv: 5, no_deg: 82, h_dot: 244, l_dot: 597, fig: 586, pl: 234, caps_words: 946, caps_words_distinct: 386, caps_name_lines: 405, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "décès de Villot en 1875"
+  score:
+    analytic: 1
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 7
+    notes: "analytic : 1355 caractères par notice : notices descriptives ; identifiability : notices numérotées (605 distinctes), numéros d'inventaire actuels rares (inv 5) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 98% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "villot-1875-notice-louvre-1re-partie-19e-ed"
   ark: "bpt6k14252517"
@@ -92,6 +136,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 724468, pages_texteBrut: 420, pages_with_text: 415, share_pages_with_text: 0.988, numbered_lines: 668, numbered_distinct: 581, inv: 0, no_deg: 68, h_dot: 296, l_dot: 560, fig: 559, pl: 389, caps_words: 1481, caps_words_distinct: 670, caps_name_lines: 504, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "décès de Villot en 1875 ; Musée du Louvre (collectif) publié en 1875"
+  score:
+    analytic: 1
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 7
+    notes: "analytic : 1247 caractères par notice : notices descriptives ; identifiability : notices numérotées (581 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 99% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "durrieu-benoit-1903-catalogue-sommaire-louvre"
   ark: "bpt6k6382733j"
@@ -110,6 +165,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 268743, pages_texteBrut: 284, pages_with_text: 282, share_pages_with_text: 0.993, numbered_lines: 2606, numbered_distinct: 2478, inv: 0, no_deg: 8, h_dot: 2650, l_dot: 2650, fig: 0, pl: 0, caps_words: 5259, caps_words_distinct: 1810, caps_name_lines: 1658, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "décès de Durrieu en 1925 et de Benoît en 1923 (identité de Benoît medium) ; Département des peintures (collectif) publié en 1903"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 6
+    notes: "analytic : 101 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (2478 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 99% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "demonts-huteau-1923-catalogue-general-louvre"
   ark: "bpt6k64771241"
@@ -128,6 +194,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 200149, pages_texteBrut: 187, pages_with_text: 184, share_pages_with_text: 0.984, numbered_lines: 2269, numbered_distinct: 1994, inv: 0, no_deg: 225, h_dot: 0, l_dot: 0, fig: 0, pl: 0, caps_words: 2177, caps_words_distinct: 316, caps_name_lines: 35, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "Demonts d. 1950 (yes) mais Huteau, Lucien : date de décès inconnue, bloque le volume"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 1
+    text: 0
+    quality: 1
+    effort: 1
+    total: 4
+    notes: "analytic : 100 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (1994 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : droits inconnus ; quality : OCR brut, 98% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "montauban-1885-catalogue-peintures"
   ark: "bpt6k6524846z"
@@ -146,6 +223,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 84513, pages_texteBrut: 79, pages_with_text: 77, share_pages_with_text: 0.975, numbered_lines: 296, numbered_distinct: 228, inv: 0, no_deg: 1, h_dot: 400, l_dot: 403, fig: 0, pl: 0, caps_words: 393, caps_words_distinct: 203, caps_name_lines: 196, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "collectif publié en 1885"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 6
+    notes: "analytic : 211 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (228 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 98% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "collet-1894-soissons-catalogue-peintures"
   ark: "bpt6k6227037f"
@@ -164,6 +252,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 186255, pages_texteBrut: 154, pages_with_text: 152, share_pages_with_text: 0.987, numbered_lines: 247, numbered_distinct: 242, inv: 0, no_deg: 74, h_dot: 229, l_dot: 9, fig: 1, pl: 0, caps_words: 383, caps_words_distinct: 265, caps_name_lines: 165, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "Collet, Émile : date de décès inconnue (aucun résultat Wikidata, pas de dates dans la notice), bloque le volume"
+  score:
+    analytic: 1
+    identifiability: 1
+    images: 1
+    text: 0
+    quality: 1
+    effort: 1
+    total: 5
+    notes: "analytic : 770 caractères par notice : notices descriptives ; identifiability : notices numérotées (242 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : droits inconnus ; quality : OCR brut, 99% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "besancon-1844-catalogue-peintures-dessins"
   ark: "bpt6k6419847d"
@@ -182,6 +281,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 43294, pages_texteBrut: 74, pages_with_text: 71, share_pages_with_text: 0.959, numbered_lines: 308, numbered_distinct: 307, inv: 0, no_deg: 2, h_dot: 0, l_dot: 0, fig: 0, pl: 0, caps_words: 756, caps_words_distinct: 472, caps_name_lines: 143, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "anonyme ou collectif publié en 1844"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 6
+    notes: "analytic : 141 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (307 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 96% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "biais-1884-angouleme-peintures"
   ark: "bpt6k6255583m"
@@ -200,6 +310,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 97404, pages_texteBrut: 86, pages_with_text: 84, share_pages_with_text: 0.977, numbered_lines: 120, numbered_distinct: 111, inv: 0, no_deg: 0, h_dot: 57, l_dot: 69, fig: 0, pl: 0, caps_words: 380, caps_words_distinct: 286, caps_name_lines: 96, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "décès de Biais en 1932 (notice BnF ; Wikidata concorde sur le décès, naissance divergente)"
+  score:
+    analytic: 1
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 7
+    notes: "analytic : 878 caractères par notice : notices descriptives ; identifiability : notices numérotées (111 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 98% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "abbeville-1902-catalogue-peintures"
   ark: "bpt6k6226945s"
@@ -218,6 +339,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 320257, pages_texteBrut: 399, pages_with_text: 396, share_pages_with_text: 0.992, numbered_lines: 972, numbered_distinct: 615, inv: 12, no_deg: 178, h_dot: 651, l_dot: 627, fig: 2, pl: 0, caps_words: 3344, caps_words_distinct: 1655, caps_name_lines: 1650, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "anonyme ou collectif publié en 1902"
+  score:
+    analytic: 1
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 7
+    notes: "analytic : 492 caractères par notice : notices descriptives ; identifiability : notices numérotées (615 distinctes), numéros d'inventaire actuels rares (inv 12) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 99% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "dijon-1869-catalogue-historique-descriptif"
   ark: "bpt6k1414501s"
@@ -236,6 +368,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 398942, pages_texteBrut: 374, pages_with_text: 372, share_pages_with_text: 0.995, numbered_lines: 1267, numbered_distinct: 1253, inv: 0, no_deg: 189, h_dot: 0, l_dot: 0, fig: 0, pl: 1, caps_words: 1503, caps_words_distinct: 659, caps_name_lines: 580, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "collectif publié en 1869"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 6
+    notes: "analytic : 318 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (1253 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 100% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "berthomieu-1923-narbonne-catalogue-peintures"
   ark: "bpt6k6525688x"
@@ -254,6 +397,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 393817, pages_texteBrut: 326, pages_with_text: 307, share_pages_with_text: 0.942, numbered_lines: 691, numbered_distinct: 598, inv: 9, no_deg: 23, h_dot: 336, l_dot: 393, fig: 245, pl: 23, caps_words: 1400, caps_words_distinct: 741, caps_name_lines: 418, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "décès de Berthomieu en 1928 (notice BnF seule, non recoupé par Wikidata)"
+  score:
+    analytic: 1
+    identifiability: 1
+    images: 2
+    text: 2
+    quality: 1
+    effort: 1
+    total: 8
+    notes: "analytic : 659 caractères par notice : notices descriptives ; identifiability : notices numérotées (598 distinctes), numéros d'inventaire actuels rares (inv 9) : numéros internes ; images : planches ou illustrations imprimées dans le volume (« 1 vol. (XXXVII-241 p.-XLVIII pl.) : ill. ; in-8 »), domaine public ; text : domaine public ; quality : OCR brut, 94% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "lille-1902-peintres-modernes"
   ark: "bpt6k6226895b"
@@ -272,6 +426,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%20des%20tableaux%22%20and%20dc.title%20all%20%22mus%C3%A9e%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 149760, pages_texteBrut: 162, pages_with_text: 160, share_pages_with_text: 0.988, numbered_lines: 739, numbered_distinct: 442, inv: 0, no_deg: 81, h_dot: 391, l_dot: 396, fig: 273, pl: 4, caps_words: 990, caps_words_distinct: 598, caps_name_lines: 343, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "collectif publié en 1902"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 6
+    notes: "analytic : 339 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (442 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 99% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "picardie-1911-tableaux-sculptures"
   ark: "bpt6k6420777p"
@@ -290,6 +455,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%20des%20tableaux%22%20and%20dc.title%20all%20%22mus%C3%A9e%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 96689, pages_texteBrut: 197, pages_with_text: 189, share_pages_with_text: 0.959, numbered_lines: 524, numbered_distinct: 333, inv: 0, no_deg: 0, h_dot: 786, l_dot: 701, fig: 0, pl: 0, caps_words: 1176, caps_words_distinct: 891, caps_name_lines: 490, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "collectif publié en 1911"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 6
+    notes: "analytic : 123 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (333 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 96% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "masson-1927-luxembourg-peintures"
   ark: "bpt6k6234712c"
@@ -308,6 +484,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 52349, pages_texteBrut: 113, pages_with_text: 98, share_pages_with_text: 0.867, numbered_lines: 39, numbered_distinct: 32, inv: 0, no_deg: 0, h_dot: 338, l_dot: 400, fig: 2, pl: 12, caps_words: 1159, caps_words_distinct: 628, caps_name_lines: 472, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "décès de Masson en 1931 (notice BnF seule, non recoupé par Wikidata)"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 2
+    text: 2
+    quality: 1
+    effort: 1
+    total: 7
+    notes: "analytic : 155 caractères par notice : notices brèves, quasi-liste ; identifiability : peu de numéros (32) mais lignes de dimensions (338) : notices repérables, numéros internes ; images : planches ou illustrations imprimées dans le volume (« In-16, 83 p., pl. »), domaine public ; text : domaine public ; quality : OCR brut, 87% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "bordeaux-1879-catalogue-tableaux"
   ark: "bpt6k6289743v"
@@ -326,6 +513,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%20des%20tableaux%22%20and%20dc.title%20all%20%22mus%C3%A9e%22&maximumRecords=20"
   checked_at: 2026-11-17
   sample: {chars: 96239, pages_texteBrut: 98, pages_with_text: 96, share_pages_with_text: 0.98, numbered_lines: 677, numbered_distinct: 608, inv: 0, no_deg: 8, h_dot: 612, l_dot: 644, fig: 30, pl: 0, caps_words: 1322, caps_words_distinct: 914, caps_name_lines: 519, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "anonyme ou collectif publié en 1879"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 1
+    text: 2
+    quality: 1
+    effort: 1
+    total: 6
+    notes: "analytic : 157 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (608 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : pas de planches annoncées ; images à chercher dans les référentiels (conditions à consigner), affichage seul acquis ; text : domaine public ; quality : OCR brut, 98% des pages avec texte ; effort : voie texteBrut Gallica à adapter (OCR de notices)"
 
 - id: "gazette-beaux-arts-1859-serie"
   ark: "cb343486585"
@@ -343,6 +541,17 @@
   notes: "NIVEAU TITRE (série 1859-2002 ; 86102 vues), pas un fascicule : aucun fascicule trouvé par SRU (recherches sru2, sru6, sru9). Fascicule à identifier par une autre voie (ex. Issues) ; non traité. Mode texte mentionné au niveau série."
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22gazette%20des%20beaux-arts%22&maximumRecords=20"
   checked_at: 2026-11-17
+  pd_status: unknown
+  pd_basis: "niveau série, pas un fascicule : non traité"
+  score:
+    analytic: 2
+    identifiability: 0
+    images: 2
+    text: 0
+    quality: 1
+    effort: 0
+    total: 5
+    notes: "pas d'échantillon (niveau série, non traité) ; analytic : articles, par type ; identifiability : aucun identifiant relevé ; images : périodique illustré ; text : droits inconnus ; quality : texte mentionné au niveau série ; effort : segmentation par article, nouvelle voie"
 
 - id: "revue-art-ancien-moderne-1897-serie"
   ark: "cb32857192h"
@@ -360,6 +569,17 @@
   notes: "NIVEAU TITRE (série 1897-1937 ; 36590 vues), pas un fascicule : aucun fascicule trouvé par SRU (sru3, sru7). Fascicule à identifier ; non traité. Mode texte mentionné au niveau série."
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22revue%20de%20l%27art%20ancien%20et%20moderne%22&maximumRecords=20"
   checked_at: 2026-11-17
+  pd_status: unknown
+  pd_basis: "niveau série, pas un fascicule : non traité"
+  score:
+    analytic: 2
+    identifiability: 0
+    images: 2
+    text: 0
+    quality: 1
+    effort: 0
+    total: 5
+    notes: "pas d'échantillon (niveau série, non traité) ; analytic : articles, par type ; identifiability : aucun identifiant relevé ; images : périodique illustré ; text : droits inconnus ; quality : texte mentionné au niveau série ; effort : segmentation par article, nouvelle voie"
 
 - id: "gazette-beaux-arts-1875-s1"
   ark: "bpt6k203100h"
@@ -380,20 +600,31 @@
   checked_at: 2026-11-17
   articles_scope: "articles sur la peinture, sélection par titre (sans lecture du texte) ; la table des matières complète compte 47 entrées"
   articles:
-    - {title: "MURILLO ET SES ELEVES (1er article).", author: "Paul Lefort", pages: "35"}
-    - {title: "LUCA SIGNORELLI : CHAPELLE SAN-BRIZIO A ORVIETO.", author: "Léonce Mesnard", pages: "105"}
-    - {title: "JEAN-LOUIS HAMON.", author: "Walther Fol", pages: "119"}
-    - {title: "MURILLO ET SES ELEVES (2e article).", author: "Paul Lefort", pages: "175"}
-    - {title: "CHARLES GLEYRE (1er article).", author: "Paul Mantz", pages: "233"}
-    - {title: "FORTUNY (1er article).", author: "Walther Fol", pages: "267"}
-    - {title: "MURILLO ET SES ELEVES (3e article).", author: "Paul Lefort", pages: "315"}
-    - {title: "A PROPOS DE COROT.", author: "J. Buisson", pages: "330"}
-    - {title: "FORTUNY (2e et dernier article).", author: "Walther Fol", pages: "351"}
-    - {title: "CHARLES GLEYRE (2e et dernier article).", author: "Paul Mantz", pages: "404"}
-    - {title: "JEAN-FRANCOIS MILLET.", author: "Ernest Chesneau", pages: "429"}
-    - {title: "QUELQUES AVIS AUX COLLECTIONNEURS DE TABLEAUX.", author: "Louis Viardot", pages: "485"}
-    - {title: "LE SALON DE 1875 (1er article).", author: "Anatole de Montaiglon", pages: "489"}
+    - {title: "MURILLO ET SES ELEVES (1er article).", author: "Paul Lefort", pages: "35", pd: unknown}
+    - {title: "LUCA SIGNORELLI : CHAPELLE SAN-BRIZIO A ORVIETO.", author: "Léonce Mesnard", pages: "105", pd: unknown}
+    - {title: "JEAN-LOUIS HAMON.", author: "Walther Fol", pages: "119", pd: unknown}
+    - {title: "MURILLO ET SES ELEVES (2e article).", author: "Paul Lefort", pages: "175", pd: unknown}
+    - {title: "CHARLES GLEYRE (1er article).", author: "Paul Mantz", pages: "233", pd: unknown}
+    - {title: "FORTUNY (1er article).", author: "Walther Fol", pages: "267", pd: unknown}
+    - {title: "MURILLO ET SES ELEVES (3e article).", author: "Paul Lefort", pages: "315", pd: unknown}
+    - {title: "A PROPOS DE COROT.", author: "J. Buisson", pages: "330", pd: unknown}
+    - {title: "FORTUNY (2e et dernier article).", author: "Walther Fol", pages: "351", pd: unknown}
+    - {title: "CHARLES GLEYRE (2e et dernier article).", author: "Paul Mantz", pages: "404", pd: unknown}
+    - {title: "JEAN-FRANCOIS MILLET.", author: "Ernest Chesneau", pages: "429", pd: unknown}
+    - {title: "QUELQUES AVIS AUX COLLECTIONNEURS DE TABLEAUX.", author: "Louis Viardot", pages: "485", pd: unknown}
+    - {title: "LE SALON DE 1875 (1er article).", author: "Anatole de Montaiglon", pages: "489", pd: unknown}
   sample: {chars: 1089221, pages_texteBrut: 662, pages_with_text: 630, share_pages_with_text: 0.952, numbered_lines: 177, numbered_distinct: 39, inv: 0, no_deg: 38, h_dot: 22, l_dot: 22, fig: 1, pl: 5, caps_words: 4282, caps_words_distinct: 1600, caps_name_lines: 596, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "aucun auteur d'article vérifié (Wikidata : 429 deux fois, arrêt) ; articles pd unknown"
+  score:
+    analytic: 2
+    identifiability: 0
+    images: 2
+    text: 0
+    quality: 1
+    effort: 0
+    total: 5
+    notes: "analytic : articles critiques et historiques (essais) ; identifiability : pas de notices numérotées (numbered_distinct 39, lignes de dimensions 22) ; images : périodique illustré (fig 1, pl 5), planches du volume en domaine public ; text : droits inconnus ; quality : OCR brut, 95% des pages avec texte ; effort : segmentation par article et droits par article : nouvelle voie technique"
 
 - id: "gazette-beaux-arts-1890-s1"
   ark: "bpt6k203130j"
@@ -414,25 +645,36 @@
   checked_at: 2026-11-17
   articles_scope: "articles sur la peinture, sélection par titre (sans lecture du texte) ; la table des matières complète compte 43 entrées"
   articles:
-    - {title: "WATTEAU (4e article)", author: "Paul Mantz", pages: "5"}
-    - {title: "LA JEUNESSE DE REMBRANDT (1er article)", author: "Emile Michel", pages: "97"}
-    - {title: "WATTEAU (5e article)", author: "Paul Mantz", pages: "129"}
-    - {title: "LE COMITE FRANCAIS A L'EXPOSITION DE COPENHAGUE, TABLEAU DE M. P.-S. KROYER", author: "André Michel", pages: "148"}
-    - {title: "UN NOUVEAU PORTRAIT DE PETRARQUE", author: "P. de Nolhac", pages: "162"}
-    - {title: "CORRESPONDANCE DE BELGIQUE : Incendie du château de Laeken ; le Musée d'Anvers", author: "Henry Hymans", pages: "175"}
-    - {title: "WATTEAU (6e et dernier article)", author: "Paul Mantz", pages: "222"}
-    - {title: "MOUVEMENT DES ARTS EN ALLEMAGNE ET EN ANGLETERRE : Une histoire de la peinture allemande", author: "T. de Wyzewa", pages: "259"}
-    - {title: "LE REMBRANDT DU PECQ", author: "Louis Gonse", pages: "324"}
-    - {title: "DOCUMENTS SUR QUELQUES PEINTRES FRANCAIS DES XIVe et XVe SIECLES", author: "F. Funck-Brentano", pages: "346"}
-    - {title: "LES ETUDES RECENTES SUR L'ECOLE HOLLANDAISE", author: "Emile Michel", pages: "350"}
-    - {title: "PIERRE BREUGHEL LE VIEUX (1er article)", author: "Henry Hymans", pages: "361"}
-    - {title: "LA JEUNESSE DE REMBRANDT (2e article)", author: "Emile Michel", pages: "426"}
-    - {title: "CORRESPONDANCE DE BELGIQUE : Les maîtres portraitistes du siècle au Musée de Bruxelles", author: "Henry Hymans", pages: "437"}
-    - {title: "LE SALON EN 1890 AUX CHAMPS-ELYSEES (1er article)", author: "Maurice Albert", pages: "449"}
-    - {title: "LES PEINTURES DE VERONESE AU MUSEE DE MADRID", author: "Paul Lefort", pages: "470"}
-    - {title: "LE SALON DU CHAMP DE MARS (1er article)", author: "Léopold Mabilleau", pages: "474"}
-    - {title: "BIBLIOGRAPHIE : La Vie et l'OEuvre de Jean Bellegambe, compte rendu de l'ouvrage de Mgr C. Dehaisnes", author: "Alfred Darcel", pages: "514"}
+    - {title: "WATTEAU (4e article)", author: "Paul Mantz", pages: "5", pd: unknown}
+    - {title: "LA JEUNESSE DE REMBRANDT (1er article)", author: "Emile Michel", pages: "97", pd: unknown}
+    - {title: "WATTEAU (5e article)", author: "Paul Mantz", pages: "129", pd: unknown}
+    - {title: "LE COMITE FRANCAIS A L'EXPOSITION DE COPENHAGUE, TABLEAU DE M. P.-S. KROYER", author: "André Michel", pages: "148", pd: unknown}
+    - {title: "UN NOUVEAU PORTRAIT DE PETRARQUE", author: "P. de Nolhac", pages: "162", pd: unknown}
+    - {title: "CORRESPONDANCE DE BELGIQUE : Incendie du château de Laeken ; le Musée d'Anvers", author: "Henry Hymans", pages: "175", pd: unknown}
+    - {title: "WATTEAU (6e et dernier article)", author: "Paul Mantz", pages: "222", pd: unknown}
+    - {title: "MOUVEMENT DES ARTS EN ALLEMAGNE ET EN ANGLETERRE : Une histoire de la peinture allemande", author: "T. de Wyzewa", pages: "259", pd: unknown}
+    - {title: "LE REMBRANDT DU PECQ", author: "Louis Gonse", pages: "324", pd: unknown}
+    - {title: "DOCUMENTS SUR QUELQUES PEINTRES FRANCAIS DES XIVe et XVe SIECLES", author: "F. Funck-Brentano", pages: "346", pd: unknown}
+    - {title: "LES ETUDES RECENTES SUR L'ECOLE HOLLANDAISE", author: "Emile Michel", pages: "350", pd: unknown}
+    - {title: "PIERRE BREUGHEL LE VIEUX (1er article)", author: "Henry Hymans", pages: "361", pd: unknown}
+    - {title: "LA JEUNESSE DE REMBRANDT (2e article)", author: "Emile Michel", pages: "426", pd: unknown}
+    - {title: "CORRESPONDANCE DE BELGIQUE : Les maîtres portraitistes du siècle au Musée de Bruxelles", author: "Henry Hymans", pages: "437", pd: unknown}
+    - {title: "LE SALON EN 1890 AUX CHAMPS-ELYSEES (1er article)", author: "Maurice Albert", pages: "449", pd: unknown}
+    - {title: "LES PEINTURES DE VERONESE AU MUSEE DE MADRID", author: "Paul Lefort", pages: "470", pd: unknown}
+    - {title: "LE SALON DU CHAMP DE MARS (1er article)", author: "Léopold Mabilleau", pages: "474", pd: unknown}
+    - {title: "BIBLIOGRAPHIE : La Vie et l'OEuvre de Jean Bellegambe, compte rendu de l'ouvrage de Mgr C. Dehaisnes", author: "Alfred Darcel", pages: "514", pd: unknown}
   sample: {chars: 1059933, pages_texteBrut: 600, pages_with_text: 589, share_pages_with_text: 0.982, numbered_lines: 345, numbered_distinct: 81, inv: 1, no_deg: 32, h_dot: 11, l_dot: 1, fig: 0, pl: 13, caps_words: 3608, caps_words_distinct: 1193, caps_name_lines: 441, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "aucun auteur d'article vérifié (Wikidata : 429 deux fois, arrêt) ; articles pd unknown"
+  score:
+    analytic: 2
+    identifiability: 0
+    images: 2
+    text: 0
+    quality: 1
+    effort: 0
+    total: 5
+    notes: "analytic : articles critiques et historiques (essais) ; identifiability : pas de notices numérotées (numbered_distinct 81, lignes de dimensions 11) ; images : périodique illustré (fig 0, pl 13), planches du volume en domaine public ; text : droits inconnus ; quality : OCR brut, 98% des pages avec texte ; effort : segmentation par article et droits par article : nouvelle voie technique"
 
 - id: "gazette-beaux-arts-1900-s2"
   ark: "bpt6k203151m"
@@ -453,22 +695,33 @@
   checked_at: 2026-11-17
   articles_scope: "articles sur la peinture, sélection par titre (sans lecture du texte) ; la table des matières complète compte 40 entrées"
   articles:
-    - {title: "BURNE-JONES (1er article)", author: "Mme Julia Cartwright", pages: "25"}
-    - {title: "LE SALON DE 1900 (3e et dernier article)", author: "Jules Rais", pages: "52"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION CENTENNALE : LA PEINTURE FRANCAISE (2e article)", author: "André Michel", pages: "147"}
-    - {title: "PORTRAIT D'UN CHEVALIER DE LA TOISON D'OR PEINT PAR JAN VAN EYCK", author: "W. H. James Weale", pages: "173"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - EXPOSITION DECENNALE : LA PEINTURE ETRANGERE (1er article)", author: "Léonce Bénédite", pages: "177"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION CENTENNALE : LA PEINTURE FRANCAISE (3e article)", author: "André Michel", pages: "195"}
-    - {title: "BURNE-JONES (2e et dernier article)", author: "Mme Julia Cartwright", pages: "237"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION CENTENNALE : LA PEINTURE FRANCAISE (4e article)", author: "André Michel", pages: "284"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - LA PEINTURE ANCIENNE (1er article)", author: "Georges Lafenestre", pages: "377"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION CENTENNALE : LA PEINTURE FRANCAISE (5e et dernier article)", author: "André Michel", pages: "463"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION DECENNALE : LA PEINTURE ETRANGERE (2e article)", author: "Léonce Bénédite", pages: "483"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION DECENNALE : LA PEINTURE FRANCAISE.", author: "André Michel", pages: "527"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - LA PEINTURE ANCIENNE (2e et dernier article)", author: "Georges Lafenestre", pages: "537"}
-    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - LA PEINTURE ETRANGERE (3e et dernier article)", author: "Léonce Bénédite", pages: "577"}
-    - {title: "LE DON HAYEM AU MUSEE DU LUXEMBOURG", author: "Raymond Bouyer", pages: "593"}
+    - {title: "BURNE-JONES (1er article)", author: "Mme Julia Cartwright", pages: "25", pd: unknown}
+    - {title: "LE SALON DE 1900 (3e et dernier article)", author: "Jules Rais", pages: "52", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION CENTENNALE : LA PEINTURE FRANCAISE (2e article)", author: "André Michel", pages: "147", pd: unknown}
+    - {title: "PORTRAIT D'UN CHEVALIER DE LA TOISON D'OR PEINT PAR JAN VAN EYCK", author: "W. H. James Weale", pages: "173", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - EXPOSITION DECENNALE : LA PEINTURE ETRANGERE (1er article)", author: "Léonce Bénédite", pages: "177", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION CENTENNALE : LA PEINTURE FRANCAISE (3e article)", author: "André Michel", pages: "195", pd: unknown}
+    - {title: "BURNE-JONES (2e et dernier article)", author: "Mme Julia Cartwright", pages: "237", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION CENTENNALE : LA PEINTURE FRANCAISE (4e article)", author: "André Michel", pages: "284", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - LA PEINTURE ANCIENNE (1er article)", author: "Georges Lafenestre", pages: "377", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION CENTENNALE : LA PEINTURE FRANCAISE (5e et dernier article)", author: "André Michel", pages: "463", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION DECENNALE : LA PEINTURE ETRANGERE (2e article)", author: "Léonce Bénédite", pages: "483", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - L'EXPOSITION DECENNALE : LA PEINTURE FRANCAISE.", author: "André Michel", pages: "527", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - LA PEINTURE ANCIENNE (2e et dernier article)", author: "Georges Lafenestre", pages: "537", pd: unknown}
+    - {title: "LES ARTS A L'EXPOSITION UNIVERSELLE DE 1900. - LA PEINTURE ETRANGERE (3e et dernier article)", author: "Léonce Bénédite", pages: "577", pd: unknown}
+    - {title: "LE DON HAYEM AU MUSEE DU LUXEMBOURG", author: "Raymond Bouyer", pages: "593", pd: unknown}
   sample: {chars: 1128979, pages_texteBrut: 675, pages_with_text: 671, share_pages_with_text: 0.994, numbered_lines: 114, numbered_distinct: 37, inv: 0, no_deg: 7, h_dot: 24, l_dot: 0, fig: 33, pl: 68, caps_words: 5762, caps_words_distinct: 1333, caps_name_lines: 867, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "aucun auteur d'article vérifié (Wikidata : 429 deux fois, arrêt) ; articles pd unknown"
+  score:
+    analytic: 2
+    identifiability: 0
+    images: 2
+    text: 0
+    quality: 1
+    effort: 0
+    total: 5
+    notes: "analytic : articles critiques et historiques (essais) ; identifiability : pas de notices numérotées (numbered_distinct 37, lignes de dimensions 24) ; images : périodique illustré (fig 33, pl 68), planches du volume en domaine public ; text : droits inconnus ; quality : OCR brut, 99% des pages avec texte ; effort : segmentation par article et droits par article : nouvelle voie technique"
 
 - id: "gazette-beaux-arts-1910-s1"
   ark: "bpt6k2031766"
@@ -489,19 +742,30 @@
   checked_at: 2026-11-17
   articles_scope: "articles sur la peinture, sélection par titre (sans lecture du texte) ; la table des matières complète compte 36 entrées"
   articles:
-    - {title: "L'EXPOSITION NATIONALE DES MAITRES ANCIENS A LONDRES", author: "François Monod", pages: "43"}
-    - {title: "DU ROMANTISME AU REALISME: LES CONDITIONS SOCIALES DE LA PEINTURE SOUS LA MONARCHIE DE JUILLET (1er article)", author: "Léon Rosenthal", pages: "93"}
-    - {title: "UN PEINTRE DOMINICAIN: LE P. BESSON", author: "André Pératé", pages: "145"}
-    - {title: "LES CONDITIONS SOCIALES DE LA PEINTURE SOUS LA MONARCHIE DE JUILLET (2e article)", author: "Léon Rosenthal", pages: "217"}
-    - {title: "L'EXPOSITION NATIONALE DE MAITRES ANCIENS A LONDRES (2e et dernier article)", author: "François Monod", pages: "242"}
-    - {title: "CORRESPONDANCE D'ALLEMAGNE: L'EXPOSITION D'ART FRANCAIS DU XVIIIe SIECLE A BERLIN (LA PEINTURE)", author: "J. Meier-Graefe", pages: "262"}
-    - {title: "ARTISTES CONTEMPORAINS. - EMILE CLAUS", author: "Henry Marcel", pages: "317"}
-    - {title: "LES CONDITIONS SOCIALES DE LA PEINTURE SOUS LA MONARCHIE DE JUILLET (3e et dernier article)", author: "Léon Rosenthal", pages: "332"}
-    - {title: "LES SALONS DE 1910 (1er article)", author: "Henry Bidou", pages: "361"}
-    - {title: "L'ORIGINE DES CLOUET", author: "Henri Stein", pages: "393"}
-    - {title: "QUELQUES PORTRAITS HISTORIQUES DU DEBUT DU XVe SIECLE", author: "Paul Durrieu", pages: "461"}
-    - {title: "LES SALONS DE 1910 (2e article)", author: "Henry Bidou", pages: "470"}
+    - {title: "L'EXPOSITION NATIONALE DES MAITRES ANCIENS A LONDRES", author: "François Monod", pages: "43", pd: unknown}
+    - {title: "DU ROMANTISME AU REALISME: LES CONDITIONS SOCIALES DE LA PEINTURE SOUS LA MONARCHIE DE JUILLET (1er article)", author: "Léon Rosenthal", pages: "93", pd: unknown}
+    - {title: "UN PEINTRE DOMINICAIN: LE P. BESSON", author: "André Pératé", pages: "145", pd: unknown}
+    - {title: "LES CONDITIONS SOCIALES DE LA PEINTURE SOUS LA MONARCHIE DE JUILLET (2e article)", author: "Léon Rosenthal", pages: "217", pd: unknown}
+    - {title: "L'EXPOSITION NATIONALE DE MAITRES ANCIENS A LONDRES (2e et dernier article)", author: "François Monod", pages: "242", pd: unknown}
+    - {title: "CORRESPONDANCE D'ALLEMAGNE: L'EXPOSITION D'ART FRANCAIS DU XVIIIe SIECLE A BERLIN (LA PEINTURE)", author: "J. Meier-Graefe", pages: "262", pd: unknown}
+    - {title: "ARTISTES CONTEMPORAINS. - EMILE CLAUS", author: "Henry Marcel", pages: "317", pd: unknown}
+    - {title: "LES CONDITIONS SOCIALES DE LA PEINTURE SOUS LA MONARCHIE DE JUILLET (3e et dernier article)", author: "Léon Rosenthal", pages: "332", pd: unknown}
+    - {title: "LES SALONS DE 1910 (1er article)", author: "Henry Bidou", pages: "361", pd: unknown}
+    - {title: "L'ORIGINE DES CLOUET", author: "Henri Stein", pages: "393", pd: unknown}
+    - {title: "QUELQUES PORTRAITS HISTORIQUES DU DEBUT DU XVe SIECLE", author: "Paul Durrieu", pages: "461", pd: yes}
+    - {title: "LES SALONS DE 1910 (2e article)", author: "Henry Bidou", pages: "470", pd: unknown}
   sample: {chars: 1030262, pages_texteBrut: 607, pages_with_text: 605, share_pages_with_text: 0.997, numbered_lines: 740, numbered_distinct: 62, inv: 0, no_deg: 89, h_dot: 44, l_dot: 1, fig: 142, pl: 120, caps_words: 5425, caps_words_distinct: 1508, caps_name_lines: 778, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: partial
+  pd_basis: "1 article sur 12 : décès de Durrieu en 1925 ; les 11 autres articles unknown (Wikidata : 429 deux fois, arrêt)"
+  score:
+    analytic: 2
+    identifiability: 0
+    images: 2
+    text: 1
+    quality: 1
+    effort: 0
+    total: 6
+    notes: "analytic : articles critiques et historiques (essais) ; identifiability : pas de notices numérotées (numbered_distinct 62, lignes de dimensions 44) ; images : périodique illustré (fig 142, pl 120), planches du volume en domaine public ; text : domaine public pour une partie des articles seulement ; quality : OCR brut, 100% des pages avec texte ; effort : segmentation par article et droits par article : nouvelle voie technique"
 
 - id: "revue-art-ancien-moderne-1900-s1"
   ark: "bpt6k5628139p"
@@ -522,20 +786,31 @@
   checked_at: 2026-11-17
   articles_scope: "articles sur la peinture, sélection par titre (sans lecture du texte) ; la table des matières complète compte 36 entrées"
   articles:
-    - {title: "Daniel Dupuis et ses dernières oeuvres", author: "A. de Foville", pages: "89"}
-    - {title: "Dessins (les) de Puvis de Chavannes au Musée du Luxembourg", author: "Léonce Benedite", pages: "15"}
-    - {title: "Exposition (l') Van Dyck à Londres", author: "Jean Durand", pages: "207"}
-    - {title: "La peinture (I)", author: "L. de Fourcaud", pages: "409"}
-    - {title: "Femme (la) de Jean. Van Eyck à l'Académie de Bruges", author: "Henri Bouchot", pages: "405"}
-    - {title: "Fresques (les) de l'Angelico dans le cloître Saint-Marc, à Florence", author: "Pierre Gauthiez", pages: "193"}
-    - {title: "Goya (V)", author: "Paul Lafond", pages: "45"}
-    - {title: "Legros (Alphonse)", author: "Léonce Benedite", pages: "335"}
-    - {title: "Lévy-Dhurmer (L.)", author: "Jacques Sorreze", pages: "121"}
-    - {title: "Peintre (un) explorateur: Maurice Potter", author: "Léonce Benedite", pages: "267"}
-    - {title: "Peintres (les) français au XVIIIe siècle", author: "Marcel Nicolle", pages: "149"}
-    - {title: "Rosa Bonheur", author: "Auge de Lassus", pages: "379"}
-    - {title: "Vierge (la) et l'Enfant de Piero della Francesca au Musée du Louvre", author: "Georges Lafenestre", pages: "81"}
+    - {title: "Daniel Dupuis et ses dernières oeuvres", author: "A. de Foville", pages: "89", pd: unknown}
+    - {title: "Dessins (les) de Puvis de Chavannes au Musée du Luxembourg", author: "Léonce Benedite", pages: "15", pd: unknown}
+    - {title: "Exposition (l') Van Dyck à Londres", author: "Jean Durand", pages: "207", pd: unknown}
+    - {title: "La peinture (I)", author: "L. de Fourcaud", pages: "409", pd: unknown}
+    - {title: "Femme (la) de Jean. Van Eyck à l'Académie de Bruges", author: "Henri Bouchot", pages: "405", pd: unknown}
+    - {title: "Fresques (les) de l'Angelico dans le cloître Saint-Marc, à Florence", author: "Pierre Gauthiez", pages: "193", pd: unknown}
+    - {title: "Goya (V)", author: "Paul Lafond", pages: "45", pd: unknown}
+    - {title: "Legros (Alphonse)", author: "Léonce Benedite", pages: "335", pd: unknown}
+    - {title: "Lévy-Dhurmer (L.)", author: "Jacques Sorreze", pages: "121", pd: unknown}
+    - {title: "Peintre (un) explorateur: Maurice Potter", author: "Léonce Benedite", pages: "267", pd: unknown}
+    - {title: "Peintres (les) français au XVIIIe siècle", author: "Marcel Nicolle", pages: "149", pd: unknown}
+    - {title: "Rosa Bonheur", author: "Auge de Lassus", pages: "379", pd: unknown}
+    - {title: "Vierge (la) et l'Enfant de Piero della Francesca au Musée du Louvre", author: "Georges Lafenestre", pages: "81", pd: unknown}
   sample: {chars: 829342, pages_texteBrut: 586, pages_with_text: 559, share_pages_with_text: 0.954, numbered_lines: 98, numbered_distinct: 18, inv: 0, no_deg: 61, h_dot: 12, l_dot: 0, fig: 52, pl: 13, caps_words: 5470, caps_words_distinct: 1661, caps_name_lines: 1067, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "aucun auteur d'article vérifié (Wikidata : 429 deux fois, arrêt) ; articles pd unknown"
+  score:
+    analytic: 2
+    identifiability: 0
+    images: 2
+    text: 0
+    quality: 1
+    effort: 0
+    total: 5
+    notes: "analytic : articles critiques et historiques (essais) ; identifiability : pas de notices numérotées (numbered_distinct 18, lignes de dimensions 12) ; images : périodique illustré (fig 52, pl 13), planches du volume en domaine public ; text : droits inconnus ; quality : OCR brut, 95% des pages avec texte ; effort : segmentation par article et droits par article : nouvelle voie technique"
 
 - id: "revue-art-ancien-moderne-1910-s2"
   ark: "bpt6k432533s"
@@ -556,12 +831,23 @@
   checked_at: 2026-11-17
   articles_scope: "articles sur la peinture, sélection par titre (sans lecture du texte) ; la table des matières complète compte 22 entrées"
   articles:
-    - {title: "Dehodencq (Alfred) (1822-1882)", author: "Maurice Hamel", pages: "269"}
-    - {title: "Doomer (Lambert) (1622-1700)", author: "A. Bredius", pages: "401"}
-    - {title: "Exposition (l') de l'art flamand du XVIIe siècle au palais du Cinquantenaire de Bruxelles (I, III", author: "Teodor de Wyzewa", pages: "177, 301"}
-    - {title: "« Salon (le) de 1845 » d'Eugène Fromentin", author: "Léon Rosenthal", pages: "367"}
-    - {title: "Stengelin (Alphonse), peintre et graveur", author: "Raymond Bouyer", pages: "107"}
+    - {title: "Dehodencq (Alfred) (1822-1882)", author: "Maurice Hamel", pages: "269", pd: unknown}
+    - {title: "Doomer (Lambert) (1622-1700)", author: "A. Bredius", pages: "401", pd: unknown}
+    - {title: "Exposition (l') de l'art flamand du XVIIe siècle au palais du Cinquantenaire de Bruxelles (I, III", author: "Teodor de Wyzewa", pages: "177, 301", pd: unknown}
+    - {title: "« Salon (le) de 1845 » d'Eugène Fromentin", author: "Léon Rosenthal", pages: "367", pd: unknown}
+    - {title: "Stengelin (Alphonse), peintre et graveur", author: "Raymond Bouyer", pages: "107", pd: unknown}
   sample: {chars: 874637, pages_texteBrut: 532, pages_with_text: 527, share_pages_with_text: 0.991, numbered_lines: 403, numbered_distinct: 38, inv: 0, no_deg: 34, h_dot: 22, l_dot: 0, fig: 107, pl: 98, caps_words: 3625, caps_words_distinct: 1241, caps_name_lines: 454, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "aucun auteur d'article vérifié (Wikidata : 429 deux fois, arrêt) ; articles pd unknown"
+  score:
+    analytic: 2
+    identifiability: 0
+    images: 2
+    text: 0
+    quality: 1
+    effort: 0
+    total: 5
+    notes: "analytic : articles critiques et historiques (essais) ; identifiability : pas de notices numérotées (numbered_distinct 38, lignes de dimensions 22) ; images : périodique illustré (fig 107, pl 98), planches du volume en domaine public ; text : droits inconnus ; quality : OCR brut, 99% des pages avec texte ; effort : segmentation par article et droits par article : nouvelle voie technique"
 
 - id: "vente-isabey-1887"
   ark: "bpt6k12428805"
@@ -580,6 +866,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&maximumRecords=40&startRecord=1&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22tableaux%22%20and%20dc.format%20all%20%22ill%22%20and%20dc.description%20all%20%22Vente%22%20and%20dc.description%20all%20%22Paris%22%20and%20dc.type%20all%20%22monographie%22%20and%20dc.date%20%3E%3D%20%221870%22%20and%20dc.date%20%3C%3D%20%221930%22"
   checked_at: 2026-11-17
   sample: {chars: 21539, pages_texteBrut: 70, pages_with_text: 65, share_pages_with_text: 0.929, numbered_lines: 267, numbered_distinct: 266, inv: 0, no_deg: 0, h_dot: 0, l_dot: 0, fig: 0, pl: 0, caps_words: 161, caps_words_distinct: 47, caps_name_lines: 15, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "expert Georges Petit : date de décès non relevée (candidat Wikidata Q44139 sans date), bloque le volume"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 2
+    text: 0
+    quality: 1
+    effort: 1
+    total: 5
+    notes: "analytic : 81 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (266 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : planches ou illustrations imprimées dans le volume (« X-57 p. : ill., couv. ill. ; 27 cm »), domaine public ; text : droits inconnus ; quality : OCR brut, 93% des pages avec texte ; effort : voie texteBrut Gallica à adapter (lots numérotés, texte court)"
 
 - id: "vente-palizzi-1888"
   ark: "bpt6k1242723s"
@@ -598,6 +895,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&maximumRecords=40&startRecord=1&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22tableaux%22%20and%20dc.format%20all%20%22ill%22%20and%20dc.description%20all%20%22Vente%22%20and%20dc.description%20all%20%22Paris%22%20and%20dc.type%20all%20%22monographie%22%20and%20dc.date%20%3E%3D%20%221870%22%20and%20dc.date%20%3C%3D%20%221930%22"
   checked_at: 2026-11-17
   sample: {chars: 18609, pages_texteBrut: 55, pages_with_text: 50, share_pages_with_text: 0.909, numbered_lines: 195, numbered_distinct: 187, inv: 0, no_deg: 2, h_dot: 0, l_dot: 0, fig: 0, pl: 0, caps_words: 120, caps_words_distinct: 84, caps_name_lines: 37, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "expert Haro : prénom non relevé, identité non établie, bloque le volume"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 2
+    text: 0
+    quality: 1
+    effort: 1
+    total: 5
+    notes: "analytic : 100 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (187 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : planches ou illustrations imprimées dans le volume (« 62 p. : ill., couv. ill. ; 24 cm »), domaine public ; text : droits inconnus ; quality : OCR brut, 91% des pages avec texte ; effort : voie texteBrut Gallica à adapter (lots numérotés, texte court)"
 
 - id: "vente-renouf-1894"
   ark: "bpt6k1249980p"
@@ -616,6 +924,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&maximumRecords=40&startRecord=1&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22tableaux%22%20and%20dc.format%20all%20%22ill%22%20and%20dc.description%20all%20%22Vente%22%20and%20dc.description%20all%20%22Paris%22%20and%20dc.type%20all%20%22monographie%22%20and%20dc.date%20%3E%3D%20%221870%22%20and%20dc.date%20%3C%3D%20%221930%22"
   checked_at: 2026-11-17
   sample: {chars: 22687, pages_texteBrut: 40, pages_with_text: 33, share_pages_with_text: 0.825, numbered_lines: 147, numbered_distinct: 142, inv: 0, no_deg: 0, h_dot: 0, l_dot: 0, fig: 0, pl: 0, caps_words: 38, caps_words_distinct: 31, caps_name_lines: 12, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: unknown
+  pd_basis: "expert Georges Petit : date de décès non relevée (candidat Wikidata Q44139 sans date), bloque le volume"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 2
+    text: 0
+    quality: 1
+    effort: 1
+    total: 5
+    notes: "analytic : 160 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (142 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : planches ou illustrations imprimées dans le volume (« 29 p.-[3] f. de pl. : ill., couv. ill. ; 25 cm »), domaine public ; text : droits inconnus ; quality : OCR brut, 82% des pages avec texte ; effort : voie texteBrut Gallica à adapter (lots numérotés, texte court)"
 
 - id: "vente-luminais-1898"
   ark: "bpt6k1253202g"
@@ -634,6 +953,17 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&maximumRecords=40&startRecord=1&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22tableaux%22%20and%20dc.format%20all%20%22ill%22%20and%20dc.description%20all%20%22Vente%22%20and%20dc.description%20all%20%22Paris%22%20and%20dc.type%20all%20%22monographie%22%20and%20dc.date%20%3E%3D%20%221870%22%20and%20dc.date%20%3C%3D%20%221930%22"
   checked_at: 2026-11-17
   sample: {chars: 54140, pages_texteBrut: 78, pages_with_text: 67, share_pages_with_text: 0.859, numbered_lines: 204, numbered_distinct: 172, inv: 0, no_deg: 0, h_dot: 0, l_dot: 0, fig: 0, pl: 0, caps_words: 117, caps_words_distinct: 98, caps_name_lines: 25, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "anonyme ou collectif publié en 1898 (experts non nommés dans la notice ; contrôle de la page de titre en C3, bascule en unknown si un expert est nommé sans date)"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 2
+    text: 2
+    quality: 1
+    effort: 1
+    total: 7
+    notes: "analytic : 315 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (172 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : planches ou illustrations imprimées dans le volume (« XII-53 p.-[7] f. de pl. : ill., couv. ill. ; 32 cm »), domaine public ; text : domaine public ; quality : OCR brut, 86% des pages avec texte ; effort : voie texteBrut Gallica à adapter (lots numérotés, texte court)"
 
 - id: "vente-ribes-christofle-1928"
   ark: "bpt6k70513731"
@@ -652,3 +982,14 @@
   evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&maximumRecords=30&startRecord=1&query=dc.title%20all%20%22catalogue%20de%20tableaux%22%20and%20dc.type%20all%20%22monographie%22%20and%20dc.date%20%3E%3D%20%221870%22%20and%20dc.date%20%3C%3D%20%221930%22%20and%20dc.description%20all%20%22Paris%22"
   checked_at: 2026-11-17
   sample: {chars: 55943, pages_texteBrut: 110, pages_with_text: 63, share_pages_with_text: 0.573, numbered_lines: 203, numbered_distinct: 200, inv: 0, no_deg: 6, h_dot: 0, l_dot: 0, fig: 0, pl: 69, caps_words: 426, caps_words_distinct: 197, caps_name_lines: 90, method: "texteBrut document entier (1 requête), calcul local, texte non conservé", measured_at: 2026-11-17}
+  pd_status: yes
+  pd_basis: "anonyme ou collectif publié en 1928 (experts non nommés dans la notice ; contrôle de la page de titre en C3, bascule en unknown si un expert est nommé sans date)"
+  score:
+    analytic: 0
+    identifiability: 1
+    images: 2
+    text: 2
+    quality: 0
+    effort: 1
+    total: 6
+    notes: "analytic : 280 caractères par notice : notices brèves, quasi-liste ; identifiability : notices numérotées (200 distinctes), numéros d'inventaire actuels rares (inv 0) : numéros internes ; images : planches ou illustrations imprimées dans le volume (« 1 vol. (65 p.) : pl. ; in-4 »), domaine public ; text : domaine public ; quality : OCR brut, 57% des pages avec texte (insuffisant) ; effort : voie texteBrut Gallica à adapter (lots numérotés, texte court)"

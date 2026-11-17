@@ -4,8 +4,9 @@
 # Sources : Wikidata (P570, description). IdRef (Sru/Solr) injoignable pendant la session
 # (connexion réinitialisée) : aucune date n'est issue d'IdRef. Wikidata a répondu 429 à de
 # nombreuses requêtes ; les noms marqués « requête échouée » sont à relancer.
-# Personnes morales (collectivités) : la règle par date de décès ne s'applique pas ; pd reste
-# unknown et la règle à appliquer (publication, anonymat) est à trancher par le porteur.
+# Personnes morales (collectivités) : pd: by_publication_year (règle complémentaire, voir README :
+# publié au plus tard en 1955). Passe du 2026-11-17 (2) : Wikidata a répondu 429 deux fois, arrêt
+# des requêtes (consigne) ; les noms marqués « non interrogé » restent unknown.
 # identity_confidence : high = nom + profession + époque concordants ; medium = un seul
 # candidat, profession et époque concordants, sans recoupement supplémentaire ; low = aucun
 # candidat concordant, ou dates en conflit.
@@ -23,7 +24,7 @@ authors:
     identity_confidence: high
     source_url: "https://www.wikidata.org/wiki/Q3000448"
     pd: yes
-    note: "Wikidata : médiéviste, historien et philologue français, 1855-1925 (P570 1925-11-24). Une entrée distincte (Q125930853) le donne conservateur de la peinture au Louvre."
+    note: "Wikidata : médiéviste, historien et philologue français, 1855-1925 (P570 1925-11-24). Une entrée distincte (Q125930853) le donne conservateur de la peinture au Louvre. Passe 2 : rattaché aussi à l'auteur d'article « Paul Durrieu » (gazette-beaux-arts-1910-s1, p. 461, sujet concordant, non recoupé) : seul article de fascicule pd: yes."
 
   - name: "Benoît, Camille (1851-1923)"
     death_year: 1923
@@ -51,28 +52,28 @@ authors:
     identity_confidence: low
     source_url: "https://www.wikidata.org/w/index.php?search=Emile+Collet"
     pd: unknown
-    note: "Requête échouée (429) ; à relancer. Aucune date disponible."
+    note: "Relancé le 2026-11-17 : wbsearchentities (fr) sans aucun résultat. Pas de dates dans la notice du volume. Bloque le volume collet-1894-soissons-catalogue-peintures."
 
   - name: "Biais, Émile (1850-1932)"
     death_year: 1932
-    identity_confidence: low
+    identity_confidence: medium
     source_url: "https://www.wikidata.org/wiki/Q3588349"
-    pd: unknown
-    note: "Candidat Wikidata : archiviste et historien français, décès 1932-06-01, mais naissance 1840-12-27 alors que gallica.yaml indique 1850. Dates en conflit : identité non établie."
+    pd: yes
+    note: "Décès 1932 donné par la notice BnF du volume (1850-1932) et par Wikidata (archiviste et historien, 1932-06-01) : concordance sur le décès ; naissance divergente (1850 contre 1840), donc identité medium. Marge de plus de 20 ans avant 1955. Décision du 2026-11-17 (règle : date connue = règle par décès) ; à confirmer par l'orchestrateur."
 
   - name: "Berthomieu, Louis (1870-1928)"
-    death_year: unknown
-    identity_confidence: low
-    source_url: "https://www.wikidata.org/wiki/Q137876231"
-    pd: unknown
-    note: "Seul candidat Wikidata : officier militaire français, 1890-1936 ; profession et dates en conflit avec gallica.yaml (1870-1928). Identité non établie."
+    death_year: 1928
+    identity_confidence: medium
+    source_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru (notice du volume berthomieu-1923-narbonne-catalogue-peintures)"
+    pd: yes
+    note: "Décès 1928 tiré de la notice BnF du volume seule ; le seul candidat Wikidata (officier, 1890-1936) est une autre personne. Non recoupé : identité medium. Décision du 2026-11-17 ; à confirmer par l'orchestrateur."
 
   - name: "Masson, Charles (1858-1931)"
-    death_year: unknown
-    identity_confidence: low
-    source_url: "https://www.wikidata.org/w/index.php?search=Charles+Masson"
-    pd: unknown
-    note: "Candidats Wikidata (dessinateur de BD, joueurs de hockey, militaire) non concordants. Aucun candidat retenu."
+    death_year: 1931
+    identity_confidence: medium
+    source_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru (notice du volume masson-1927-luxembourg-peintures)"
+    pd: yes
+    note: "Décès 1931 tiré de la notice BnF du volume seule (Musée national du Luxembourg) ; aucun candidat Wikidata concordant. Non recoupé : identité medium. Décision du 2026-11-17 ; à confirmer par l'orchestrateur."
 
   - name: "Burroughs, Bryson (1869-1934)"
     death_year: 1934
@@ -85,40 +86,402 @@ authors:
     death_year: unknown
     identity_confidence: high
     source_url: "non applicable (personne morale)"
-    pd: unknown
-    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+    pd: by_publication_year
+    note: "Personne morale : règle complémentaire (README) : domaine public si publié au plus tard en 1955, appréciée volume par volume."
 
   - name: "Musée du Louvre (Paris). Département des peintures"
     death_year: unknown
     identity_confidence: high
     source_url: "non applicable (personne morale)"
-    pd: unknown
-    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+    pd: by_publication_year
+    note: "Personne morale : règle complémentaire (README) : domaine public si publié au plus tard en 1955, appréciée volume par volume."
 
   - name: "Musée Ingres Bourdelle (Montauban)"
     death_year: unknown
     identity_confidence: high
     source_url: "non applicable (personne morale)"
-    pd: unknown
-    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+    pd: by_publication_year
+    note: "Personne morale : règle complémentaire (README) : domaine public si publié au plus tard en 1955, appréciée volume par volume."
 
   - name: "Musée des beaux-arts (Dijon)"
     death_year: unknown
     identity_confidence: high
     source_url: "non applicable (personne morale)"
-    pd: unknown
-    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+    pd: by_publication_year
+    note: "Personne morale : règle complémentaire (README) : domaine public si publié au plus tard en 1955, appréciée volume par volume."
 
   - name: "Palais des beaux-arts (Lille)"
     death_year: unknown
     identity_confidence: high
     source_url: "non applicable (personne morale)"
-    pd: unknown
-    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+    pd: by_publication_year
+    note: "Personne morale : règle complémentaire (README) : domaine public si publié au plus tard en 1955, appréciée volume par volume."
 
   - name: "Musée de Picardie (Amiens)"
     death_year: unknown
     identity_confidence: high
     source_url: "non applicable (personne morale)"
+    pd: by_publication_year
+    note: "Personne morale : règle complémentaire (README) : domaine public si publié au plus tard en 1955, appréciée volume par volume."
+
+  # --- Passe 2 (2026-11-17) : auteurs d'articles des fascicules et experts des catalogues de vente ---
+
+  - name: "Georges Petit"
+    role: "expert, catalogues de vente (vente-isabey-1887, vente-renouf-1894)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "https://www.wikidata.org/wiki/Q44139"
     pd: unknown
-    note: "Personne morale : pas de date de décès. Règle collective à trancher par le porteur."
+    note: "Candidat Wikidata Q44139 (« galeriste et marchand d'art français ») trouvé par recherche ; décès non relevé (aucune lecture de P570), rattachement à l'expert des catalogues non vérifié. Bloque deux volumes."
+
+  - name: "Haro (expert, prénom non relevé)"
+    role: "expert, catalogue de vente (vente-palizzi-1888)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non applicable"
+    pd: unknown
+    note: "Recherche Wikidata sans résultat ; prénom absent de la notice : identité non établie. Bloque le volume."
+
+  - name: "George H. Story"
+    role: "éventuel auteur du catalogue met-catalogue-paintings-1905-1911 (cité par une notice non consultée)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "https://www.wikidata.org/wiki/Q19753881"
+    pd: unknown
+    note: "Candidat Wikidata Q19753881 « George Henry Story, peintre américain » ; décès non relevé ; non établi qu'il soit auteur : volume traité comme collectif publié en 1911."
+
+  - name: "Paul Lefort"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Léonce Mesnard"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Walther Fol"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Paul Mantz"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "J. Buisson"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Ernest Chesneau"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Louis Viardot"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Anatole de Montaiglon"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Emile Michel"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "André Michel"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "P. de Nolhac"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Henry Hymans"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "T. de Wyzewa"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Louis Gonse"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "F. Funck-Brentano"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Maurice Albert"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Léopold Mabilleau"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Alfred Darcel"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Mme Julia Cartwright"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Jules Rais"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "W. H. James Weale"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Léonce Bénédite (graphie Benedite dans la Revue)"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Georges Lafenestre"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Raymond Bouyer"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "François Monod"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Léon Rosenthal"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "André Pératé"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "J. Meier-Graefe"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Henry Marcel"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Henry Bidou"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Henri Stein"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "A. de Foville"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Jean Durand"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "L. de Fourcaud"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Henri Bouchot"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Pierre Gauthiez"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Paul Lafond"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Jacques Sorreze"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Marcel Nicolle"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Auge de Lassus"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "Maurice Hamel"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."
+
+  - name: "A. Bredius"
+    role: "auteur d'article (fascicules Gazette des beaux-arts / Revue de l'art ancien et moderne)"
+    death_year: unknown
+    identity_confidence: low
+    source_url: "non interrogé"
+    pd: unknown
+    note: "Non interrogé : Wikidata a répondu 429 deux fois le 2026-11-17, arrêt des requêtes conformément à la consigne. Ses articles restent pd: unknown."

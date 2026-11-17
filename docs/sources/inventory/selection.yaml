@@ -1,0 +1,304 @@
+# Sélection C0 (2026-11-17) : volumes admissibles par type de cas, et volumes retenus (selected: true).
+# Les droits viennent de gallica.yaml / met-getty.yaml (pd_status, pd_basis) ; les scores de leurs champs
+# score (grille PLAN_CORPUS §4, total sur 12). Tirage des tenus à l'écart : scripts/freeze_heldout.py,
+# résultat dans gold/heldout-volumes.yaml. Types à un seul volume : pas de tirage (rien à comparer).
+# Aucun volume n'atteint 9/12 hors Terracottas ; seuil 8 non appliqué : le plan demande de garder des
+# volumes faibles pour ne pas surestimer le pipeline.
+generated: '2026-11-17'
+rule: admissible = pd_status yes ou partial, langue FR ou EN ; selected = retenu pour le tirage des tenus
+  à l'écart
+types:
+- type: museum_catalogue_fr
+  description: catalogue de musée, français
+  volumes:
+  - id: villot-1849-notice-louvre-1re-ed
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Villot en 1875
+    score_total: 7
+    selected: true
+    reason: Louvre, 1re édition Villot (1849)
+  - id: villot-1855-notice-louvre-12e-ed
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Villot en 1875
+    score_total: 7
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: villot-1855-notice-louvre-2e-partie
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Villot en 1875
+    score_total: 7
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: villot-1855-notice-louvre-3e-partie-2e-ed
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Villot en 1875
+    score_total: 7
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: villot-1875-notice-louvre-1re-partie-19e-ed
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Villot en 1875 ; Musée du Louvre (collectif) publié en 1875
+    score_total: 7
+    selected: true
+    reason: 'Louvre, 19e édition Villot (1875) : permet de comparer les attributions avec 1849'
+  - id: durrieu-benoit-1903-catalogue-sommaire-louvre
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Durrieu en 1925 et de Benoît en 1923 (identité de Benoît medium) ; Département
+      des peintures (collectif) publié en 1903
+    score_total: 6
+    selected: true
+    reason: Louvre 1903, autres auteurs, catalogue sommaire (notices très brèves)
+  - id: montauban-1885-catalogue-peintures
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: collectif publié en 1885
+    score_total: 6
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: besancon-1844-catalogue-peintures-dessins
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: anonyme ou collectif publié en 1844
+    score_total: 6
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: biais-1884-angouleme-peintures
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Biais en 1932 (notice BnF ; Wikidata concorde sur le décès, naissance divergente)
+    score_total: 7
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: abbeville-1902-catalogue-peintures
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: anonyme ou collectif publié en 1902
+    score_total: 7
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: dijon-1869-catalogue-historique-descriptif
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: collectif publié en 1869
+    score_total: 6
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: berthomieu-1923-narbonne-catalogue-peintures
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Berthomieu en 1928 (notice BnF seule, non recoupé par Wikidata)
+    score_total: 8
+    selected: true
+    reason: province, 1923, planches et numéros d'inventaire, auteur nommé
+  - id: lille-1902-peintres-modernes
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: collectif publié en 1902
+    score_total: 6
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: picardie-1911-tableaux-sculptures
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: collectif publié en 1911
+    score_total: 6
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: masson-1927-luxembourg-peintures
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Masson en 1931 (notice BnF seule, non recoupé par Wikidata)
+    score_total: 7
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+  - id: bordeaux-1879-catalogue-tableaux
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: anonyme ou collectif publié en 1879
+    score_total: 6
+    selected: false
+    reason: 'admissible, non retenu (diversité : une édition ou un musée par époque suffit à ce stade)'
+- type: met_catalogue_en
+  description: catalogue Met, anglais
+  volumes:
+  - id: met-catalogue-paintings-1922-6ed
+    source: met-getty.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Burroughs en 1934 ; Metropolitan Museum (collectif) publié en 1922
+    score_total: 7
+    selected: true
+    reason: catalogue Met 1922 (6e éd.), notices par artiste avec dimensions et crédit
+  - id: met-catalogue-paintings-1926-8ed
+    source: met-getty.yaml
+    pd_status: 'yes'
+    pd_basis: décès de Burroughs en 1934 ; Metropolitan Museum (collectif) publié en 1926
+    score_total: 7
+    selected: true
+    reason: 'catalogue Met 1926 (8e éd.), même collection : éditions successives'
+  - id: met-catalogue-paintings-1905-1911
+    source: met-getty.yaml
+    pd_status: 'yes'
+    pd_basis: 'collectif publié en 1911 (aucun auteur nommé dans les métadonnées ; George H. Story cité
+      par une notice non consultée, à vérifier : bascule en unknown s''il est nommé sans date)'
+    score_total: 6
+    selected: false
+    reason: 'admissible (collectif publié en 1911) mais non échantillonné : à mesurer avant de le retenir'
+  - id: met-illustrated-catalogue-paintings-1905
+    source: met-getty.yaml
+    pd_status: 'yes'
+    pd_basis: collectif publié en 1905 (aucun auteur nommé dans les métadonnées)
+    score_total: 6
+    selected: false
+    reason: 'admissible (collectif publié en 1905) mais non échantillonné : à mesurer avant de le retenir'
+- type: periodical_fr
+  description: périodique, français
+  volumes:
+  - id: gazette-beaux-arts-1910-s1
+    source: gallica.yaml
+    pd_status: partial
+    pd_basis: '1 article sur 12 : décès de Durrieu en 1925 ; les 11 autres articles unknown (Wikidata
+      : 429 deux fois, arrêt)'
+    score_total: 6
+    selected: true
+    reason: 'seul fascicule avec au moins un article pd: yes (Durrieu, p. 461) ; un seul volume : pas
+      de tirage'
+- type: sale_catalogue_fr
+  description: catalogue de vente, français
+  volumes:
+  - id: vente-luminais-1898
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: anonyme ou collectif publié en 1898 (experts non nommés dans la notice ; contrôle de la
+      page de titre en C3, bascule en unknown si un expert est nommé sans date)
+    score_total: 7
+    selected: true
+    reason: anonyme ou collectif publié en 1898 ; page de titre à contrôler en C3
+  - id: vente-ribes-christofle-1928
+    source: gallica.yaml
+    pd_status: 'yes'
+    pd_basis: anonyme ou collectif publié en 1928 (experts non nommés dans la notice ; contrôle de la
+      page de titre en C3, bascule en unknown si un expert est nommé sans date)
+    score_total: 6
+    selected: true
+    reason: anonyme ou collectif publié en 1928, planches ; page de titre à contrôler en C3 ; qualité
+      du texte faible (57 % de pages avec texte)
+- type: quire_ccby_en
+  description: Quire CC BY, anglais
+  volumes:
+  - id: getty-mummy-portraits-roman-egypt-2020
+    source: met-getty.yaml
+    pd_status: 'yes'
+    pd_basis: licence CC BY (texte ; images tierces exclues sauf figures listées)
+    score_total: 8
+    selected: true
+    reason: CC BY 4.0, discours sans notice par objet
+- type: quire_ccbync_en
+  description: Quire CC BY-NC, anglais
+  volumes:
+  - id: getty-conserving-canvas-2023
+    source: met-getty.yaml
+    pd_status: 'yes'
+    pd_basis: CC BY-NC [NC]
+    score_total: 7
+    selected: true
+    reason: CC BY-NC accepté par le porteur
+  - id: getty-rococo-2021
+    source: met-getty.yaml
+    pd_status: 'yes'
+    pd_basis: CC BY-NC [NC]
+    score_total: 7
+    selected: true
+    reason: CC BY-NC accepté par le porteur ; non échantillonné
+- type: terracottas_existing
+  description: Terracottas, corpus existant
+  volumes:
+  - id: getty-terracottas-2016
+    source: ../terracottas-rights.md (corpus existant, J1)
+    pd_status: 'yes'
+    pd_basis: licence CC BY
+    score_total: 11
+    selected: true
+    reason: corpus déjà traité (tranche verticale) ; texte CC BY 4.0, images à contrôler figure par figure
+    score:
+      analytic: 2
+      identifiability: 2
+      images: 1
+      text: 2
+      quality: 2
+      effort: 2
+      total: 11
+      notes: 'analytic : sections Description et Discussion analytiques ; identifiability : numéros de
+        catalogue, DOR ID et numéros d''inventaire actuels (76.AD.11.1) fournis par l''éditeur ; images
+        : crédits par figure non contrôlés, affichage seul ; text : CC BY 4.0 ; quality : texte HTML natif
+        ; effort : voie Quire existante (getty_quire.py)'
+excluded:
+- id: demonts-huteau-1923-catalogue-general-louvre
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : Huteau, date de décès inconnue'
+- id: collet-1894-soissons-catalogue-peintures
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : Collet, date de décès inconnue'
+- id: gazette-beaux-arts-1859-serie
+  source: gallica.yaml
+  pd_status: unknown
+  reason: niveau série, pas un fascicule
+- id: revue-art-ancien-moderne-1897-serie
+  source: gallica.yaml
+  pd_status: unknown
+  reason: niveau série, pas un fascicule
+- id: vente-isabey-1887
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : expert Georges Petit sans date'
+- id: vente-palizzi-1888
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : expert Haro, identité non établie'
+- id: vente-renouf-1894
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : expert Georges Petit sans date'
+- id: gazette-beaux-arts-1875-s1
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : aucun article vérifié (Wikidata 429 deux fois, arrêt)'
+- id: gazette-beaux-arts-1890-s1
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : aucun article vérifié (Wikidata 429 deux fois, arrêt)'
+- id: gazette-beaux-arts-1900-s2
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : aucun article vérifié (Wikidata 429 deux fois, arrêt)'
+- id: revue-art-ancien-moderne-1900-s1
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : aucun article vérifié (Wikidata 429 deux fois, arrêt)'
+- id: revue-art-ancien-moderne-1910-s2
+  source: gallica.yaml
+  pd_status: unknown
+  reason: 'pd unknown : aucun article vérifié (Wikidata 429 deux fois, arrêt)'
+- id: met-bulletin-1916-1917-vol11-12
+  source: met-getty.yaml
+  pd_status: unknown
+  reason: 'pd unknown : auteurs des contributions non relevés'
+- id: met-bulletin-1917-06-vol12-6
+  source: met-getty.yaml
+  pd_status: unknown
+  reason: 'pd unknown : auteurs des contributions non relevés'
+- id: met-bulletin-1920-06-vol15-6
+  source: met-getty.yaml
+  pd_status: unknown
+  reason: 'pd unknown : auteurs des contributions non relevés'
+- id: met-bulletin-1927-06-vol22-6
+  source: met-getty.yaml
+  pd_status: unknown
+  reason: 'pd unknown : auteurs des contributions non relevés'

@@ -1,0 +1,41 @@
+# Gel des volumes tenus à l'écart (généré par scripts/freeze_heldout.py).
+seed: 20261117
+frozen_at: '2026-11-17'
+algorithm: random.Random(seed).choice(sorted ids retenus), un tirage par type ayant au moins 2 volumes
+  retenus, types pris dans l'ordre de selection.yaml
+selection_file: docs/sources/inventory/selection.yaml
+sha256_of: JSON canonique de la liste heldout triée par (type, id)
+sha256: 93709d63468a02235332557f99b3034b4ea379d08ee2fffffcb2fcabe2ef4ca7
+heldout:
+- type: museum_catalogue_fr
+  id: durrieu-benoit-1903-catalogue-sommaire-louvre
+- type: met_catalogue_en
+  id: met-catalogue-paintings-1922-6ed
+- type: sale_catalogue_fr
+  id: vente-luminais-1898
+- type: quire_ccbync_en
+  id: getty-conserving-canvas-2023
+dev:
+- type: museum_catalogue_fr
+  id: berthomieu-1923-narbonne-catalogue-peintures
+- type: museum_catalogue_fr
+  id: villot-1849-notice-louvre-1re-ed
+- type: museum_catalogue_fr
+  id: villot-1875-notice-louvre-1re-partie-19e-ed
+- type: met_catalogue_en
+  id: met-catalogue-paintings-1926-8ed
+- type: periodical_fr
+  id: gazette-beaux-arts-1910-s1
+- type: sale_catalogue_fr
+  id: vente-ribes-christofle-1928
+- type: quire_ccby_en
+  id: getty-mummy-portraits-roman-egypt-2020
+- type: quire_ccbync_en
+  id: getty-rococo-2021
+- type: terracottas_existing
+  id: getty-terracottas-2016
+types_without_draw:
+- periodical_fr
+- quire_ccby_en
+- terracottas_existing
+rule: les volumes tenus à l'écart ne servent jamais au réglage
