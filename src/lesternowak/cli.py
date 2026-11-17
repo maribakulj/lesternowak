@@ -53,6 +53,22 @@ def build_parser() -> argparse.ArgumentParser:
     ev.add_argument("--spans", type=Path, default=Path("data/slice/spans.jsonl"))
     ev.add_argument("--name", required=True)
     ev.add_argument("--out", type=Path, required=True)
+    rq = sub.add_parser("review-queue", help="file de vérification (pilote C6)")
+    rq.add_argument("--slice", type=Path, default=Path("data/slice"))
+    rq.add_argument("--adapter", default="getty-terracottas")
+    rq.add_argument("--out", type=Path, default=Path("data/review/queue.jsonl"))
+    rq.add_argument("--blind-rate", type=float, default=0.15)
+    rq.add_argument("--seed", type=int, default=7)
+    rs = sub.add_parser("review-serve", help="serveur local de vérification (127.0.0.1)")
+    rs.add_argument("--queue", type=Path, default=Path("data/review/queue.jsonl"))
+    rs.add_argument("--events", type=Path, default=Path("data/review/events.jsonl"))
+    rs.add_argument("--port", type=int, default=8765)
+    rs.add_argument("--host", default="127.0.0.1")
+    rs.add_argument("--annotator", required=True)
+    rx = sub.add_parser("review-export", help="gold (sans texte) depuis les décisions")
+    rx.add_argument("--queue", type=Path, required=True)
+    rx.add_argument("--events", type=Path, required=True)
+    rx.add_argument("--out", type=Path, required=True)
     ag = sub.add_parser("agreement", help="accord brut et kappa entre deux gold")
     ag.add_argument("--a", type=Path, required=True)
     ag.add_argument("--b", type=Path, required=True)
@@ -106,6 +122,38 @@ def cmd_agreement(args) -> int:
 
     r = evl.agreement(evl.read_gold(args.a), evl.read_gold(args.b))
     print(json.dumps(r, indent=2))
+    return 0
+
+
+def cmd_review_queue(args) -> int:
+    from lesternowak import review
+
+    items = review.make_queue(args.adapter, args.slice, args.blind_rate, args.seed)
+    review.write_queue(args.out, items)
+    nb = sum(i.blind for i in items)
+    print(f"{len(items)} éléments dont {nb} à l'aveugle -> {args.out}")
+    return 0
+
+
+def cmd_review_serve(args) -> int:
+    from lesternowak import review
+
+    srv = review.make_server(args.queue, args.events, args.annotator, args.host, args.port)
+    print(f"http://{args.host}:{srv.server_address[1]}/ (Ctrl+C pour arrêter)", flush=True)
+    try:
+        srv.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        srv.server_close()
+    return 0
+
+
+def cmd_review_export(args) -> int:
+    from lesternowak import review
+
+    n = review.export_gold(args.queue, args.events, args.out)
+    print(f"{n} enregistrements gold -> {args.out}")
     return 0
 
 
@@ -183,6 +231,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         "annotation-import": cmd_annotation_import,
         "eval": cmd_eval,
         "agreement": cmd_agreement,
+        "review-queue": cmd_review_queue,
+        "review-serve": cmd_review_serve,
+        "review-export": cmd_review_export,
     }
     if args.command in handlers:
         return handlers[args.command](args)

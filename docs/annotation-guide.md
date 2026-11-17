@@ -90,3 +90,32 @@ texte complet.
 - Rattachement strict : `about` = positif. Tolérant : `about` ∪ `group`.
 - Fonction : exactitude et F1 par classe.
 - Les couples `unsure` sont exclus des métriques et comptés à part.
+
+## 7. Pilote de vérification
+
+Interface locale (lot C6) pour vérifier les liens un à un, sans feuille CSV. Les décisions sont
+ajoutées à `events.jsonl` (append-only) ; rien n'est jamais réécrit.
+
+```bash
+uv run lesternowak review-queue --slice data/slice --out data/review/queue.jsonl --blind-rate 0.15 --seed 7
+uv run lesternowak review-serve --queue data/review/queue.jsonl --events data/review/events.jsonl --port 8765 --annotator NOM
+# ouvrir http://127.0.0.1:8765/ ; Ctrl+C pour arrêter, relancer la même commande pour reprendre
+uv run lesternowak review-export --queue data/review/queue.jsonl --events data/review/events.jsonl --out gold/<corpus>/review-v1.jsonl
+```
+
+La file alterne sections, types de preuve et œuvres. 15 % des éléments sont **à l'aveugle** : aucune
+proposition n'est affichée, on choisit relation et fonction ; ces éléments servent à mesurer la
+précision des propositions. Au démarrage, les éléments déjà décidés sont sautés. Le serveur écoute
+sur 127.0.0.1 ; l'image de l'œuvre n'est affichée que si ses droits le permettent (sinon, lien).
+
+| Touche | Action |
+|---|---|
+| `1` à `6` | relation : about, group, context, mentions, not_about, unsure |
+| `q w e r t y u` | fonction : visual_description, technical_material, iconography_interpretation, comparison, attribution_dating, provenance_context, other |
+| `v` / `x` / `n` | décision (éléments non aveugles) : valider / rejeter / non résolu |
+| `Tab` (`Échap`) | aller à la note (revenir aux raccourcis) |
+| `Entrée` | enregistrer et passer au suivant |
+| `←` | élément précédent (une nouvelle décision s'ajoute, la dernière fait foi) |
+
+Valider exige relation et fonction (préremplies depuis la proposition quand elle existe). Pour un
+élément à l'aveugle, `unsure` donne `unresolved`, toute autre relation est enregistrée telle quelle.

@@ -139,9 +139,71 @@ class Run(BaseModel):
 
 
 class AnnotationEvent(BaseModel):
-    link_id: str
+    """Décision humaine append-only. Les champs optionnels viennent du pilote de vérification."""
+
+    link_id: str | None = None
     before: LinkStatus
     after: LinkStatus
     annotator: str
     note: str
     timestamp: datetime
+    item_id: str | None = None
+    span_id: str | None = None
+    artwork_id: str | None = None
+    relation: Relation | None = None
+    function: PassageFunction | None = None
+    blind: bool | None = None
+    elapsed_ms: int | None = None
+
+
+class ReviewArtwork(BaseModel):
+    id: str
+    title: str
+    catalogue_number: str | None = None
+    accession_number: str | None = None
+    other_ids: dict[str, str] = Field(default_factory=dict)
+    collection_url: str | None = None
+    image_url: str | None = None
+    image_display_allowed: bool = False
+
+
+class ReviewPassage(BaseModel):
+    span_id: str
+    text: str  # texte exact du span, jamais reformulé
+    section: str
+    char_start: int
+    char_end: int
+
+
+class ReviewHighlight(BaseModel):
+    start: int  # offsets relatifs au passage
+    end: int
+    label: str
+
+
+class ReviewSource(BaseModel):
+    url: str
+    page_label: str | None = None
+    page_image_url: str | None = None
+
+
+class ReviewProposal(BaseModel):
+    relation: Relation
+    function: PassageFunction | None = None  # None : fonction non proposée
+    evidence_mechanism: str
+    explanation: str
+
+
+class ReviewItem(BaseModel):
+    """Élément de vérification, indépendant de la source (voir `review.py`)."""
+
+    item_id: str  # déterministe : empreinte de corpus + lien (ou span + œuvre)
+    corpus: str
+    link_id: str | None = None
+    artwork: ReviewArtwork
+    passage: ReviewPassage
+    highlights: list[ReviewHighlight] = Field(default_factory=list)
+    source: ReviewSource
+    proposal: ReviewProposal | None = None  # None si présenté à l'aveugle
+    blind: bool = False
+    rights_summary: str = ""
