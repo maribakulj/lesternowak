@@ -87,6 +87,13 @@ def build_parser() -> argparse.ArgumentParser:
     rq.add_argument("--out", type=Path, default=Path("data/review/queue.jsonl"))
     rq.add_argument("--blind-rate", type=float, default=0.15)
     rq.add_argument("--seed", type=int, default=7)
+    db = sub.add_parser(
+        "dashboard", help="tableau de bord qualité par volume (lot C7, lecture seule)"
+    )
+    db.add_argument("--slices", type=Path, nargs="+", required=True)
+    db.add_argument("--events", type=Path, default=Path("data/review/events.jsonl"))
+    db.add_argument("--queue", type=Path, default=Path("data/review/queue-all.jsonl"))
+    db.add_argument("--out", type=Path, default=None)
     rs = sub.add_parser("review-serve", help="serveur local de vérification (127.0.0.1)")
     rs.add_argument("--queue", type=Path, default=Path("data/review/queue.jsonl"))
     rs.add_argument("--events", type=Path, default=Path("data/review/events.jsonl"))
@@ -165,6 +172,17 @@ def cmd_review_queue(args) -> int:
     review.write_queue(args.out, items)
     nb = sum(i.blind for i in items)
     print(f"{len(items)} éléments dont {nb} à l'aveugle -> {args.out}")
+    return 0
+
+
+def cmd_dashboard(args) -> int:
+    from datetime import date
+
+    from lesternowak import dashboard
+
+    out = args.out or Path("reports/corpus") / f"{date.today().isoformat()}.md"
+    rep = dashboard.build_report(args.slices, args.events, args.queue, out, date.today())
+    print(json.dumps(rep, ensure_ascii=False))
     return 0
 
 
@@ -327,6 +345,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "agreement": cmd_agreement,
         "review-queue": cmd_review_queue,
         "review-serve": cmd_review_serve,
+        "dashboard": cmd_dashboard,
         "review-export": cmd_review_export,
         "ref-build": cmd_ref_build,
     }

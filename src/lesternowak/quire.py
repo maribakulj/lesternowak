@@ -179,7 +179,7 @@ class RawFigure:
 
 
 _DIMS = re.compile(
-    r"(?:\b[HWLD]\w{0,5}\.?:?\s*)?\d+(?:\.\d+)?(?:\s*[x×]\s*\d+(?:\.\d+)?)*\s*cm",
+    r"(?:\b[HWLD]\w{0,5}\.?:?\s*)?\d+(?:\.\d+)?(?:\s*[x\u00d7]\s*\d+(?:\.\d+)?)*\s*cm",
     re.IGNORECASE,
 )
 _INV = re.compile(

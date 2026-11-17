@@ -3,6 +3,14 @@
 Mis à jour à chaque fin de lot. Une nouvelle session commence par lire `CLAUDE.md`, ce fichier
 et `docs/PLAN.md`.
 
+- **Lots C0–C7 faits (2026-11-17)** : tableau de bord `reports/corpus/2026-11-17.md`
+  (`lesternowak dashboard`, lecture seule). File de revue unique `data/review/queue-all.jsonl` :
+  5 245 éléments dont 787 aveugles (Terracottas, Berthomieu, Villot 1849 et 1875, Met, Rococo) ;
+  précision et temps non mesurés (aucun événement). Mummy Portraits exclu de la file et du tableau
+  (volume tenu à l'écart, aucun tag de gel).
+  Pilote : `uv run lesternowak review-serve --queue data/review/queue-all.jsonl --events
+  data/review/events.jsonl --annotator <nom>` (127.0.0.1:8765).
+  **Prochain pas** : sessions de vérification du porteur (H), puis mesure de précision E0 par corpus.
 - **Lot C3–C5 (2026-11-17)** : pipeline générique volume -> slice (`lesternowak build --catalogue
   config/catalogues/<id>.yaml --out data/slices/<id>/`, client `gallica.py`, `alto.py`,
   `catalogue.py`), exécuté sur les 5 volumes de développement Gallica (120 pages ALTO max chacun, liens
