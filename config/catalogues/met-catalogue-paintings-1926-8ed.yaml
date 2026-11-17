@@ -1,0 +1,32 @@
+# Metropolitan Museum, Catalogue of paintings, 8e éd. (1926) : copie Internet Archive (djvu.xml).
+# Pas de numéro de notice : une notice va de son titre (majuscules) à sa ligne de crédit.
+# Le volume de 1922 (tenu à l'écart) s'ajoutera avec un fichier du même gabarit, sans code.
+id: met-catalogue-paintings-1926-8ed
+source: internet_archive
+identifier: catalogueofpaint00metr_5
+route: ia_djvu
+type: museum_catalogue
+language: eng
+rights_sheet: docs/sources/inventory/met-getty.yaml
+referential: met
+pages:
+  first: 23    # « CATALOGUE OF PAINTINGS », première entrée (ABBEY)
+  last: 470    # dernière entrée (ZUGEL) ; l'index des artistes suit
+segmentation:
+  # lignes de repérage : titre courant (« BRUEGEL— BRUSH »), cotes (« B83-1 »), salle, folio
+  skip_lines:
+    - '^[A-Z][A-Z’''. -]{1,}\s*[—–-]+\s*[A-Z][A-Z’''. -]{1,}$'
+    - '^[A-Za-z0-9]{1,5}\s?\d?\s?-\s?\d{1,3}$'
+    - '^(?:Gallery|Wing\s+\S{1,3})$'
+    - '^\d{1,3}$'
+  # en-tête d'artiste : « ZORN, ANDERS. Swedish; born 1860… »
+  artist_header: '^[A-Z][A-Z’''\-]{2,}(?:\s[A-Z][A-Z’''\-]+)*,\s+\S'
+  artist_confirm: ';|\bborn\b|\bdied\b|\bactive\b|\bSee\b'
+  artist_end: '[.;]\s+(?=[A-Z][a-zé-]+(?:[;,\s]|$))|;'
+  # titre de notice : mots en majuscules suivis d'un point (« THE HILL. On a roadway… »)
+  title: '^(?:[A-Z]\d{1,4} ?-\d{1,3}\s+)?(?P<title>(?:[A-Z0-9’''\-,:()]+\.?\s+)*[A-Z0-9’''\-,:()]+)\.(?=\s|$)'
+  credit_start: '^(?:Gift|Gifts|Bequest|Purchase|Lent|Anonymous\s+gift|Bought|Presented)\b'
+  credit_year: '(?:1[89]\d\d|19[0-2]\d)\s*\.?\s*$'
+  credit_max_lines: 3
+  bio_max_blocks: 2
+  min_chars: 25

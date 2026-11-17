@@ -190,6 +190,164 @@ def gallica_items(slice_dir: Path) -> list[ReviewItem]:
     return items
 
 
+def _ia_highlights(sp: Span, attrs: list[dict], used: set[str]) -> list[ReviewHighlight]:
+    """Attributs locaux situés dans le passage (offsets de page -> offsets du passage)."""
+    out = []
+    for a in attrs:
+        if a["asset_id"] != sp.asset_id:
+            continue
+        s, e = a["char_start"] - sp.char_start, a["char_end"] - sp.char_start
+        if 0 <= s < e <= len(sp.text) and sp.text[s:e] == a["text"]:
+            tag = " (résolution)" if a["kind"] in used else ""
+            out.append(ReviewHighlight(start=s, end=e, label=a["kind"] + tag))
+    return sorted(out, key=lambda h: (h.start, h.end))
+
+
+def ia_notices_items(slice_dir: Path) -> list[ReviewItem]:
+    """Slice `ia_djvu` : un élément passage <-> œuvre locale par lien E1 (image Met CC0 si la
+    résolution E2 l'autorise, attributs de résolution surlignés) et, par œuvre résolue, un
+    élément distinct `identity` (œuvre locale = fiche Met proposée), à vérifier séparément."""
+    from lesternowak.models import RightsDecision
+
+    spans = {s.id: s for s in read_jsonl(slice_dir / "spans.jsonl", Span)}
+    arts = {a.id: a for a in read_jsonl(slice_dir / "artworks.jsonl", ArtworkRef)}
+    links = read_jsonl(slice_dir / "links.jsonl", Link)
+    params = read_jsonl(slice_dir / "runs.jsonl", Run)[0].params
+    corpus, ident = params["catalogue"], params["identifier"]
+    res = {
+        r["artwork_id"]: r
+        for r in (
+            json.loads(x)
+            for x in (slice_dir / "resolutions.jsonl").read_text("utf-8").splitlines()
+            if x
+        )
+    }
+
+    def source(sp: Span) -> ReviewSource:
+        n = sp.page_refs[0].view - 1
+        return ReviewSource(
+            url=f"https://archive.org/details/{ident}/page/n{n}/mode/1up",
+            page_label=f"vue {n + 1}",
+            page_image_url=f"https://archive.org/download/{ident}/page/n{n}_w800.jpg",
+        )
+
+    def used_signals(art: ArtworkRef) -> set[str]:
+        r = res.get(art.id)
+        if not r or not r["signals"]:
+            return set()
+        sg = r["signals"][0]
+        out = set()
+        if sg.get("credit_line") is not None or sg.get("accession_year"):
+            out.add("credit")
+        if sg.get("dimensions"):
+            out.add("dimensions")
+        if sg.get("artist") is not None:
+            out.add("artist")
+        return out
+
+    items: list[ReviewItem] = []
+    first_span: dict[str, Span] = {}
+    for lk in links:
+        sp, art = spans[lk.span_id], arts[lk.artwork_id]
+        first_span.setdefault(art.id, sp)
+        r = res.get(art.id)
+        met = bool(r and r["image_license"] == "cc0" and r["image_url"])
+        ev = lk.evidence[0]
+        note = ""
+        if r:
+            note = (
+                f" Image : fiche Met {r['ref_id']} proposée par E2 composite, identité "
+                "non vérifiée (voir l'élément identity)."
+            )
+        items.append(
+            ReviewItem(
+                item_id=item_id_for(corpus, lk.id, sp.id, art.id),
+                corpus=corpus,
+                link_id=lk.id,
+                artwork=ReviewArtwork(
+                    id=art.id,
+                    title=art.local_label or "",
+                    accession_number=r["accession_number"] if r else None,
+                    other_ids={
+                        "artwork_local_id": art.artwork_local_id or "",
+                        **({"met_ref_id": r["ref_id"]} if r else {}),
+                    },
+                    collection_url=r["collection_url"] if r else None,
+                    image_url=r["image_url"] if met else None,
+                    image_display_allowed=met
+                    and any(
+                        x.action == "display_pilot" and x.decision.value == "allow"
+                        for x in lk.rights
+                        if isinstance(x, RightsDecision) and x.asset == "images"
+                    ),
+                ),
+                passage=ReviewPassage(
+                    span_id=sp.id,
+                    text=sp.text,
+                    section=corpus,
+                    char_start=sp.char_start,
+                    char_end=sp.char_end,
+                ),
+                highlights=_ia_highlights(sp, art.local_attributes, used_signals(art)),
+                source=source(sp),
+                proposal=ReviewProposal(
+                    relation=Relation.about,
+                    function=None,
+                    evidence_mechanism=ev.mechanism,
+                    explanation=ev.explanation + note,
+                ),
+                rights_summary=_rights_summary(lk),
+            )
+        )
+    for aid, r in res.items():
+        art, sp = arts[aid], first_span[aid]
+        met = r["image_license"] == "cc0" and bool(r["image_url"])
+        sig = r["signals"][0] if r["signals"] else {}
+        items.append(
+            ReviewItem(
+                item_id=item_id_for(corpus + "|identity", None, sp.id, art.id),
+                corpus=corpus,
+                kind="identity",
+                link_id=None,
+                artwork=ReviewArtwork(
+                    id=art.id,
+                    title=f"{r['title']} — {r['artist']}",
+                    accession_number=r["accession_number"],
+                    other_ids={
+                        "artwork_local_id": art.artwork_local_id or "",
+                        "met_ref_id": r["ref_id"],
+                        "met_credit_line": r["credit_line"],
+                    },
+                    collection_url=r["collection_url"],
+                    image_url=r["image_url"] if met else None,
+                    image_display_allowed=met,
+                ),
+                passage=ReviewPassage(
+                    span_id=sp.id,
+                    text=sp.text,
+                    section=corpus + " (identité)",
+                    char_start=sp.char_start,
+                    char_end=sp.char_end,
+                ),
+                highlights=_ia_highlights(sp, art.local_attributes, used_signals(art)),
+                source=source(sp),
+                proposal=ReviewProposal(
+                    relation=Relation.about,
+                    function=None,
+                    evidence_mechanism="identity_E2_composite",
+                    explanation=(
+                        "Identité : l'œuvre de cette notice est-elle la fiche Met affichée ? "
+                        f"Signaux concordants : {json.dumps(sig, ensure_ascii=False)} ; candidat "
+                        "unique ; proposition par règle, non validée. Décision : about = même "
+                        "objet, not_about = autre objet, unsure = indécidable."
+                    ),
+                ),
+                rights_summary="image : Met Open Access (CC0) ; texte : domaine public (fiche C1)",
+            )
+        )
+    return items
+
+
 def quire_figures_items(slice_dir: Path) -> list[ReviewItem]:
     from lesternowak.quire_review import quire_items
 
@@ -199,6 +357,7 @@ def quire_figures_items(slice_dir: Path) -> list[ReviewItem]:
 ADAPTERS: dict[str, Callable[[Path], list[ReviewItem]]] = {
     "getty-terracottas": terracottas_items,
     "gallica-notices": gallica_items,
+    "ia-notices": ia_notices_items,
     "quire-figures": quire_figures_items,
 }
 
@@ -379,7 +538,7 @@ def export_gold(queue: Path, events_path: Path, out: Path) -> int:
     records = []
     for iid, ev in last_events(events).items():
         it = items.get(iid)
-        if it is None:
+        if it is None or it.kind == "identity":  # l'identité n'est pas un lien passage-œuvre
             continue
         if ev.relation is not None:
             rel = ev.relation

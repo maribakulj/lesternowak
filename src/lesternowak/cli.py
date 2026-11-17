@@ -69,6 +69,11 @@ def build_parser() -> argparse.ArgumentParser:
     qb.add_argument("--catalogue", type=Path, required=True)
     qb.add_argument("--out", type=Path, required=True)
     qb.add_argument("--cache", type=Path, default=Path("data/raw/quire"))
+    ib = sub.add_parser("ia-build", help="volume Internet Archive (djvu.xml) -> slice")
+    ib.add_argument("--catalogue", type=Path, required=True)
+    ib.add_argument("--out", type=Path, required=True)
+    ib.add_argument("--cache", type=Path, default=Path("data/raw/ia"))
+    ib.add_argument("--ref-dir", type=Path, default=Path("data/ref"))
     rq = sub.add_parser("review-queue", help="file de vérification (pilote C6)")
     rq.add_argument("--slice", type=Path, default=Path("data/slice"))
     rq.add_argument("--adapter", default="getty-terracottas")
@@ -248,6 +253,22 @@ def cmd_build(args) -> int:
     return 0
 
 
+def cmd_ia_build(args) -> int:
+    from lesternowak import ia_djvu
+    from lesternowak.referentials import iter_cache
+
+    cfg = ia_djvu.load_ia_config(args.catalogue)
+    refs = list(iter_cache(cfg.referential, args.ref_dir)) if cfg.referential else None
+    client = ia_djvu.IAClient(cache_root=args.cache)
+    try:
+        report = ia_djvu.build_ia_volume(cfg, client, args.out, refs=refs or None)
+    except ia_djvu.IAStop as e:
+        print(f"ARRÊT Internet Archive : {e}", file=sys.stderr)
+        return 3
+    print(json.dumps(report, ensure_ascii=False))
+    return 0
+
+
 def cmd_validate(args) -> int:
     from lesternowak import export
     from lesternowak.getty_quire import current_statuses
@@ -297,6 +318,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         print(json.dumps(quire.run_build(args.catalogue, args.out, args.cache), ensure_ascii=False))
         return 0
+    if args.command == "ia-build":
+        return cmd_ia_build(args)
     handlers = {
         "annotation-sheet": cmd_annotation_sheet,
         "annotation-import": cmd_annotation_import,

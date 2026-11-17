@@ -147,6 +147,8 @@ class ArtworkRef(BaseModel):
     artist_heading: str | None = None  # dernier intitulé d'artiste imprimé (extrait exact)
     external_ids: list[dict] = Field(default_factory=list)
     resolution: Resolution | None = None
+    # attributs locaux lus dans la notice : {kind, asset_id, char_start, char_end, text, value}
+    local_attributes: list[dict] = Field(default_factory=list)
     flags: list[str] = Field(default_factory=list)  # ex. segmentation_uncertain
 
 
@@ -273,6 +275,7 @@ class ReviewItem(BaseModel):
 
     item_id: str  # déterministe : empreinte de corpus + lien (ou span + œuvre)
     corpus: str
+    kind: Literal["passage_link", "identity"] = "passage_link"  # identity : œuvre locale = fiche
     link_id: str | None = None
     artwork: ReviewArtwork
     passage: ReviewPassage

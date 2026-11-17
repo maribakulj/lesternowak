@@ -10,6 +10,12 @@ et `docs/PLAN.md`.
   `data/review/queue-c5.jsonl` (Terracottas + Gallica). Ribes-Christofle 1928 exclu (experts nommés sans
   dates : `excluded_reason`, `build` refuse avant tout téléchargement) ; trous de numérotation
   signalés (`segmentation_uncertain`, liens `unresolved`). Quotas : `docs/sources/inventory/gallica-probe.md`.
+- **Lot Met 1926 (voie `ia_djvu`, 2026-11-17)** : `lesternowak ia-build --catalogue
+  config/catalogues/met-catalogue-paintings-1926-8ed.yaml --out data/slices/<id>` (`ia_djvu.py`,
+  cache `data/raw/ia/`, ≤ 1 req/s). 1 511 notices, 1 753 liens E1 `machine_proposed`, 135 résolues
+  par E2 composite (référentiel Met européen seulement : 2 650 objets), dont 128 avec image CC0 ;
+  adaptateur de revue `ia-notices` (éléments passage-œuvre et éléments `identity` distincts).
+  Aucun `validated`. Le volume Met 1922 (tenu à l'écart) n'a pas été ouvert.
 - **Dernier lot terminé avant C3–C5** : L1.2 + L1.3 (feuille d'annotation, import gold, banc d'évaluation,
   accord) ; B0 non mesuré faute de gold réel (H1b).
 - **Prochain lot** : H1b (annotation par le porteur de `data/annotation/sheet-dev-v1.csv`),

@@ -9,6 +9,7 @@ seuls ; en cas de doute il retourne `unresolved` avec la raison et les candidats
 from __future__ import annotations
 
 import json
+import math
 import re
 import time
 import unicodedata
@@ -365,6 +366,8 @@ class LocalAttrs(BaseModel):
     credit_line: str | None = None
     accession_year: int | None = None
     dimensions_cm: tuple[float, float] | None = None
+    # OCR dégradé : parties entières possibles (pouces) par axe, quand la fraction est illisible
+    dimension_inch_options: tuple[tuple[int, ...], tuple[int, ...]] | None = None
     dimensions_raw: str | None = None  # converti en cm (pouces compris) si dimensions_cm absent
     other_numbers: list[OtherNumber] = Field(default_factory=list)
     artist: str | None = None
@@ -429,6 +432,11 @@ def _signals(local: LocalAttrs, ref: ReferenceArtwork) -> CandidateSignals:
     )
     if ldims and ref.dimensions_cm:
         s.dimensions = _dims_match(ldims, ref.dimensions_cm)
+    elif local.dimension_inch_options and ref.dimensions_cm:
+        # partie entière en pouces de la fiche (à 0,03 in près) parmi celles lues sur chaque axe
+        ho, wo = local.dimension_inch_options
+        h, w = (math.floor(v / IN_TO_CM + 0.03) for v in ref.dimensions_cm)
+        s.dimensions = h in ho and w in wo
     for n in local.other_numbers:
         if any(
             o.scheme.lower() == n.scheme.lower() and _norm_acc(o.value) == _norm_acc(n.value)
