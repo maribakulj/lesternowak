@@ -48,6 +48,13 @@ def build_parser() -> argparse.ArgumentParser:
     im.add_argument("--out", type=Path, required=True)
     im.add_argument("--slice", type=Path, default=Path("data/slice"))
     im.add_argument("--force", action="store_true")
+    rb = sub.add_parser(
+        "ref-build", help="construire un référentiel local (data/ref/<source>.jsonl)"
+    )
+    rb.add_argument("source", choices=["met", "louvre"])
+    rb.add_argument("--department", default="European Paintings")
+    rb.add_argument("--limit", type=int, default=500)
+    rb.add_argument("--out", type=Path, default=Path("data/ref"))
     ev = sub.add_parser("eval", help="mesurer des liens prédits contre un gold")
     ev.add_argument("--gold", type=Path, required=True)
     ev.add_argument("--pred", type=Path, default=Path("data/slice/links.jsonl"))
@@ -229,6 +236,17 @@ def cmd_validate(args) -> int:
     return 0
 
 
+def cmd_ref_build(args: argparse.Namespace) -> int:
+    from lesternowak import referentials
+
+    if args.source == "met":
+        stats = referentials.build_met(args.department, cache_dir=args.out)
+    else:
+        stats = referentials.build_louvre(limit=args.limit, cache_dir=args.out)
+    print(json.dumps(stats, ensure_ascii=False))
+    return 0
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -244,6 +262,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "review-queue": cmd_review_queue,
         "review-serve": cmd_review_serve,
         "review-export": cmd_review_export,
+        "ref-build": cmd_ref_build,
     }
     if args.command in handlers:
         return handlers[args.command](args)
