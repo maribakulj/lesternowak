@@ -1,0 +1,344 @@
+# Inventaire Gallica, vague 1 (peinture, français, domaine public) — lot C0
+# Produit par la sonde/agent C0 le 2026-11-17 à partir des notices SRU (openapi.bnf.fr). Aucun texte de document.
+# Champs inconnus = unknown. evidence_url = requête SRU exacte. Les droits sont ceux de la notice (rights_dc), non décidés (lot C1).
+# Les notices SRU de l'INHA/BCMN (identifiants hors ark:/12148) ne sont pas Gallica et sont exclues.
+
+- id: "villot-1849-notice-louvre-1re-ed"
+  ark: "bpt6k73772x"
+  title: "Notice des tableaux exposés dans les galeries du Musée national du Louvre / par Frédéric Villot,..."
+  creator: "Villot, Frédéric (1809-1875)"
+  date: "1849"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k73772x"
+  formats_claimed: ["mode texte : non mentionné dans la notice"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Villot, Frédéric (1809-1875)"]
+  est_pages: "1 vol. (XII-212 p.) ; in-12"
+  est_views: 221
+  notes: "Plus ancienne notice Villot trouvée ; pas de numéro d'édition dans le titre ; pas de mention « mode texte ». Sonde ALTO page f10 : 404 (voir gallica-probe.md)."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "villot-1855-notice-louvre-12e-ed"
+  ark: "bpt6k97965685"
+  title: "Notice des tableaux exposés dans les galeries du Musée national du Louvre (12e éd.) / par Frédéric Villot,..."
+  creator: "Villot, Frédéric (1809-1875)"
+  date: "1855"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k97965685"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Villot, Frédéric (1809-1875)"]
+  est_pages: "1 vol. (LVIII-324 p.) ; in-12"
+  est_views: 392
+  notes: "12e édition selon le titre. Sonde ALTO page f10 : 200 (voir gallica-probe.md)."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "villot-1855-notice-louvre-2e-partie"
+  ark: "bpt6k9761664g"
+  title: "Notice des tableaux exposés dans les galeries du Musée impérial du Louvre. 2e partie, Ecoles allemande, flamande et hollandaise. Partie 2 / par Frédéric Villot,..."
+  creator: "Villot, Frédéric (1809-1875)"
+  date: "1855"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k9761664g"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Villot, Frédéric (1809-1875)"]
+  est_pages: "1 vol. (VII-345 p.) ; 20 cm"
+  est_views: 362
+  notes: "2e partie (écoles allemande, flamande, hollandaise), table des matières mentionnée. Attributions historiques à comparer à l'édition de 1875 (2e partie, bpt6k1425252n)."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "villot-1855-notice-louvre-3e-partie-2e-ed"
+  ark: "bpt6k930665c"
+  title: "Notice des tableaux exposés dans les galeries du Musée impérial du Louvre. 3e partie, Ecole française (2e éd.) / par Frédéric Villot,..."
+  creator: "Villot, Frédéric (1809-1875)"
+  date: "1855"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k930665c"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Villot, Frédéric (1809-1875)"]
+  est_pages: "1 vol. (X-455 p.) ; in-12"
+  est_views: 466
+  notes: "3e partie, École française, 2e édition selon le titre."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "villot-1875-notice-louvre-1re-partie-19e-ed"
+  ark: "bpt6k14252517"
+  title: "Notice des tableaux exposés dans les galeries du Musée national du Louvre. 1re partie, École d'Italie et d'Espagne ([19e édition]) / par Frédéric Villot,..."
+  creator: "Villot, Frédéric (1809-1875); Musée du Louvre (Paris)"
+  date: "1875"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k14252517"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Villot, Frédéric (1809-1875)", "Musée du Louvre (Paris)"]
+  est_pages: "1 vol. (LXIV-356 p.) ; in-12"
+  est_views: 422
+  notes: "1re partie (écoles d'Italie et d'Espagne), 19e édition selon le titre."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22notice%20des%20tableaux%22%20and%20dc.creator%20all%20%22villot%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "durrieu-benoit-1903-catalogue-sommaire-louvre"
+  ark: "bpt6k6382733j"
+  title: "Catalogue sommaire des peintures exposées dans les galeries du Musée national du Louvre (tableaux et peintures décoratives) (6e édition)"
+  creator: "Durrieu, Paul (1855-1925); Benoît, Camille (1851-1923); Musée du Louvre (Paris). Département des peintures"
+  date: "1903"
+  type: museum_catalogue
+  language: ["fre", "français"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6382733j"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Durrieu, Paul (1855-1925)", "Benoît, Camille (1851-1923)", "Musée du Louvre (Paris). Département des peintures"]
+  est_pages: "1 vol. (VII-274 p.) : plan ; in-16"
+  est_views: 288
+  notes: "6e édition du catalogue sommaire ; auteurs différents des notices Villot (publication de 1903). Table des matières mentionnée."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "demonts-huteau-1923-catalogue-general-louvre"
+  ark: "bpt6k64771241"
+  title: "Catalogue général des peintures (tableaux et peintures décoratives) / par Louis Demonts,... et Lucien huteau ; Musée... du Louvre"
+  creator: "Demonts, Louis; Huteau, Lucien"
+  date: "1923"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k64771241"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Demonts, Louis", "Huteau, Lucien"]
+  est_pages: "1 volume 172 p ; 20 cm"
+  est_views: 199
+  notes: "Catalogue général du Louvre, 1923 ; contient « peintures décoratives ». Auteurs : à vérifier en C1 (dates de vie absentes de la notice)."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "montauban-1885-catalogue-peintures"
+  ark: "bpt6k6524846z"
+  title: "Catalogue du Musée de Montauban, Peintures"
+  creator: "Musée Ingres Bourdelle (Montauban)"
+  date: "1885"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6524846z"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Musée Ingres Bourdelle (Montauban)"]
+  est_pages: "unknown"
+  est_views: 104
+  notes: "Musée de Montauban, section peintures. Table des matières mentionnée. Mode texte non mentionné dans la notice."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "collet-1894-soissons-catalogue-peintures"
+  ark: "bpt6k6227037f"
+  title: "Musée de Soissons. Catalogue des peintures, par Emile Collet"
+  creator: "Collet, Emile"
+  date: "1894"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6227037f"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Collet, Emile"]
+  est_pages: "unknown"
+  est_views: 174
+  notes: "Musée de Soissons, catalogue des peintures par Emile Collet."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "besancon-1844-catalogue-peintures-dessins"
+  ark: "bpt6k6419847d"
+  title: "Catalogue des peintures et dessins du musée de Besançon"
+  creator: "unknown"
+  date: "1844"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6419847d"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: []
+  est_pages: "In-12"
+  est_views: 92
+  notes: "Musée de Besançon, peintures et dessins ; auteur non nommé dans la notice (collectivité ou anonyme)."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "biais-1884-angouleme-peintures"
+  ark: "bpt6k6255583m"
+  title: "Catalogue du Musée d'Angoulême, peintures et sculptures : peintures, sculptures, estampes... / par Émile Biais,..."
+  creator: "Biais, Émile (1850-1932)"
+  date: "1884"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6255583m"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Biais, Émile (1850-1932)"]
+  est_pages: "1 vol. (II-VIII-69 p.) ; in-12"
+  est_views: 104
+  notes: "Musée d'Angoulême, peintures et sculptures, par Émile Biais (1850-1932) ; mode texte mentionné."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "abbeville-1902-catalogue-peintures"
+  ark: "bpt6k6226945s"
+  title: "Catalogue du musée d'Abbeville et du Ponthieu. Peintures, gravures, sculptures, antiquités"
+  creator: "unknown"
+  date: "1902"
+  type: museum_catalogue
+  language: ["fre", "français"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6226945s"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: []
+  est_pages: "In-16, 395 p."
+  est_views: 412
+  notes: "Musée d'Abbeville et du Ponthieu, peintures, gravures, sculptures, antiquités ; auteur non nommé dans la notice."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "dijon-1869-catalogue-historique-descriptif"
+  ark: "bpt6k1414501s"
+  title: "Catalogue historique et descriptif du musée de Dijon : peintures, sculptures, dessins, antiquités"
+  creator: "Musée des beaux-arts (Dijon)"
+  date: "1869"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k1414501s"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Musée des beaux-arts (Dijon)"]
+  est_pages: "1 vol. (XXII-352 p.) ; 19 cm"
+  est_views: 376
+  notes: "Musée de Dijon, catalogue historique et descriptif ; peintures parmi d'autres collections."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "berthomieu-1923-narbonne-catalogue-peintures"
+  ark: "bpt6k6525688x"
+  title: "Musée de Narbonne : catalogue descriptif et annoté des peintures et sculptures / par Louis Berthomieu,catalogue descriptif et annoté des peintures et sculptures..."
+  creator: "Berthomieu, Louis (1870-1928)"
+  date: "1923"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6525688x"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Berthomieu, Louis (1870-1928)"]
+  est_pages: "1 vol. (XXXVII-241 p.-XLVIII pl.) : ill. ; in-8"
+  est_views: 396
+  notes: "Musée de Narbonne, catalogue descriptif et annoté des peintures et sculptures, par Louis Berthomieu (1870-1928) ; planches (XLVIII pl.)."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "lille-1902-peintres-modernes"
+  ark: "bpt6k6226895b"
+  title: "Catalogue des tableaux du musée de Lille. Section des peintres modernes"
+  creator: "Palais des beaux-arts (Lille)"
+  date: "1902"
+  type: museum_catalogue
+  language: ["fre", "français"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6226895b"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Palais des beaux-arts (Lille)"]
+  est_pages: "In-16, XVI-148 p."
+  est_views: 184
+  notes: "Musée de Lille, section des peintres modernes uniquement."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%20des%20tableaux%22%20and%20dc.title%20all%20%22mus%C3%A9e%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "picardie-1911-tableaux-sculptures"
+  ark: "bpt6k6420777p"
+  title: "Catalogue des tableaux et sculptures du Musée de Picardie"
+  creator: "Musée de Picardie (Amiens)"
+  date: "1911"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6420777p"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Musée de Picardie (Amiens)"]
+  est_pages: "1 vol. in-8, 192 p."
+  est_views: 235
+  notes: "Musée de Picardie (Amiens), tableaux et sculptures."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%20des%20tableaux%22%20and%20dc.title%20all%20%22mus%C3%A9e%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "masson-1927-luxembourg-peintures"
+  ark: "bpt6k6234712c"
+  title: "Catalogue des peintures, sculptures et miniatures, par Charles Masson,... / Musée national du Luxembourg"
+  creator: "Masson, Charles (1858-1931)"
+  date: "1927"
+  type: museum_catalogue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6234712c"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: ["Masson, Charles (1858-1931)"]
+  est_pages: "In-16, 83 p., pl."
+  est_views: 134
+  notes: "Musée national du Luxembourg, catalogue des peintures, sculptures et miniatures, par Charles Masson (1858-1931) ; table des matières mentionnée."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%22%20and%20dc.title%20all%20%22mus%C3%A9e%22%20and%20dc.title%20all%20%22peintures%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "bordeaux-1879-catalogue-tableaux"
+  ark: "bpt6k6289743v"
+  title: "Catalogue des tableaux, statues, etc., du musée de Bordeaux"
+  creator: "unknown"
+  date: "1879"
+  type: museum_catalogue
+  language: ["fre", "français"]
+  url: "https://gallica.bnf.fr/ark:/12148/bpt6k6289743v"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description)"]
+  rights_dc: ["domaine public", "public domain"]
+  authors_for_pd_check: []
+  est_pages: "1 vol. (95 p.) ; 19 cm"
+  est_views: 116
+  notes: "Musée de Bordeaux, catalogue des tableaux, statues, etc. (peintures et sculptures)."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22catalogue%20des%20tableaux%22%20and%20dc.title%20all%20%22mus%C3%A9e%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "gazette-beaux-arts-1859-serie"
+  ark: "cb343486585"
+  title: "Gazette des beaux-arts (Paris. 1859)"
+  creator: "unknown"
+  date: "1859-2002"
+  type: periodical_issue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/cb343486585/date"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description, niveau série)"]
+  rights_dc: []
+  authors_for_pd_check: []
+  est_pages: "unknown"
+  est_views: 86102
+  notes: "NIVEAU TITRE (série 1859-2002 ; 86102 vues), pas un fascicule : aucun fascicule trouvé par SRU (recherches sru2, sru6, sru9). Fascicule à identifier par une autre voie (ex. Issues) ; non traité. Mode texte mentionné au niveau série."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22gazette%20des%20beaux-arts%22&maximumRecords=20"
+  checked_at: 2026-11-17
+
+- id: "revue-art-ancien-moderne-1897-serie"
+  ark: "cb32857192h"
+  title: "La Revue de l'art ancien et moderne"
+  creator: "unknown"
+  date: "1897-1937"
+  type: periodical_issue
+  language: ["fre"]
+  url: "https://gallica.bnf.fr/ark:/12148/cb32857192h/date"
+  formats_claimed: ["mode texte : « Avec mode texte » (dc:description, niveau série)"]
+  rights_dc: []
+  authors_for_pd_check: []
+  est_pages: "unknown"
+  est_views: 36590
+  notes: "NIVEAU TITRE (série 1897-1937 ; 36590 vues), pas un fascicule : aucun fascicule trouvé par SRU (sru3, sru7). Fascicule à identifier ; non traité. Mode texte mentionné au niveau série."
+  evidence_url: "https://openapi.bnf.fr/recherche/sru/gallica/1.0.0/sru?operation=searchRetrieve&version=1.2&query=dc.title%20all%20%22revue%20de%20l%27art%20ancien%20et%20moderne%22&maximumRecords=20"
+  checked_at: 2026-11-17
